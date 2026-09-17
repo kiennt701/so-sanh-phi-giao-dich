@@ -126,7 +126,7 @@ export default function SecuritiesTable({
                           className="flex h-8 w-8 sm:h-9 sm:w-9 shrink-0 items-center justify-center rounded-xl text-white font-extrabold text-xs shadow-xs"
                           style={{ backgroundColor: company.brandColor }}
                         >
-                          {company.shortName.slice(0, 3)}
+                          {(company.shortName || '').slice(0, 3)}
                         </div>
                         <div className="min-w-0">
                           <div className="flex items-center gap-1 flex-wrap">
@@ -218,7 +218,7 @@ export default function SecuritiesTable({
                     {/* Column 5: Key Points */}
                     <td className="py-2 px-2.5 sm:px-3">
                       <div className="flex flex-wrap gap-1">
-                        {company.keyHighlights.slice(0, 2).map((hl, idx) => (
+                        {(company.keyHighlights || company.pros || []).slice(0, 2).map((hl, idx) => (
                           <span
                             key={idx}
                             className="rounded-md bg-slate-100 px-1.5 py-0.5 text-[9px] font-semibold text-slate-600 dark:bg-slate-800 dark:text-slate-300"
