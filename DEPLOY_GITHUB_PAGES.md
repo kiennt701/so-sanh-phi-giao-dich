@@ -1,94 +1,65 @@
-# Hướng Dẫn Đưa Website Lên GitHub Pages Với Link: https://kienhpw.github.io/so-sanh-phi-giao-dich/
+# Hướng Dẫn Hoàn Tất Đưa Website Lên: https://kiennt701.github.io/so-sanh-phi-giao-dich/
 
-Để website của bạn có chính xác địa chỉ:
-🌐 **https://kienhpw.github.io/so-sanh-phi-giao-dich/**
+Repository của bạn đã được tạo sẵn tại:
+👉 **https://github.com/kiennt701/so-sanh-phi-giao-dich**
 
-Theo quy tắc đặt tên của GitHub Pages: **Tên repository trên GitHub bắt buộc phải là `so-sanh-phi-giao-dich`**.
-
-Dưới đây là hướng dẫn từng bước chính xác nhất:
-
----
-
-## BƯỚC 1: TẠO REPOSITORY TRÊN GITHUB
-
-1. Truy cập [https://github.com/new](https://github.com/new) (đăng nhập tài khoản **kienhpw**).
-2. Điền chính xác thông tin:
-   - **Repository name**: `so-sanh-phi-giao-dich` *(Bắt buộc đúng tên này để có link như mong muốn)*
-   - **Description**: `Hệ thống So sánh Phí giao dịch và Lãi suất Margin 30 CTCK Việt Nam`
-   - **Visibility**: Chọn **Public** (để mọi người có thể truy cập miễn phí).
-   - ⚠️ **LƯU Ý:** **KHÔNG** tích chọn bất kỳ ô nào: *Add a README file*, *Add .gitignore*, hoặc *Choose a license*.
-3. Bấm **Create repository**.
+Khi kích hoạt xong GitHub Pages, website cộng đồng sẽ hoạt động vĩnh viễn và miễn phí tại địa chỉ:
+🌐 **https://kiennt701.github.io/so-sanh-phi-giao-dich/**
 
 ---
 
-## BƯỚC 2: TẢI MÃ NGUỒN LÊN GITHUB
+## CÁCH 1: TẢI LÊN TRỰC TIẾP QUA TRÌNH DUYỆT (NHANH NHẤT - KHÔNG CẦN CÀI GÌ)
 
-Bạn có thể chọn 1 trong các cách sau:
+1. Truy cập trực tiếp trang upload của repository:
+   👉 **https://github.com/kiennt701/so-sanh-phi-giao-dich/upload/main**
+2. Mở cửa sổ **File Explorer** của Windows đến thư mục:
+   `e:\OneDrive\AI-Agent\vietsec-fee-comparator`
+3. Chọn tất cả các file và thư mục (nhấn `Ctrl + A`, lưu ý bỏ qua thư mục `node_modules` nếu có) rồi kéo thả vào vùng upload trên trình duyệt.
+4. Ở ô bên dưới, nhập: `Golive website so-sanh-phi-giao-dich`.
+5. Bấm nút màu xanh **Commit changes**.
 
-### 👉 Cách 1: Dùng GitHub Desktop (Dễ nhất, trực quan)
-1. Tải và cài đặt [GitHub Desktop](https://desktop.github.com/).
-2. Đăng nhập tài khoản GitHub **kienhpw**.
-3. Chọn menu **File** -> **Add local repository...** (phím tắt `Ctrl + O`).
+---
+
+## CÁCH 2: SỬ DỤNG GITHUB DESKTOP (GIAO DIỆN TRỰC QUAN)
+
+1. Tải và cài đặt miễn phí: [GitHub Desktop](https://desktop.github.com/).
+2. Đăng nhập tài khoản GitHub **kiennt701**.
+3. Chọn **File** -> **Add local repository...** (phím tắt `Ctrl + O`).
 4. Bấm **Browse...** và chọn thư mục:
    `e:\OneDrive\AI-Agent\vietsec-fee-comparator`
-5. Nếu hiện thông báo *"This directory does not appear to be a Git repository"*, bấm **create a repository** (Đặt tên là `so-sanh-phi-giao-dich`).
-6. Nhập ô Summary: `Golive website so-sanh-phi-giao-dich`.
-7. Bấm **Commit to main**.
-8. Bấm **Publish repository** ở góc trên cùng:
-   - Name: `so-sanh-phi-giao-dich`
-   - **Bỏ tích** ô *"Keep this code private"*
-   - Bấm **Publish repository**.
+5. Bấm **create a repository** nếu được hỏi.
+6. Bấm **Commit to main**.
+7. Bấm **Publish repository** -> Chọn repository `so-sanh-phi-giao-dich` trên tài khoản `kiennt701` -> Bỏ tích *"Keep this code private"* -> Bấm **Publish repository**.
 
 ---
 
-### 👉 Cách 2: Dùng dòng lệnh Git CLI (Nếu máy có Git)
-Mở **PowerShell** hoặc **Command Prompt** tại thư mục dự án và chạy:
+## CÁCH 3: DÙNG DÒNG LỆNH GIT (NẾU ĐÃ CÀI GIT)
 
 ```bash
 cd e:\OneDrive\AI-Agent\vietsec-fee-comparator
-
-# Khởi tạo git
 git init
-
-# Thêm tất cả file
 git add .
-
-# Commit
 git commit -m "feat: golive so-sanh-phi-giao-dich"
-
-# Đổi nhánh chính sang main
 git branch -M main
-
-# Liên kết với repository của bạn trên GitHub
-git remote add origin https://github.com/kienhpw/so-sanh-phi-giao-dich.git
-
-# Đẩy code lên GitHub
+git remote add origin https://github.com/kiennt701/so-sanh-phi-giao-dich.git
 git push -u origin main
 ```
 
 ---
 
-## BƯỚC 3: BẬT GITHUB PAGES (CHẾ ĐỘ TỰ ĐỘNG GITHUB ACTIONS)
+## BƯỚC CUỐI CÙNG: BẬT GITHUB PAGES (TỰ ĐỘNG XUẤT BẢN)
 
-Dự án đã có sẵn file tự động hoá `.github/workflows/deploy.yml`. Khi bạn đẩy code lên:
+Sau khi mã nguồn đã được tải lên:
 
-1. Vào repository của bạn tại: [https://github.com/kienhpw/so-sanh-phi-giao-dich](https://github.com/kienhpw/so-sanh-phi-giao-dich).
-2. Bấm vào tab **Settings** (biểu tượng bánh răng).
-3. Ở cột danh mục bên trái, bấm vào **Pages** (trong mục *Code and automation*).
-4. Tại phần **Build and deployment**:
-   - Ở mục **Source**, nhấp chọn:
+1. Vào mục Cài đặt repository:
+   👉 **https://github.com/kiennt701/so-sanh-phi-giao-dich/settings/pages**
+2. Tại phần **Build and deployment**:
+   - Ở ô **Source**, nhấp chọn:
      👉 **GitHub Actions**
-5. Chờ khoảng 1 - 2 phút, GitHub sẽ tự động:
-   - Kiểm tra 71 tests tự động (Vitest)
-   - Đóng gói mã nguồn thành bản build production tối ưu
-   - Xuất bản trực tiếp lên Internet.
+3. Hệ thống GitHub sẽ tự động nhận file `.github/workflows/deploy.yml` đã được tạo sẵn trong dự án:
+   - Tự động chạy 71 bài kiểm thử
+   - Tự động build bản production tối ưu
+   - Xuất bản trực tiếp lên Internet sau 1 - 2 phút.
 
----
-
-## BƯỚC 4: HOÀN TẤT & TRUY CẬP
-
-Sau khi Actions hoàn thành (hiện dấu tích xanh ✅), trang web của bạn chính thức hoạt động tại:
-
-🎉 **https://kienhpw.github.io/so-sanh-phi-giao-dich/**
-
-Tất cả tính năng (so sánh 30 CTCK, mô phỏng chi phí, đề xuất BSC CIF 4768, và popup đăng nhập quản trị kienhpw@gmail.com) đều hoạt động hoàn hảo trên link này!
+🎉 **Website cộng đồng của bạn chính thức online tại:**
+👉 **https://kiennt701.github.io/so-sanh-phi-giao-dich/**

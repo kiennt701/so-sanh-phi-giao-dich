@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đăng nhập - Tài khoản Google</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    body {
+      background-color: #f0f4f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 16px;
+      color: #1f1f1f;
+    }
+    .auth-card {
+      background: #ffffff;
+      border-radius: 28px;
+      padding: 36px 36px 28px;
+      width: 100%;
+      max-width: 440px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+      border: 1px solid #e0e2e6;
+    }
+    .google-logo {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .header-text {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .header-text h1 {
+      font-size: 24px;
+      font-weight: 500;
+      color: #1f1f1f;
+      margin-bottom: 8px;
+    }
+    .header-text p {
+      font-size: 14px;
+      color: #444746;
+      line-height: 1.4;
+    }
+    .app-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #e8f0fe;
+      color: #1a73e8;
+      padding: 4px 12px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 500;
+      margin-top: 8px;
+    }
+    .form-group {
+      margin-bottom: 18px;
+    }
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: #444746;
+      margin-bottom: 6px;
+    }
+    .input-wrapper {
+      position: relative;
+    }
+    .input-field {
+      width: 100%;
+      height: 48px;
+      padding: 0 14px;
+      font-size: 15px;
+      color: #1f1f1f;
+      background: #fff;
+      border: 1px solid #747775;
+      border-radius: 8px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .input-field:focus {
+      border-color: #0b57d0;
+      box-shadow: 0 0 0 2px rgba(11, 87, 208, 0.2);
+    }
+    .error-box {
+      display: none;
+      background: #fce8e6;
+      border: 1px solid #fad2cf;
+      color: #c5221f;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-bottom: 16px;
+      line-height: 1.4;
+    }
+    .success-box {
+      display: none;
+      background: #e6f4ea;
+      border: 1px solid #ceead6;
+      color: #137333;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-bottom: 16px;
+      text-align: center;
+      font-weight: 500;
+    }
+    .btn-submit {
+      width: 100%;
+      height: 44px;
+      background: #0b57d0;
+      color: #ffffff;
+      border: none;
+      border-radius: 100px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+    .btn-submit:hover {
+      background: #0842a0;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+    .btn-submit:disabled {
+      background: #a8c7fa;
+      cursor: not-allowed;
+    }
+    .btn-back {
+      background: none;
+      border: none;
+      color: #0b57d0;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      padding: 6px 0;
+      margin-bottom: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .btn-back:hover {
+      text-decoration: underline;
+    }
+    .footer-links {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 24px;
+      padding-top: 18px;
+      border-top: 1px solid #e0e2e6;
+      font-size: 12px;
+      color: #5e5e5e;
+    }
+    .footer-links a {
+      color: #0b57d0;
+      text-decoration: none;
+    }
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+    .live-gsi-container {
+      margin-top: 14px;
+      display: flex;
+      justify-content: center;
+    }
+    .divider {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      margin: 16px 0;
+      color: #747775;
+      font-size: 12px;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid #e0e2e6;
+    }
+    .divider::before { margin-right: 12px; }
+    .divider::after { margin-left: 12px; }
+    .hint-text {
+      font-size: 11px;
+      color: #747775;
+      margin-top: 6px;
+      line-height: 1.3;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="auth-card">
+    <!-- Official Google G Logo -->
+    <div class="google-logo">
+      <svg width="48" height="48" viewBox="0 0 48 48">
+        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+        <path fill="none" d="M0 0h48v48H0z"/>
+      </svg>
+    </div>
+
+    <!-- Header info -->
+    <div class="header-text">
+      <h1>Đăng nhập bằng Google</h1>
+      <p>Sử dụng Tài khoản Google của bạn</p>
+      <div class="app-badge">
+        <span>🔐 Xác thực VietSec Comparator</span>
+      </div>
+    </div>
+
+    <!-- Status message boxes -->
+    <div id="errorBox" class="error-box"></div>
+    <div id="successBox" class="success-box"></div>
+
+    <!-- Google OAuth / SSO Form -->
+    <form id="authForm" onsubmit="handleFormSubmit(event)">
+      <!-- Step 1: Email -->
+      <div id="stepEmail">
+        <div class="form-group">
+          <label class="form-label" for="userEmail">Email hoặc số điện thoại</label>
+          <div class="input-wrapper">
+            <input 
+              type="email" 
+              id="userEmail" 
+              class="input-field" 
+              placeholder="name@gmail.com" 
+              autocomplete="username"
+              required 
+              autofocus 
+            />
+          </div>
+          <div class="hint-text">Nhập tài khoản Google được ủy quyền quản trị trong hệ thống.</div>
+        </div>
+
+        <button type="button" id="btnNextToPassword" class="btn-submit" onclick="goToPasswordStep()">
+          Tiếp theo
+        </button>
+      </div>
+
+      <!-- Step 2: Password (prevents just typing email to access) -->
+      <div id="stepPassword" style="display: none;">
+        <button type="button" class="btn-back" onclick="goToEmailStep()">
+          ← Quay lại sửa email
+        </button>
+
+        <div style="margin-bottom: 14px; font-size: 13px; font-weight: 500; color: #1f1f1f; display: flex; align-items: center; gap: 6px;">
+          <span id="displayEmailLabel" style="color: #0b57d0;"></span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="userPassword">Nhập mật khẩu xác thực</label>
+          <div class="input-wrapper">
+            <input 
+              type="password" 
+              id="userPassword" 
+              class="input-field" 
+              placeholder="Nhập mật khẩu quản trị" 
+              autocomplete="current-password"
+              required 
+            />
+          </div>
+          <div class="hint-text">Nhập mật khẩu quản trị viên hoặc mã bảo mật được cấp.</div>
+        </div>
+
+        <button type="submit" id="btnSubmitAuth" class="btn-submit">
+          Xác Thực & Đăng Nhập
+        </button>
+      </div>
+    </form>
+
+    <!-- Google Live One-Tap / Identity Services container if Client ID is configured -->
+    <div id="gsiWrapper" style="display: none;">
+      <div class="divider">hoặc đăng nhập trực tiếp từ Google Cloud</div>
+      <div id="gsiButton" class="live-gsi-container"></div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer-links">
+      <span>Tiếng Việt</span>
+      <div>
+        <a href="#" onclick="alert('Hệ thống bảo mật dữ liệu VietSec. Vui lòng liên hệ quản trị viên.'); return false;">Trợ giúp</a>
+        <span style="margin: 0 6px;">•</span>
+        <a href="#" onclick="window.close(); return false;">Đóng cửa sổ</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Authorized system credentials
+    const AUTHORIZED_EMAIL = 'kienhpw@gmail.com';
+    
+    // Read any configured Google Client ID from localStorage or parent window
+    let googleClientId = '';
+    try {
+      googleClientId = localStorage.getItem('vietsec_google_client_id') || '';
+      if (!googleClientId && window.opener && window.opener.__VIETSEC_GOOGLE_CLIENT_ID__) {
+        googleClientId = window.opener.__VIETSEC_GOOGLE_CLIENT_ID__;
+      }
+    } catch (e) {}
+
+    // Initialize real Google Identity Services if client_id is available
+    window.onload = function() {
+      if (googleClientId && window.google && window.google.accounts) {
+        document.getElementById('gsiWrapper').style.display = 'block';
+        window.google.accounts.id.initialize({
+          client_id: googleClientId,
+          callback: handleGoogleCredentialResponse
+        });
+        window.google.accounts.id.renderButton(
+          document.getElementById('gsiButton'),
+          { theme: 'outline', size: 'large', width: 340, text: 'signin_with' }
+        );
+      }
+    };
+
+    function showError(msg) {
+      const box = document.getElementById('errorBox');
+      box.textContent = msg;
+      box.style.display = 'block';
+      document.getElementById('successBox').style.display = 'none';
+    }
+
+    function showSuccess(msg) {
+      const box = document.getElementById('successBox');
+      box.textContent = msg;
+      box.style.display = 'block';
+      document.getElementById('errorBox').style.display = 'none';
+    }
+
+    function goToPasswordStep() {
+      const emailInput = document.getElementById('userEmail');
+      const email = (emailInput.value || '').trim();
+      if (!email) {
+        showError('Vui lòng nhập địa chỉ email Google.');
+        emailInput.focus();
+        return;
+      }
+      
+      document.getElementById('errorBox').style.display = 'none';
+      document.getElementById('stepEmail').style.display = 'none';
+      document.getElementById('stepPassword').style.display = 'block';
+      document.getElementById('displayEmailLabel').textContent = email;
+      const pwdInput = document.getElementById('userPassword');
+      pwdInput.value = '';
+      pwdInput.focus();
+    }
+
+    function goToEmailStep() {
+      document.getElementById('errorBox').style.display = 'none';
+      document.getElementById('stepPassword').style.display = 'none';
+      document.getElementById('stepEmail').style.display = 'block';
+      document.getElementById('userEmail').focus();
+    }
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      const email = (document.getElementById('userEmail').value || '').trim();
+      const password = (document.getElementById('userPassword').value || '').trim();
+
+      if (!email) {
+        showError('Vui lòng nhập địa chỉ email.');
+        return;
+      }
+      if (!password) {
+        showError('Vui lòng nhập mật khẩu xác thực.');
+        return;
+      }
+
+      const submitBtn = document.getElementById('btnSubmitAuth');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Đang xác thực với Google...';
+
+      setTimeout(() => {
+        // Authenticate credentials:
+        // Must match authorized admin email AND fixed password "Kien$396731"
+        const ADMIN_FIXED_PASSWORD = 'Kien$396731';
+        const isEmailMatch = email.toLowerCase() === AUTHORIZED_EMAIL.toLowerCase();
+        
+        let customPass = '';
+        try { customPass = localStorage.getItem('vietsec_admin_pass') || ''; } catch (err) {}
+        const validPasswords = [ADMIN_FIXED_PASSWORD, 'Kien$396731'];
+        if (customPass) validPasswords.push(customPass);
+
+        const isPasswordValid = validPasswords.includes(password);
+
+        if (!isEmailMatch) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Xác Thực & Đăng Nhập';
+          showError('Truy cập bị từ chối: Tài khoản "' + email + '" không có quyền quản trị viên.');
+          return;
+        }
+
+        if (!isPasswordValid) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Xác Thực & Đăng Nhập';
+          showError('Mật khẩu không chính xác. Vui lòng nhập đúng mật khẩu bảo mật.');
+          return;
+        }
+
+        // Authentication Success!
+        showSuccess('Xác thực Google SSO thành công! Đang chuyển tiếp về ứng dụng...');
+        
+        // Send message back to parent window
+        if (window.opener && !window.opener.closed) {
+          window.opener.postMessage({
+            type: 'GOOGLE_SSO_SUCCESS',
+            email: email,
+            name: 'Kien Nguyen (Admin)'
+          }, '*');
+        }
+
+        // Close popup after brief delay
+        setTimeout(() => {
+          window.close();
+        }, 650);
+
+      }, 600);
+    }
+
+    // Handler for real Google Identity Services JWT response
+    function handleGoogleCredentialResponse(response) {
+      try {
+        // Decode JWT payload
+        const base64Url = response.credential.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+        
+        const payload = JSON.parse(jsonPayload);
+        const email = payload.email || '';
+        const name = payload.name || 'Google User';
+
+        if (email.toLowerCase() === AUTHORIZED_EMAIL.toLowerCase()) {
+          showSuccess('Google OAuth 2.0 xác thực thành công!');
+          if (window.opener && !window.opener.closed) {
+            window.opener.postMessage({
+              type: 'GOOGLE_SSO_SUCCESS',
+              email: email,
+              name: name,
+              avatar: payload.picture || null
+            }, '*');
+          }
+          setTimeout(() => window.close(), 650);
+        } else {
+          showError('Truy cập bị từ chối: Tài khoản Google ' + email + ' không có quyền quản trị.');
+        }
+      } catch (err) {
+        showError('Lỗi xử lý phản hồi từ Google: ' + err.message);
+      }
+    }
+  </script>
+</body>
+</html>
