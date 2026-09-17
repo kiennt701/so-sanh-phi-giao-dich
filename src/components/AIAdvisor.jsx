@@ -96,7 +96,7 @@ export default function AIAdvisor({
                   className="flex h-10 w-10 items-center justify-center rounded-xl text-white font-extrabold text-sm shadow-md"
                   style={{ backgroundColor: company.brandColor }}
                 >
-                  {company.shortName.slice(0, 3)}
+                  {(company.shortName || '').slice(0, 3)}
                 </div>
                 <div>
                   <h3 className="font-extrabold text-base text-slate-900 dark:text-white flex items-center gap-1.5">
@@ -131,7 +131,7 @@ export default function AIAdvisor({
 
             {/* Highlight Keypoints */}
             <div className="flex flex-wrap gap-1.5 mb-4">
-              {company.keyHighlights.map((hl, idx) => (
+              {(company.keyHighlights || company.pros || []).map((hl, idx) => (
                 <span
                   key={idx}
                   className="rounded-lg bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-700 dark:bg-slate-700 dark:text-slate-200"

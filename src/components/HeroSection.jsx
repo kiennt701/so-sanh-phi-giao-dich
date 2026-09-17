@@ -112,7 +112,7 @@ export default function HeroSection({ searchQuery, setSearchQuery, scrollToSecti
               onClick={() => scrollToSection('calculator-section')}
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-xs sm:text-sm font-bold text-white shadow hover:bg-emerald-700 transition-all"
             >
-              <span>Tính toán số tiền tiết kiệm của bạn</span>
+              <span>Dự tính chi phí giao dịch của bạn</span>
               <ArrowRight className="h-4 w-4" />
             </button>
             <button

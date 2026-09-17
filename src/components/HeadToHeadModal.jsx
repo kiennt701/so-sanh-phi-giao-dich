@@ -49,7 +49,7 @@ export default function HeadToHeadModal({
                           className="flex h-12 w-12 items-center justify-center rounded-2xl text-white font-extrabold text-base shadow-md"
                           style={{ backgroundColor: company.brandColor }}
                         >
-                          {company.shortName.slice(0, 3)}
+                          {(company.shortName || '').slice(0, 3)}
                         </div>
                         {companies.length > 2 && (
                           <button
@@ -202,7 +202,7 @@ export default function HeadToHeadModal({
                 {companies.map((c) => (
                   <td key={c.id} className="py-3 px-4 align-top">
                     <ul className="space-y-1.5 text-xs text-slate-600 dark:text-slate-300">
-                      {c.pros.slice(0, 3).map((p, idx) => (
+                      {(c.pros || []).slice(0, 3).map((p, idx) => (
                         <li key={idx} className="flex items-start gap-1.5">
                           <Check className="h-3.5 w-3.5 text-emerald-500 mt-0.5 shrink-0" />
                           <span>{p}</span>
@@ -221,7 +221,7 @@ export default function HeadToHeadModal({
                 {companies.map((c) => (
                   <td key={c.id} className="py-3 px-4 align-top">
                     <ul className="space-y-1.5 text-xs text-slate-500 dark:text-slate-400">
-                      {c.cons.map((con, idx) => (
+                      {(c.cons || []).map((con, idx) => (
                         <li key={idx} className="flex items-start gap-1.5">
                           <AlertCircle className="h-3.5 w-3.5 text-amber-500 mt-0.5 shrink-0" />
                           <span>{con}</span>

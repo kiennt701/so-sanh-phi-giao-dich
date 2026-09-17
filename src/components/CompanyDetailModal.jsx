@@ -46,7 +46,7 @@ export default function CompanyDetailModal({ company, onClose }) {
               className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl text-white font-extrabold text-xl shadow-md"
               style={{ backgroundColor: company.brandColor }}
             >
-              {company.shortName.slice(0, 3)}
+              {(company.shortName || '').slice(0, 3)}
             </div>
 
             <div className="min-w-0">
@@ -328,7 +328,7 @@ export default function CompanyDetailModal({ company, onClose }) {
                   <span>Chương Trình Ưu Đãi Đang Áp Dụng</span>
                 </h3>
                 <ul className="space-y-2">
-                  {company.promotions.map((promo, idx) => (
+                  {(company.promotions || []).map((promo, idx) => (
                     <li
                       key={idx}
                       className="flex items-start gap-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 p-3 text-xs text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700/60"
@@ -354,7 +354,7 @@ export default function CompanyDetailModal({ company, onClose }) {
                     <span>Ưu Điểm Nổi Bật</span>
                   </h4>
                   <ul className="space-y-2 text-xs text-slate-700 dark:text-slate-300">
-                    {company.pros.map((pro, idx) => (
+                    {(company.pros || []).map((pro, idx) => (
                       <li key={idx} className="flex items-start gap-1.5 leading-relaxed">
                         <span className="text-emerald-500 font-bold shrink-0">•</span>
                         <span>{pro}</span>
@@ -370,7 +370,7 @@ export default function CompanyDetailModal({ company, onClose }) {
                     <span>Điểm Cần Lưu Ý</span>
                   </h4>
                   <ul className="space-y-2 text-xs text-slate-700 dark:text-slate-300">
-                    {company.cons.map((con, idx) => (
+                    {(company.cons || []).map((con, idx) => (
                       <li key={idx} className="flex items-start gap-1.5 leading-relaxed">
                         <span className="text-amber-500 font-bold shrink-0">•</span>
                         <span>{con}</span>

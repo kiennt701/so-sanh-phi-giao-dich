@@ -18,6 +18,13 @@ import {
   TrendingDown
 } from 'lucide-react';
 
+// Tính toán tỷ lệ % tổng chi phí so với Giá trị giao dịch và mức sinh lời cần thiết để bù chi phí
+const formatCostRatio = (cost, volume) => {
+  if (!volume || volume <= 0) return '0.00%';
+  const ratio = (cost / volume) * 100;
+  return ratio.toLocaleString('vi-VN', { minimumFractionDigits: 2, maximumFractionDigits: 3 }) + '%';
+};
+
 export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
   // Simulator input state - Default to standard existing client rates
   const [tradingVolume, setTradingVolume] = useState(200_000_000); // 200 triệu
@@ -634,6 +641,21 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
                       </div>
                     </div>
 
+                    {/* Tỷ lệ % chi phí / GTGD & Ghi chú điểm hòa vốn bù chi phí */}
+                    <div className="mt-2 rounded-xl bg-amber-50/90 dark:bg-amber-950/40 p-2.5 border border-amber-200/80 dark:border-amber-800/60 text-xs">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] font-bold text-amber-800 dark:text-amber-300">
+                          % Tổng chi phí / GTGD:
+                        </span>
+                        <span className="font-black text-xs text-amber-900 dark:text-amber-200">
+                          +{formatCostRatio(item.totalMonthlyCost, tradingVolume)}
+                        </span>
+                      </div>
+                      <div className="text-[10px] font-semibold text-emerald-700 dark:text-emerald-400 mt-1 leading-snug">
+                        💡 Cần giao dịch lãi ≥ {formatCostRatio(item.totalMonthlyCost, tradingVolume)} của lệnh để đủ bù chi phí
+                      </div>
+                    </div>
+
                     {/* Actions */}
                     <div className="mt-2 flex items-center gap-2 pt-1 border-t border-slate-100 dark:border-slate-800">
                       <button
@@ -696,6 +718,19 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
                       </div>
                       <div className="text-[9px] font-normal normal-case text-slate-500 dark:text-slate-400">
                         (/ tháng)
+                      </div>
+                    </th>
+
+                    {/* Cost Ratio Header: % Tổng chi phí / GTGD & Điểm hòa vốn */}
+                    <th 
+                      className="sticky top-0 z-20 bg-slate-100/95 dark:bg-slate-800/95 backdrop-blur-sm py-2.5 px-2.5 border-b border-slate-200 dark:border-slate-700 min-w-[155px] sm:min-w-[175px]"
+                      title="Tỷ lệ % tổng chi phí so với Giá trị giao dịch của bạn. Đây là mức sinh lời tối thiểu cần đạt để bù đắp chi phí."
+                    >
+                      <div className="flex items-center gap-1 font-black text-slate-900 dark:text-white">
+                        <span>% Chi Phí / GTGD</span>
+                      </div>
+                      <div className="text-[9px] font-bold text-amber-700 dark:text-amber-400 normal-case">
+                        (Mức lãi hòa vốn)
                       </div>
                     </th>
 
@@ -857,6 +892,18 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
                           <span className="font-black text-xs sm:text-sm text-blue-600 dark:text-blue-400">
                             {formatCurrency(item.totalMonthlyCost)}
                           </span>
+                        </td>
+
+                        {/* Cost Ratio / Break-even Point Column */}
+                        <td className="py-2 px-2.5 whitespace-nowrap">
+                          <div className="inline-flex items-center gap-1 rounded-md bg-amber-50 dark:bg-amber-950/60 px-2 py-0.5 border border-amber-200/70 dark:border-amber-800/60">
+                            <span className="font-black text-xs text-amber-900 dark:text-amber-200">
+                              +{formatCostRatio(item.totalMonthlyCost, tradingVolume)}
+                            </span>
+                          </div>
+                          <div className="text-[10px] font-semibold text-emerald-700 dark:text-emerald-400 mt-0.5 leading-tight">
+                            Cần lãi ≥ {formatCostRatio(item.totalMonthlyCost, tradingVolume)} của lệnh để đủ bù chi phí
+                          </div>
                         </td>
 
                         {/* Trading fee amount */}

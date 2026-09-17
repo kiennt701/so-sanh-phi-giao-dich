@@ -65,7 +65,7 @@ export default function SecuritiesCards({
                     className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl text-white font-extrabold text-sm shadow-xs shrink-0"
                     style={{ backgroundColor: company.brandColor }}
                   >
-                    {company.shortName.slice(0, 3)}
+                    {(company.shortName || '').slice(0, 3)}
                   </div>
                   <div className="min-w-0">
                     <div className="flex items-center gap-1.5 flex-wrap">
@@ -172,7 +172,7 @@ export default function SecuritiesCards({
 
               {/* Highlights pill list */}
               <div className="mt-2.5 flex flex-wrap gap-1">
-                {company.keyHighlights.slice(0, 2).map((hl, idx) => (
+                {(company.keyHighlights || company.pros || []).slice(0, 2).map((hl, idx) => (
                   <span
                     key={idx}
                     className="rounded-md bg-slate-100 px-1.5 py-0.5 text-[9px] font-semibold text-slate-600 dark:bg-slate-800 dark:text-slate-300 leading-tight"
@@ -189,7 +189,7 @@ export default function SecuritiesCards({
                   Ưu đãi:
                 </div>
                 <p className="line-clamp-2 text-slate-500 dark:text-slate-400 pl-2 leading-relaxed text-[10px] sm:text-[11px] mt-0.5">
-                  {company.promotions[0]}
+                  {company.promotions?.[0] || company.pros?.[0] || ''}
                 </p>
               </div>
             </div>

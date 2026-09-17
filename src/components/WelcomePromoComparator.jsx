@@ -178,7 +178,7 @@ export default function WelcomePromoComparator({ companies, onSelectDetail }) {
                     className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-white font-black text-xs shadow-xs"
                     style={{ backgroundColor: company.brandColor }}
                   >
-                    {company.shortName.slice(0, 3)}
+                    {(company.shortName || '').slice(0, 3)}
                   </div>
                   <div className="min-w-0">
                     <div className="flex items-center gap-1.5 flex-wrap">
