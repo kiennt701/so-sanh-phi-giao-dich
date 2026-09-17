@@ -29,8 +29,8 @@ export default function CompanyDetailModal({ company, onClose }) {
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/60 backdrop-blur-sm overflow-y-auto animate-fade-in">
-      <div className="relative w-full max-w-3xl rounded-3xl bg-white p-5 sm:p-7 shadow-2xl dark:bg-slate-900 dark:border dark:border-slate-800 max-h-[92vh] flex flex-col overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-slate-900/60 backdrop-blur-sm overflow-y-auto animate-fade-in">
+      <div className="relative w-full max-w-3xl rounded-t-3xl sm:rounded-3xl bg-white p-4 sm:p-7 shadow-2xl dark:bg-slate-900 dark:border dark:border-slate-800 max-h-[94vh] sm:max-h-[92vh] flex flex-col overflow-hidden">
         {/* Close Button */}
         <button
           onClick={onClose}
@@ -491,6 +491,30 @@ export default function CompanyDetailModal({ company, onClose }) {
               </div>
             </div>
           )}
+        </div>
+
+        {/* Mobile Sticky Bottom Action Bar */}
+        <div className="mt-3 pt-3 border-t border-slate-100 dark:border-slate-800 flex sm:hidden items-center gap-2 shrink-0">
+          <button
+            type="button"
+            onClick={onClose}
+            className="flex-1 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-300"
+          >
+            Đóng
+          </button>
+          <a
+            href={company.accountOpeningUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`flex-1 py-2 rounded-xl text-xs font-black text-white text-center flex items-center justify-center gap-1 shadow-sm ${
+              isBsc
+                ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white'
+                : 'bg-blue-600 text-white'
+            }`}
+          >
+            <span>{isBsc ? 'Mở TK BSC (CIF 4768)' : 'Mở Tài Khoản'}</span>
+            <ArrowUpRight className="h-3.5 w-3.5" />
+          </a>
         </div>
       </div>
     </div>

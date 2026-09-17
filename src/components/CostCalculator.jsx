@@ -566,8 +566,102 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
 
           {/* Detailed Ranking Table with Frozen Header & Frozen Columns */}
           <div className="relative rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs overflow-hidden">
-            {/* Scrollable container with fixed max height */}
-            <div className="overflow-x-auto overflow-y-auto max-h-[380px] sm:max-h-[410px]">
+            {/* Mobile View: Cards for small screens (<640px) */}
+            <div className="block sm:hidden divide-y divide-slate-100 dark:divide-slate-800 p-2 space-y-2 max-h-[440px] overflow-y-auto">
+              {displayedResults.map((item, idx) => {
+                const rowRank = idx + 1;
+                const isBsc = item.companyId === 'bsc' || item.isRecommended;
+
+                return (
+                  <div 
+                    key={item.companyId}
+                    className={`p-3 rounded-2xl border transition-all ${
+                      isBsc 
+                        ? 'border-blue-300 bg-blue-50/70 dark:border-blue-800 dark:bg-blue-950/40 ring-1 ring-blue-500/30 shadow-xs' 
+                        : 'border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-850'
+                    }`}
+                  >
+                    {/* Top bar: Rank, Logo, Name & Tag */}
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-1.5 min-w-0">
+                        <span className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-black ${
+                          rowRank === 1 ? 'bg-amber-400 text-amber-950 shadow-xs' : 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-200'
+                        }`}>
+                          {rowRank}
+                        </span>
+                        <span 
+                          className="h-2.5 w-2.5 rounded-full shrink-0 shadow-xs" 
+                          style={{ backgroundColor: item.brandColor }}
+                        />
+                        <span className="font-extrabold text-xs sm:text-sm text-slate-900 dark:text-white truncate">
+                          {item.companyName}
+                        </span>
+                        {item.isListed && item.stockCode && (
+                          <span className="rounded bg-blue-100 dark:bg-blue-950 px-1 py-0.2 text-[8px] font-black text-blue-800 dark:text-blue-300 border border-blue-200 dark:border-blue-800 shrink-0">
+                            {item.stockCode}
+                          </span>
+                        )}
+                        {isBsc && (
+                          <span className="rounded bg-amber-500 px-1 py-0.2 text-[8px] font-black text-white shrink-0">
+                            BIDV
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="text-right shrink-0">
+                        <span className="text-[9px] text-slate-400 uppercase tracking-wider block">Tổng chi phí</span>
+                        <span className="font-black text-xs text-blue-600 dark:text-blue-400">
+                          {formatCurrency(item.totalMonthlyCost)}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Breakdown: Fee & Margin */}
+                    <div className="mt-2 grid grid-cols-2 gap-2 bg-slate-50 dark:bg-slate-800/60 p-2 rounded-xl text-xs">
+                      <div>
+                        <span className="text-[10px] text-slate-400 block">Phí GD ({item.effectiveFeeRate}%)</span>
+                        <span className="font-bold text-slate-800 dark:text-slate-200 text-xs">
+                          {item.isZeroFeeApplied ? '0 đ (Zero-Fee)' : formatCurrency(item.monthlyTradingFee)}
+                        </span>
+                      </div>
+                      <div>
+                        <span className="text-[10px] text-slate-400 block">
+                          Lãi Margin ({marginPackageType === 'standard_90d' ? `${item.standardRate90d}%` : `${item.shortTermRate}%`})
+                        </span>
+                        <span className="font-bold text-slate-800 dark:text-slate-200 text-xs">
+                          {formatCurrency(item.monthlyMarginInterest)}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Actions */}
+                    <div className="mt-2 flex items-center gap-2 pt-1 border-t border-slate-100 dark:border-slate-800">
+                      <button
+                        type="button"
+                        onClick={() => handleCompanyClick(item.companyId)}
+                        className="flex-1 py-1.5 rounded-xl border border-slate-200 bg-white text-xs font-bold text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 text-center touch-manipulation"
+                      >
+                        Chi Tiết
+                      </button>
+                      <a
+                        href={item.accountOpeningUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`flex-1 py-1.5 rounded-xl text-xs font-black text-white text-center flex items-center justify-center gap-1 touch-manipulation shadow-xs ${
+                          isBsc ? 'bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600' : 'bg-blue-600 hover:bg-blue-700'
+                        }`}
+                      >
+                        <span>{isBsc ? 'Mở TK BSC' : 'Mở TK'}</span>
+                        <ArrowUpRight className="h-3.5 w-3.5" />
+                      </a>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Scrollable container with fixed max height on desktop */}
+            <div className="hidden sm:block overflow-x-auto overflow-y-auto max-h-[380px] sm:max-h-[410px]">
               <table className="w-full text-left text-xs border-collapse">
                 <thead>
                   <tr className="border-b border-slate-200 dark:border-slate-800 text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400">

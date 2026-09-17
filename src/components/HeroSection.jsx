@@ -3,7 +3,7 @@ import { Search, TrendingDown, ArrowRight, Shield, Zap, Sparkles, CheckCircle2 }
 
 export default function HeroSection({ searchQuery, setSearchQuery, scrollToSection }) {
   return (
-    <section className="relative overflow-hidden pt-6 pb-8 sm:pt-8 sm:pb-10 lg:pb-12 border-b border-slate-200 dark:border-slate-800/60 bg-gradient-to-b from-blue-50/50 via-white to-slate-50 dark:from-slate-900/50 dark:via-slate-950 dark:to-slate-950">
+    <section className="relative w-full max-w-full overflow-hidden pt-6 pb-8 sm:pt-8 sm:pb-10 lg:pb-12 border-b border-slate-200 dark:border-slate-800/60 bg-gradient-to-b from-blue-50/50 via-white to-slate-50 dark:from-slate-900/50 dark:via-slate-950 dark:to-slate-950">
       {/* Background glow effects */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-400/10 dark:bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
       <div className="absolute top-1/3 right-10 w-72 h-72 bg-emerald-400/10 dark:bg-emerald-600/10 rounded-full blur-3xl pointer-events-none"></div>
@@ -38,7 +38,7 @@ export default function HeroSection({ searchQuery, setSearchQuery, scrollToSecti
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Tìm theo tên CTCK (BSC, VPS, TCBS, SSI...) hoặc từ khóa..."
+                placeholder="Tìm CTCK (BSC, VPS, TCBS, SSI...) hoặc từ khóa..."
                 className="w-full rounded-2xl border-0 bg-white py-3 pl-11 pr-24 text-sm text-slate-900 ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 dark:bg-slate-900 dark:text-white dark:ring-slate-800 dark:focus:ring-blue-500"
               />
               <button

@@ -23,54 +23,58 @@ export default function FilterBar({
   filteredCount
 }) {
   return (
-    <div className="space-y-3">
+    <div className="space-y-2.5 sm:space-y-3">
       {/* Primary Mode Switcher: Existing Client Standard Rates vs Welcome Promo Comparator */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 bg-slate-100 dark:bg-slate-850 p-1.5 rounded-2xl border border-slate-200/80 dark:border-slate-800">
-        <div className="flex items-center gap-1.5 flex-1">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 bg-slate-100 dark:bg-slate-850 p-1.5 rounded-2xl border border-slate-200/80 dark:border-slate-800">
+        <div className="grid grid-cols-2 sm:flex items-center gap-1 sm:gap-1.5 flex-1">
+          {/* Tab 1: Existing Clients */}
           <button
             type="button"
             onClick={() => setComparisonTab && setComparisonTab('existing')}
-            className={`flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 rounded-xl px-3.5 py-2 text-xs sm:text-sm font-extrabold transition-all ${
+            className={`inline-flex items-center justify-center gap-1.5 sm:gap-2 rounded-xl px-2.5 sm:px-3.5 py-2 text-xs sm:text-sm font-extrabold transition-all text-center ${
               comparisonTab === 'existing'
                 ? 'bg-white text-blue-700 shadow-sm ring-1 ring-slate-200/80 dark:bg-slate-800 dark:text-blue-400 dark:ring-slate-700'
                 : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
             }`}
           >
-            <Table className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-            <span>Khách Hàng Hiện Hữu (Biểu Phí Chuẩn)</span>
+            <Table className="h-4 w-4 text-blue-600 dark:text-blue-400 shrink-0" />
+            <span className="hidden sm:inline">Khách Hàng Hiện Hữu (Biểu Phí Chuẩn)</span>
+            <span className="sm:hidden text-xs">Khách Hiện Hữu</span>
           </button>
 
+          {/* Tab 2: Welcome Promos */}
           <button
             type="button"
             onClick={() => setComparisonTab && setComparisonTab('welcome_promo')}
-            className={`flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 rounded-xl px-3.5 py-2 text-xs sm:text-sm font-extrabold transition-all ${
+            className={`inline-flex items-center justify-center gap-1.5 sm:gap-2 rounded-xl px-2.5 sm:px-3.5 py-2 text-xs sm:text-sm font-extrabold transition-all text-center ${
               comparisonTab === 'welcome_promo'
                 ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-sm shadow-orange-500/25'
                 : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
             }`}
           >
-            <Gift className="h-4 w-4 text-amber-500 group-hover:text-amber-600" />
-            <span>Ưu Đãi Mở Tài Khoản Mới (eKYC)</span>
-            <span className="rounded-full bg-red-500 text-white text-[10px] font-black px-1.5 py-0.5">
+            <Gift className="h-4 w-4 text-amber-400 shrink-0" />
+            <span className="hidden sm:inline">Ưu Đãi Mở Tài Khoản Mới (eKYC)</span>
+            <span className="sm:hidden text-xs">Ưu Đãi Mở Mới</span>
+            <span className="rounded-full bg-red-500 text-white text-[9px] sm:text-[10px] font-black px-1.5 py-0.2 shrink-0">
               HOT
             </span>
           </button>
         </div>
 
-        <div className="text-[11px] text-slate-500 dark:text-slate-400 px-2 sm:text-right">
+        <div className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 px-2 text-center sm:text-right">
           {comparisonTab === 'existing' ? (
-            <span>Biểu phí & margin chuẩn <strong>dài hạn</strong> (loại trừ khuyến mãi tạm thời)</span>
+            <span>Biểu phí & margin chuẩn <strong>dài hạn 90 ngày</strong></span>
           ) : (
-            <span>Tổng hợp các gói <strong>miễn phí 3-6 tháng & quà tặng eKYC</strong></span>
+            <span>Tổng hợp các gói <strong>miễn phí & quà tặng eKYC</strong></span>
           )}
         </div>
       </div>
 
-      {/* Existing Customer Category Filters & View Toggle (Only shown when in 'existing' mode) */}
+      {/* Existing Customer Category Filters & View Toggle */}
       {comparisonTab === 'existing' && (
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 pt-1">
-          {/* Pills */}
-          <div className="flex flex-wrap items-center gap-1.5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pt-0.5">
+          {/* Pills with Horizontal Scroll on Mobile */}
+          <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none pb-1 sm:pb-0 sm:flex-wrap -mx-1 px-1">
             {FILTER_CATEGORIES.map((cat) => {
               const Icon = cat.icon ? iconMap[cat.icon] : null;
               const isActive = activeFilter === cat.id;
@@ -79,7 +83,7 @@ export default function FilterBar({
                 <button
                   key={cat.id}
                   onClick={() => setActiveFilter(cat.id)}
-                  className={`inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold transition-all shadow-xs ${
+                  className={`inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold transition-all shrink-0 shadow-xs ${
                     isActive
                       ? 'bg-blue-600 text-white shadow-blue-500/25 ring-2 ring-blue-600 dark:ring-blue-500'
                       : 'bg-white text-slate-700 hover:bg-slate-100 hover:text-slate-900 border border-slate-200 dark:bg-slate-900 dark:text-slate-300 dark:border-slate-800 dark:hover:bg-slate-800'
@@ -93,51 +97,54 @@ export default function FilterBar({
           </div>
 
           {/* View Mode Toggle & Result count */}
-          <div className="flex items-center justify-between md:justify-end gap-2.5">
-            <span className="text-xs text-slate-500 dark:text-slate-400">
+          <div className="flex items-center justify-between sm:justify-end gap-2.5 shrink-0 pt-1 sm:pt-0">
+            <span className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400">
               Hiển thị <strong className="text-slate-900 dark:text-white">{filteredCount}</strong> CTCK
             </span>
 
             <div className="inline-flex rounded-xl border border-slate-200 bg-white p-1 dark:border-slate-800 dark:bg-slate-900 shadow-xs">
               <button
+                onClick={() => setViewMode('cards')}
+                className={`rounded-lg px-2.5 py-1 text-xs font-bold flex items-center gap-1 transition-colors ${
+                  viewMode === 'cards'
+                    ? 'bg-blue-50 text-blue-600 dark:bg-blue-950 dark:text-blue-400'
+                    : 'text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
+                }`}
+                title="Dạng thẻ lưới trực quan (khuyên dùng trên điện thoại)"
+              >
+                <LayoutGrid className="h-3.5 w-3.5" />
+                <span className="text-[11px]">Thẻ</span>
+              </button>
+
+              <button
                 onClick={() => setViewMode('table')}
-                className={`rounded-lg p-1.5 transition-colors ${
+                className={`rounded-lg px-2.5 py-1 text-xs font-bold flex items-center gap-1 transition-colors ${
                   viewMode === 'table'
                     ? 'bg-blue-50 text-blue-600 dark:bg-blue-950 dark:text-blue-400'
                     : 'text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
                 }`}
                 title="Dạng bảng chi tiết"
               >
-                <Table className="h-4 w-4" />
-              </button>
-              <button
-                onClick={() => setViewMode('cards')}
-                className={`rounded-lg p-1.5 transition-colors ${
-                  viewMode === 'cards'
-                    ? 'bg-blue-50 text-blue-600 dark:bg-blue-950 dark:text-blue-400'
-                    : 'text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
-                }`}
-                title="Dạng thẻ lưới"
-              >
-                <LayoutGrid className="h-4 w-4" />
+                <Table className="h-3.5 w-3.5" />
+                <span className="text-[11px]">Bảng</span>
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Floating or Inline Comparison Bar when companies are selected */}
+      {/* Floating or Inline Comparison Bar */}
       {comparisonTab === 'existing' && selectedForCompare.length > 0 && (
-        <div className="flex items-center justify-between gap-3 rounded-2xl border border-blue-200 bg-gradient-to-r from-blue-50 to-indigo-50 px-3.5 py-2.5 dark:border-blue-900/60 dark:from-blue-950/40 dark:to-indigo-950/40 shadow-xs animate-fade-in">
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-xs font-semibold text-blue-900 dark:text-blue-200">
-              Đã chọn so sánh ({selectedForCompare.length}/3):
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 rounded-2xl border border-blue-200 bg-gradient-to-r from-blue-50 to-indigo-50 p-2.5 sm:px-3.5 sm:py-2.5 dark:border-blue-900/60 dark:from-blue-950/40 dark:to-indigo-950/40 shadow-xs animate-fade-in">
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <span className="text-[11px] sm:text-xs font-semibold text-blue-900 dark:text-blue-200">
+              Đã chọn ({selectedForCompare.length}/3):
             </span>
-            <div className="flex items-center gap-1.5 flex-wrap">
+            <div className="flex items-center gap-1 flex-wrap">
               {selectedForCompare.map((company) => (
                 <span
                   key={company.id}
-                  className="inline-flex items-center gap-1 rounded-lg bg-white px-2 py-0.5 text-xs font-bold text-slate-800 shadow-xs border border-slate-200 dark:bg-slate-900 dark:text-slate-100 dark:border-slate-800"
+                  className="inline-flex items-center gap-1 rounded-lg bg-white px-2 py-0.5 text-[11px] font-bold text-slate-800 shadow-xs border border-slate-200 dark:bg-slate-900 dark:text-slate-100 dark:border-slate-800"
                 >
                   <span
                     className="h-2 w-2 rounded-full inline-block"
@@ -149,13 +156,13 @@ export default function FilterBar({
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center justify-between sm:justify-end gap-2 pt-1 sm:pt-0 border-t sm:border-t-0 border-blue-100 dark:border-blue-900/40">
             <button
               onClick={clearCompare}
-              className="text-xs text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 p-1"
+              className="text-[11px] text-slate-500 hover:text-rose-600 dark:text-slate-400 dark:hover:text-rose-400 p-1 font-medium"
               title="Bỏ chọn tất cả"
             >
-              <X className="h-4 w-4" />
+              Bỏ chọn
             </button>
 
             <button
@@ -168,7 +175,7 @@ export default function FilterBar({
               }`}
             >
               <ArrowRightLeft className="h-3.5 w-3.5" />
-              <span>So Sánh Đối Đầu</span>
+              <span>So Sánh Đối Đầu ({selectedForCompare.length})</span>
             </button>
           </div>
         </div>
