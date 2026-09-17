@@ -85,8 +85,8 @@ export default function HeroSection({ searchQuery, setSearchQuery, scrollToSecti
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600 dark:bg-emerald-950 dark:text-emerald-400 mb-1.5">
                 <TrendingDown className="h-4 w-4" />
               </div>
-              <div className="text-xl font-bold text-slate-900 dark:text-white">Từ 0.00%</div>
-              <div className="text-[11px] text-slate-500 dark:text-slate-300 mt-0.5 font-medium">Chính sách Zero-Fee & ưu đãi</div>
+              <div className="text-xl font-bold text-slate-900 dark:text-white">Từ 0.03%</div>
+              <div className="text-[11px] text-slate-500 dark:text-slate-300 mt-0.5 font-medium">Gồm phí Sở (Zero-Fee môi giới)</div>
             </div>
 
             <div className="rounded-2xl border border-slate-200 bg-white/70 p-3 text-left shadow-xs backdrop-blur-sm dark:border-slate-800 dark:bg-slate-900/60">

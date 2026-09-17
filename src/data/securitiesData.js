@@ -100,13 +100,13 @@ export const SECURITIES_COMPANIES = [
     "establishedYear": 2008,
     "marketShareRank": "Top 3 HOSE (9.36%) / Top 2 HNX (9.00%)",
     "tradingFee": {
-      "onlineMin": 0,
-      "onlineMax": 0,
+      "onlineMin": 0.03,
+      "onlineMax": 0.03,
       "brokerMin": 0.15,
       "brokerMax": 0.2,
       "zeroFeeOffer": true,
-      "displaySummary": "Zero-Fee (0% phí giao dịch trọn đời)",
-      "notes": "Tiên phong miễn phí 100% phí giao dịch cổ phiếu, chứng chỉ quỹ và phái sinh (chỉ trả phí Sở và Thuế)."
+      "displaySummary": "0.03% (Đã gồm phí trả Sở)",
+      "notes": "Chính sách Zero-Fee của TCBS miễn 100% phí môi giới trọn đời; phí giao dịch thực tế bao gồm phí trả Sở là 0.03%."
     },
     "margin": {
       "minRate": 7.99,
@@ -487,13 +487,13 @@ export const SECURITIES_COMPANIES = [
     "establishedYear": 2007,
     "marketShareRank": "Top 8 HNX (2.88%) / FinTech tiên phong",
     "tradingFee": {
-      "onlineMin": 0,
-      "onlineMax": 0,
+      "onlineMin": 0.045,
+      "onlineMax": 0.045,
       "brokerMin": 0.1,
       "brokerMax": 0.15,
       "zeroFeeOffer": true,
-      "displaySummary": "Zero-Fee trọn đời (0% phí GD)",
-      "notes": "Miễn phí 100% phí giao dịch cổ phiếu trọn đời trên nền tảng số Entrade X."
+      "displaySummary": "0.045% (Đã gồm phí trả Sở)",
+      "notes": "Chính sách Zero-Fee của DNSE miễn 100% phí môi giới; phí giao dịch thực tế bao gồm phí trả Sở là 0.045%."
     },
     "margin": {
       "minRate": 5.99,

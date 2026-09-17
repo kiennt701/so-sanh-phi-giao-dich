@@ -81,11 +81,16 @@ export function calculateCompanyCost(company, params) {
     isNewAccount = true
   } = params;
 
-  // 1. Tính phí giao dịch
+  // 1. Tính phí giao dịch:
+  // DNSE và TCBS áp dụng chính sách miễn phí môi giới nhưng thu phí thực tế gồm phí trả Sở (DNSE: 0.045%, TCBS: 0.03%).
+  const isExchangeFeeFixed = ['dnse', 'tcbs'].includes(company.id) || company.tradingFee?.includesExchangeFee;
   let feeRatePercent = company.tradingFee.onlineMin;
   let isZeroFeeApplied = false;
 
-  if (isNewAccount && company.tradingFee.zeroFeeOffer) {
+  if (isExchangeFeeFixed) {
+    feeRatePercent = company.tradingFee.onlineMin;
+    isZeroFeeApplied = false;
+  } else if (isNewAccount && company.tradingFee.zeroFeeOffer) {
     feeRatePercent = 0;
     isZeroFeeApplied = true;
   } else if (company.tradingFee.onlineMin === 0) {
@@ -93,7 +98,7 @@ export function calculateCompanyCost(company, params) {
     isZeroFeeApplied = true;
   }
 
-  const monthlyTradingFee = (monthlyTradingVolume * (feeRatePercent / 100));
+  const monthlyTradingFee = Math.round(monthlyTradingVolume * (feeRatePercent / 100));
 
   // 2. Tính lãi vay Margin:
   // Phân biệt rõ lãi suất tiêu chuẩn (kỳ hạn 90 ngày) và gói lãi suất giao dịch ngắn hạn (T+ / Deal ngắn hạn)

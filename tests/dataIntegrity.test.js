@@ -65,6 +65,20 @@ describe('Securities Data Integrity & Anti-Hallucination Suite', () => {
     });
   });
 
+  it('should have exact exchange fee included for DNSE (0.045%) and TCBS (0.03%)', () => {
+    const dnse = SECURITIES_COMPANIES.find(c => c.id === 'dnse');
+    expect(dnse).toBeDefined();
+    expect(dnse.tradingFee.onlineMin).toBe(0.045);
+    expect(dnse.tradingFee.onlineMax).toBe(0.045);
+    expect(dnse.tradingFee.displaySummary).toContain('0.045%');
+
+    const tcbs = SECURITIES_COMPANIES.find(c => c.id === 'tcbs');
+    expect(tcbs).toBeDefined();
+    expect(tcbs.tradingFee.onlineMin).toBe(0.03);
+    expect(tcbs.tradingFee.onlineMax).toBe(0.03);
+    expect(tcbs.tradingFee.displaySummary).toContain('0.03%');
+  });
+
   it('should have complete and valid margin lending structure', () => {
     SECURITIES_COMPANIES.forEach(company => {
       const { margin } = company;
@@ -256,14 +270,17 @@ describe('Securities Data Integrity & Anti-Hallucination Suite', () => {
     });
   });
 
-  it('should only mark genuine permanent zero-fee for existing customers (TCBS & DNSE)', () => {
+  it('should only mark genuine zero-brokerage-fee offers with exchange fees accounted for (TCBS: 0.03% & DNSE: 0.045%)', () => {
     const zeroFeeCompanies = SECURITIES_COMPANIES.filter(c => c.tradingFee.zeroFeeOffer);
     expect(zeroFeeCompanies.map(c => c.id).sort()).toEqual(['dnse', 'tcbs'].sort());
 
-    zeroFeeCompanies.forEach(company => {
-      expect(company.tradingFee.onlineMin).toBe(0);
-      expect(company.tradingFee.onlineMax).toBe(0);
-    });
+    const tcbs = SECURITIES_COMPANIES.find(c => c.id === 'tcbs');
+    expect(tcbs.tradingFee.onlineMin).toBe(0.03);
+    expect(tcbs.tradingFee.onlineMax).toBe(0.03);
+
+    const dnse = SECURITIES_COMPANIES.find(c => c.id === 'dnse');
+    expect(dnse.tradingFee.onlineMin).toBe(0.045);
+    expect(dnse.tradingFee.onlineMax).toBe(0.045);
   });
 
   it('should use the designated broker referral link for BSC account opening', () => {

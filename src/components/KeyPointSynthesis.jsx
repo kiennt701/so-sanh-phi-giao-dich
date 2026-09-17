@@ -111,7 +111,7 @@ export default function KeyPointSynthesis({ onSelectCompany }) {
             <ul className="space-y-3 text-xs sm:text-[13px] text-slate-700 dark:text-slate-300 leading-relaxed">
               <li className="flex items-start gap-2">
                 <span className="text-emerald-500 font-bold shrink-0 mt-0.5">•</span>
-                <span><strong>Zero-Fee (0%):</strong> DNSE, TCBS, VPS, Kafi áp dụng chính sách miễn phí trực tuyến.</span>
+                <span><strong>Zero-Fee môi giới:</strong> TCBS (0.03% gồm Sở), DNSE (0.045% gồm Sở) miễn 100% phí môi giới.</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-emerald-500 font-bold shrink-0 mt-0.5">•</span>
@@ -125,7 +125,7 @@ export default function KeyPointSynthesis({ onSelectCompany }) {
           </div>
 
           <div className="mt-5 pt-3.5 border-t border-slate-100 dark:border-slate-800 text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-            💡 Lưu ý: Phí chưa bao gồm 0.027% nộp Sở và thuế TNCN khi bán.
+            💡 Lưu ý: Phí giao dịch đã bao gồm phí trả Sở và chưa bao gồm thuế TNCN khi bán.
           </div>
         </div>
 

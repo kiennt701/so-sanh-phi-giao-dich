@@ -158,13 +158,13 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
           company: lowestFeeOption,
           gradient: 'from-blue-600 to-cyan-600 shadow-blue-500/15',
           btnText: 'text-blue-700 hover:bg-blue-50',
-          metricMain: lowestFeeOption?.isZeroFeeApplied
+          metricMain: lowestFeeOption?.isZeroFeeApplied && lowestFeeOption?.effectiveFeeRate === 0
             ? '0 đ (Miễn phí 0%)'
             : `${formatCurrency(lowestFeeOption?.monthlyTradingFee)}/tháng`,
-          metricSub: `Phí GD: ${lowestFeeOption?.effectiveFeeRate}% • Tổng: ${formatCurrency(lowestFeeOption?.totalMonthlyCost)}/tháng`,
-          description: lowestFeeOption?.isZeroFeeApplied
+          metricSub: `Phí GD: ${lowestFeeOption?.effectiveFeeRate}%${(lowestFeeOption?.companyId === 'tcbs' || lowestFeeOption?.companyId === 'dnse') ? ' (Gồm phí Sở)' : ''} • Tổng: ${formatCurrency(lowestFeeOption?.totalMonthlyCost)}/tháng`,
+          description: lowestFeeOption?.isZeroFeeApplied && lowestFeeOption?.effectiveFeeRate === 0
             ? 'Chính sách Zero-Fee miễn 100% phí giao dịch chứng khoán cơ sở'
-            : `Mức phí giao dịch trực tuyến cạnh tranh nhất thị trường (${lowestFeeOption?.effectiveFeeRate}%)`,
+            : `Mức phí giao dịch trực tuyến cạnh tranh nhất thị trường (${lowestFeeOption?.effectiveFeeRate}% đã gồm phí Sở)`,
         };
       case 'lowest_interest':
         return {
@@ -895,17 +895,17 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
                     </th>
 
                     {/* Action Header moved next to Company */}
-                    <th className="sticky top-0 z-20 bg-slate-100/95 dark:bg-slate-800/95 backdrop-blur-sm py-2.5 px-2 text-center min-w-[110px] sm:min-w-[125px] border-b border-slate-200 dark:border-slate-700">
+                    <th className="sticky top-0 z-20 bg-slate-100 dark:bg-slate-800 py-2.5 px-2 text-center min-w-[110px] sm:min-w-[125px] border-b border-slate-200 dark:border-slate-700">
                       Hành Động
                     </th>
 
                     {/* Total Cost Header (Positioned right after Action) */}
                     <th 
                       onClick={() => setActiveCriterion('lowest_total')}
-                      className={`sticky top-0 z-20 backdrop-blur-sm py-2.5 px-2.5 border-b border-slate-200 dark:border-slate-700 min-w-[110px] sm:min-w-[125px] cursor-pointer transition-colors ${
+                      className={`sticky top-0 z-20 py-2.5 px-2.5 border-b border-slate-200 dark:border-slate-700 min-w-[110px] sm:min-w-[125px] cursor-pointer transition-colors ${
                         activeCriterion === 'lowest_total'
-                          ? 'bg-emerald-100/90 text-emerald-950 dark:bg-emerald-950/80 dark:text-emerald-200 font-black ring-1 ring-emerald-400/30'
-                          : 'bg-slate-100/95 dark:bg-slate-800/95 hover:bg-slate-200/80 dark:hover:bg-slate-700 font-black text-slate-900 dark:text-white'
+                          ? 'bg-emerald-100 text-emerald-950 dark:bg-emerald-950 dark:text-emerald-200 font-black ring-1 ring-emerald-400/30'
+                          : 'bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 font-black text-slate-900 dark:text-white'
                       }`}
                       title="Nhấp để lọc CTCK có tổng chi phí tiết kiệm nhất"
                     >
@@ -920,7 +920,7 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
 
                     {/* Cost Ratio Header: % Tổng chi phí / GTGD & Điểm hòa vốn */}
                     <th 
-                      className="sticky top-0 z-20 bg-slate-100/95 dark:bg-slate-800/95 backdrop-blur-sm py-2.5 px-2.5 border-b border-slate-200 dark:border-slate-700 min-w-[175px] sm:min-w-[205px]"
+                      className="sticky top-0 z-20 bg-slate-100 dark:bg-slate-800 py-2.5 px-2.5 border-b border-slate-200 dark:border-slate-700 min-w-[140px] sm:min-w-[165px]"
                       title="Tỷ lệ % tổng chi phí so với Giá trị giao dịch của bạn. Đây là mức sinh lời tối thiểu cần đạt để bù đắp chi phí."
                     >
                       <div className="flex items-center gap-1 font-black text-slate-900 dark:text-white">
@@ -934,10 +934,10 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
                     {/* Trading Fee Header */}
                     <th 
                       onClick={() => setActiveCriterion('lowest_fee')}
-                      className={`sticky top-0 z-20 backdrop-blur-sm py-2.5 px-2.5 border-b border-slate-200 dark:border-slate-700 min-w-[90px] sm:min-w-[105px] cursor-pointer transition-colors ${
+                      className={`sticky top-0 z-20 py-2.5 px-2.5 border-b border-slate-200 dark:border-slate-700 min-w-[90px] sm:min-w-[105px] cursor-pointer transition-colors ${
                         activeCriterion === 'lowest_fee'
-                          ? 'bg-blue-100/90 text-blue-900 dark:bg-blue-950/80 dark:text-blue-200 font-black ring-1 ring-blue-400/30'
-                          : 'bg-slate-100/95 dark:bg-slate-800/95 hover:bg-slate-200/80 dark:hover:bg-slate-700'
+                          ? 'bg-blue-100 text-blue-900 dark:bg-blue-950 dark:text-blue-200 font-black ring-1 ring-blue-400/30'
+                          : 'bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700'
                       }`}
                       title="Nhấp để lọc CTCK có phí GD thấp nhất"
                     >
@@ -953,10 +953,10 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
                     {/* Margin Interest Header */}
                     <th 
                       onClick={() => setActiveCriterion('lowest_interest')}
-                      className={`sticky top-0 z-20 backdrop-blur-sm py-2 px-2.5 border-b border-slate-200 dark:border-slate-700 min-w-[125px] sm:min-w-[145px] cursor-pointer transition-colors ${
+                      className={`sticky top-0 z-20 py-2 px-2.5 border-b border-slate-200 dark:border-slate-700 min-w-[125px] sm:min-w-[145px] cursor-pointer transition-colors ${
                         activeCriterion === 'lowest_interest'
-                          ? 'bg-indigo-100/90 text-indigo-900 dark:bg-indigo-950/80 dark:text-indigo-200 font-black ring-1 ring-indigo-400/30'
-                          : 'bg-slate-100/95 dark:bg-slate-800/95 hover:bg-slate-200/80 dark:hover:bg-slate-700'
+                          ? 'bg-indigo-100 text-indigo-900 dark:bg-indigo-950 dark:text-indigo-200 font-black ring-1 ring-indigo-400/30'
+                          : 'bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700'
                       }`}
                       title="Nhấp để lọc CTCK có lãi vay margin thấp nhất"
                     >
@@ -982,14 +982,14 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
                         className={`group transition-colors ${
                           isBsc
                             ? 'bg-blue-50/70 dark:bg-blue-950/40 ring-1 ring-blue-500/40'
-                            : 'hover:bg-blue-50/40 dark:hover:bg-blue-950/20'
+                            : 'hover:bg-slate-50 dark:hover:bg-slate-800/50'
                         }`}
                       >
                         {/* Fixed Rank Column */}
                         <td className={`sticky left-0 z-10 w-12 min-w-[48px] max-w-[48px] text-center py-2 px-1.5 border-r border-slate-100 dark:border-slate-800 transition-colors ${
                           isBsc
-                            ? 'bg-blue-50/90 dark:bg-blue-950/90'
-                            : 'bg-white dark:bg-slate-900 group-hover:bg-blue-50/50 dark:group-hover:bg-slate-800'
+                            ? 'bg-blue-50 dark:bg-blue-950 group-hover:bg-blue-100 dark:group-hover:bg-blue-900'
+                            : 'bg-white dark:bg-slate-900 group-hover:bg-slate-100 dark:group-hover:bg-slate-800'
                         }`}>
                           <span
                             className={`inline-flex h-5 w-5 items-center justify-center rounded-full text-[11px] font-black ${
@@ -1013,8 +1013,8 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
                           onClick={() => handleCompanyClick(item.companyId)}
                           className={`sticky left-[48px] z-10 min-w-[145px] sm:min-w-[180px] lg:min-w-[210px] py-2 px-2.5 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] dark:shadow-[2px_0_5px_-2px_rgba(0,0,0,0.4)] cursor-pointer transition-colors ${
                             isBsc
-                              ? 'bg-blue-50/90 dark:bg-blue-950/90'
-                              : 'bg-white dark:bg-slate-900 group-hover:bg-blue-50/50 dark:group-hover:bg-slate-800'
+                              ? 'bg-blue-50 dark:bg-blue-950 group-hover:bg-blue-100 dark:group-hover:bg-blue-900'
+                              : 'bg-white dark:bg-slate-900 group-hover:bg-slate-100 dark:group-hover:bg-slate-800'
                           }`}
                         >
                           <div className="flex items-center gap-1.5">
@@ -1052,11 +1052,15 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
                                     Thấp nhất
                                   </span>
                                 )}
-                                {item.isZeroFeeApplied && (
+                                {item.isZeroFeeApplied ? (
                                   <span className="rounded bg-blue-500/15 text-blue-700 dark:text-blue-300 border border-blue-400/30 px-1 py-0.2 text-[8px] font-black uppercase tracking-wider">
                                     Zero-Fee
                                   </span>
-                                )}
+                                ) : ['dnse', 'tcbs'].includes(item.companyId) ? (
+                                  <span className="rounded bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-400/30 px-1 py-0.2 text-[8px] font-bold uppercase tracking-wider" title="Miễn phí môi giới, chỉ thu phí trả Sở">
+                                    Gồm phí Sở
+                                  </span>
+                                ) : null}
                               </div>
                               <div className="text-[10px] text-slate-400 dark:text-slate-500 truncate max-w-[140px] sm:max-w-[180px] lg:max-w-[220px]">
                                 {item.fullName}
@@ -1115,14 +1119,14 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
                         </td>
 
                         {/* Cost Ratio / Break-even Point Column */}
-                        <td className="py-2 px-2.5 whitespace-nowrap">
+                        <td className="py-2 px-2.5 min-w-[140px] max-w-[175px]">
                           <div className="inline-flex items-center gap-1 rounded-md bg-amber-50 dark:bg-amber-950/60 px-2 py-0.5 border border-amber-200/70 dark:border-amber-800/60">
                             <span className="font-black text-xs text-amber-900 dark:text-amber-200">
                               +{formatCostRatio(item.totalMonthlyCost, tradingVolume)}
                             </span>
                           </div>
                           <div className="text-[10px] font-semibold text-emerald-700 dark:text-emerald-400 mt-0.5 leading-tight">
-                            Cần lãi ≥ {formatCostRatio(item.totalMonthlyCost, tradingVolume)} của lệnh để đủ bù chi phí
+                            Cần lời ≥ {formatCostRatio(item.totalMonthlyCost, tradingVolume)} để bù chi phí
                           </div>
                         </td>
 
@@ -1140,7 +1144,7 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
                                 {formatCurrency(item.monthlyTradingFee)}
                               </span>
                               <div className="text-[10px] text-slate-400 dark:text-slate-500">
-                                Phí: {item.effectiveFeeRate}%
+                                Phí: {item.effectiveFeeRate}% {['dnse', 'tcbs'].includes(item.companyId) ? '(gồm Sở)' : ''}
                               </div>
                             </div>
                           )}

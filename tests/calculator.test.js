@@ -198,6 +198,31 @@ describe('Calculator Utility Suite', () => {
       expect(res.monthlyTradingFee).toBe(500_000_000 * 0.001); // 500,000
     });
 
+    it('should compute non-zero trading fee for DNSE (0.045%) and TCBS (0.03%) including exchange fees', () => {
+      const dnse = SECURITIES_COMPANIES.find(c => c.id === 'dnse');
+      const tcbs = SECURITIES_COMPANIES.find(c => c.id === 'tcbs');
+
+      const dnseRes = calculateCompanyCost(dnse, {
+        monthlyTradingVolume: 100_000_000,
+        marginLoanAmount: 0,
+        marginBorrowDays: 0,
+        isNewAccount: true
+      });
+      expect(dnseRes.effectiveFeeRate).toBe(0.045);
+      expect(dnseRes.monthlyTradingFee).toBe(45_000);
+      expect(dnseRes.isZeroFeeApplied).toBe(false);
+
+      const tcbsRes = calculateCompanyCost(tcbs, {
+        monthlyTradingVolume: 100_000_000,
+        marginLoanAmount: 0,
+        marginBorrowDays: 0,
+        isNewAccount: true
+      });
+      expect(tcbsRes.effectiveFeeRate).toBe(0.03);
+      expect(tcbsRes.monthlyTradingFee).toBe(30_000);
+      expect(tcbsRes.isZeroFeeApplied).toBe(false);
+    });
+
     it('should keep 0% fee even if isNewAccount is false when onlineMin is 0 (permanent zero fee)', () => {
       const res = calculateCompanyCost(mockCompanyWithFreeDays, {
         monthlyTradingVolume: 300_000_000,
@@ -422,11 +447,12 @@ describe('Calculator Utility Suite', () => {
     const ranked = rankCompaniesByCost(SECURITIES_COMPANIES, params);
 
     describe('getLowestFeeCompany()', () => {
-      it('should return company with 0 trading fee when Zero-Fee offer is active', () => {
+      it('should return company with lowest trading fee (TCBS 0.03%)', () => {
         const lowestFee = getLowestFeeCompany(ranked);
         expect(lowestFee).toBeDefined();
-        expect(lowestFee.monthlyTradingFee).toBe(0);
-        expect(lowestFee.isZeroFeeApplied).toBe(true);
+        expect(lowestFee.companyId).toBe('tcbs');
+        expect(lowestFee.effectiveFeeRate).toBe(0.03);
+        expect(lowestFee.monthlyTradingFee).toBe(60_000);
       });
 
       it('should return null for null or empty list', () => {
@@ -466,7 +492,8 @@ describe('Calculator Utility Suite', () => {
 
       it('should sort by lowest_fee when selected', () => {
         const sorted = sortCompaniesByCriterion(ranked, 'lowest_fee', 100_000_000);
-        expect(sorted[0].monthlyTradingFee).toBe(0);
+        expect(sorted[0].companyId).toBe('tcbs');
+        expect(sorted[0].effectiveFeeRate).toBe(0.03);
         for (let i = 0; i < sorted.length - 1; i++) {
           expect(sorted[i].monthlyTradingFee).toBeLessThanOrEqual(sorted[i + 1].monthlyTradingFee);
         }

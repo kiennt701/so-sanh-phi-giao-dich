@@ -37,11 +37,11 @@
     },
     "tcbs": {
       "tradingFee": {
-        "onlineMin": 0,
-        "onlineMax": 0,
+        "onlineMin": 0.03,
+        "onlineMax": 0.03,
         "zeroFeeOffer": true,
-        "displaySummary": "Zero-Fee (0% phí giao dịch trọn đời)",
-        "notes": "Tiên phong miễn phí 100% phí giao dịch cổ phiếu, chứng chỉ quỹ và phái sinh (chỉ trả phí Sở và Thuế)."
+        "displaySummary": "0.03% (Đã gồm phí trả Sở)",
+        "notes": "Chính sách Zero-Fee của TCBS miễn 100% phí môi giới trọn đời; phí giao dịch thực tế bao gồm phí trả Sở là 0.03%."
       },
       "margin": {
         "standardRate90d": 14,
@@ -167,11 +167,11 @@
     },
     "dnse": {
       "tradingFee": {
-        "onlineMin": 0,
-        "onlineMax": 0,
+        "onlineMin": 0.045,
+        "onlineMax": 0.045,
         "zeroFeeOffer": true,
-        "displaySummary": "Zero-Fee trọn đời (0% phí GD)",
-        "notes": "Miễn phí 100% phí giao dịch cổ phiếu trọn đời trên nền tảng số Entrade X."
+        "displaySummary": "0.045% (Đã gồm phí trả Sở)",
+        "notes": "Chính sách Zero-Fee của DNSE miễn 100% phí môi giới; phí giao dịch thực tế bao gồm phí trả Sở là 0.045%."
       },
       "margin": {
         "standardRate90d": 12.5,
@@ -848,11 +848,11 @@
       "verifiedBy": "Web Scanner & Kiểm định viên độc lập",
       "data": {
         "tradingFee": {
-          "onlineMin": 0,
-          "onlineMax": 0,
+          "onlineMin": 0.03,
+          "onlineMax": 0.03,
           "zeroFeeOffer": true,
-          "displaySummary": "Zero-Fee (0% phí giao dịch trọn đời)",
-          "notes": "Tiên phong miễn phí 100% phí giao dịch cổ phiếu, chứng chỉ quỹ và phái sinh (chỉ trả phí Sở và Thuế)."
+          "displaySummary": "0.03% (Đã gồm phí trả Sở)",
+          "notes": "Chính sách Zero-Fee của TCBS miễn 100% phí môi giới trọn đời; phí giao dịch thực tế bao gồm phí trả Sở là 0.03%."
         },
         "margin": {
           "standardRate90d": 14,
@@ -1053,11 +1053,11 @@
       "verifiedBy": "Web Scanner & Kiểm định viên độc lập",
       "data": {
         "tradingFee": {
-          "onlineMin": 0,
-          "onlineMax": 0,
+          "onlineMin": 0.045,
+          "onlineMax": 0.045,
           "zeroFeeOffer": true,
-          "displaySummary": "Zero-Fee trọn đời (0% phí GD)",
-          "notes": "Miễn phí 100% phí giao dịch cổ phiếu trọn đời trên nền tảng số Entrade X."
+          "displaySummary": "0.045% (Đã gồm phí trả Sở)",
+          "notes": "Chính sách Zero-Fee của DNSE miễn 100% phí môi giới; phí giao dịch thực tế bao gồm phí trả Sở là 0.045%."
         },
         "margin": {
           "standardRate90d": 12.5,

@@ -41,7 +41,7 @@ describe('AI Advisor Matching Algorithm (aiMatcher.js)', () => {
 
     expect(matchTcbs.score).toBeGreaterThanOrEqual(90);
     expect(matchDnse.score).toBeGreaterThanOrEqual(88);
-    expect(matchTcbs.aiReason).toContain('phí giao dịch');
+    expect(matchTcbs.aiReason.toLowerCase()).toContain('phí giao dịch');
   });
 
   it('đánh giá điểm cao nhất cho BSC đối với persona safe_wealth (ngân hàng mẹ BIDV)', () => {
