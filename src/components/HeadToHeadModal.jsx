@@ -115,7 +115,7 @@ export default function HeadToHeadModal({
                       </span>
                     ) : (
                       <span className="font-bold text-slate-900 dark:text-white">
-                        {c.tradingFee.onlineMin}% - {c.tradingFee.onlineMax}%
+                        {c.tradingFee.onlineMin}%{c.tradingFee.onlineMin !== c.tradingFee.onlineMax && ` - ${c.tradingFee.onlineMax}%`}
                       </span>
                     )}
                   </td>
@@ -131,10 +131,10 @@ export default function HeadToHeadModal({
                 {companies.map((c) => (
                   <td key={c.id} className="py-3 px-4 text-center">
                     <div className="text-base font-extrabold text-slate-900 dark:text-white">
-                      {c.margin.standardRateDisplay || `${c.margin.standardRate90d || c.margin.baseRate}%/năm`}
+                      {c.margin.baseRate ? `${c.margin.baseRate}%/năm` : (c.margin.standardRateDisplay || `${c.margin.standardRate90d}%/năm`)}
                     </div>
                     <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">
-                      Trung vị: {c.margin.medianRate || c.margin.baseRate}%/năm
+                      Trung vị: {c.margin.baseRate ?? c.margin.medianRate}%/năm
                     </div>
                   </td>
                 ))}

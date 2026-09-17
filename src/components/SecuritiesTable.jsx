@@ -81,11 +81,28 @@ export default function SecuritiesTable({
                 </th>
 
                 {/* 2. Cột Hành Động */}
-                <th className="sticky top-0 z-20 bg-slate-100/95 dark:bg-slate-800/95 backdrop-blur-sm py-3 px-2 sm:px-2.5 w-[125px] min-w-[125px] text-center border-r border-slate-200 dark:border-slate-700">
+                <th className="sticky top-0 z-20 bg-slate-100 dark:bg-slate-800 py-3 px-2 sm:px-2.5 w-[125px] min-w-[125px] text-center border-r border-slate-200 dark:border-slate-700">
                   Hành Động
                 </th>
 
                 {/* 3. Phí GD Cơ Sở (Online) */}
+<<<<<<< HEAD
+                <th className="sticky top-0 z-20 bg-slate-100 dark:bg-slate-800 py-3 px-3 w-[145px] min-w-[145px]">
+                  <div>Phí GD Online</div>
+                  <div className="text-[9px] font-semibold text-slate-500 dark:text-slate-400 normal-case">Đã gồm sở, chưa thuế</div>
+                </th>
+
+                {/* 4. Lãi Margin */}
+                <th className="sticky top-0 z-20 bg-slate-100 dark:bg-slate-800 py-3 px-3 w-[185px] min-w-[185px]">
+                  <div>Lãi Ký Quỹ Margin</div>
+                  <div className="text-[9px] font-semibold text-slate-500 dark:text-slate-400 normal-case">Chuẩn 90 ngày vs Gói Deal</div>
+                </th>
+
+                {/* 5. Key Points */}
+                <th className="sticky top-0 z-20 bg-slate-100 dark:bg-slate-800 py-3 px-4 min-w-[340px] lg:min-w-[420px] w-full">
+                  <div>Key Points Nổi Bật</div>
+                  <div className="text-[9px] font-semibold text-slate-500 dark:text-slate-400 normal-case">Lợi thế cạnh tranh & dịch vụ</div>
+=======
                 <th className="sticky top-0 z-20 bg-slate-50/95 dark:bg-slate-800/95 backdrop-blur-sm py-3 px-3 w-[145px] min-w-[145px]">
                   <div>Phí GD Online</div>
                   <div className="text-[9px] font-semibold text-slate-400 dark:text-slate-300 normal-case">Đã gồm sở, chưa thuế</div>
@@ -101,6 +118,7 @@ export default function SecuritiesTable({
                 <th className="sticky top-0 z-20 bg-slate-50/95 dark:bg-slate-800/95 backdrop-blur-sm py-3 px-4 min-w-[340px] lg:min-w-[420px] w-full">
                   <div>Key Points Nổi Bật</div>
                   <div className="text-[9px] font-semibold text-slate-400 dark:text-slate-300 normal-case">Lợi thế cạnh tranh & dịch vụ</div>
+>>>>>>> 849a418be89d51e24cfb514989e2cb7a96c63b3d
                 </th>
               </tr>
             </thead>
@@ -108,18 +126,17 @@ export default function SecuritiesTable({
               {companies.map((company) => {
                 const isCompared = selectedForCompare.some((c) => c.id === company.id);
                 const isBsc = company.id === 'bsc' || company.isRecommended;
-                const isZeroFee = company.tradingFee.onlineMin === 0 || company.tradingFee.zeroFeeOffer;
 
                 return (
                   <tr
                     key={company.id}
-                    className={`transition-colors hover:bg-slate-50/80 dark:hover:bg-slate-800/40 ${
-                      isBsc ? 'bg-blue-50/30 dark:bg-blue-950/20' : ''
+                    className={`group transition-colors ${
+                      isBsc ? 'bg-blue-50/40 dark:bg-blue-950/20 hover:bg-blue-50/60 dark:hover:bg-blue-950/40' : 'hover:bg-slate-50 dark:hover:bg-slate-800/50'
                     }`}
                   >
                     {/* Sticky Column 1: Company Logo & Name */}
-                    <td className={`sticky left-0 z-10 py-2.5 sm:py-3 px-3 sm:px-4 shadow-[2px_0_6px_-2px_rgba(0,0,0,0.08)] dark:shadow-[2px_0_6px_-2px_rgba(0,0,0,0.4)] ${
-                      isBsc ? 'bg-blue-50/95 dark:bg-slate-900/95' : 'bg-white/95 dark:bg-slate-900/95'
+                    <td className={`sticky left-0 z-10 py-2.5 sm:py-3 px-3 sm:px-4 shadow-[2px_0_6px_-2px_rgba(0,0,0,0.08)] dark:shadow-[2px_0_6px_-2px_rgba(0,0,0,0.4)] transition-colors ${
+                      isBsc ? 'bg-blue-50 dark:bg-blue-950 group-hover:bg-blue-100 dark:group-hover:bg-blue-900' : 'bg-white dark:bg-slate-900 group-hover:bg-slate-100 dark:group-hover:bg-slate-800'
                     }`}>
                       <div className="flex items-center gap-2.5">
                         <div
@@ -136,6 +153,11 @@ export default function SecuritiesTable({
                             {company.isListed && company.stockCode ? (
                               <span className="rounded bg-blue-100 dark:bg-blue-950 px-1.5 py-0.5 text-[9px] font-black text-blue-800 dark:text-blue-300">
                                 {company.stockCode}
+                              </span>
+                            ) : null}
+                            {isBsc ? (
+                              <span className="rounded bg-amber-500 px-1.5 py-0.5 text-[9px] font-black text-white uppercase tracking-wider">
+                                Top 1
                               </span>
                             ) : null}
                           </div>
@@ -158,25 +180,26 @@ export default function SecuritiesTable({
                         </button>
                         <button
                           type="button"
-                          onClick={() => toggleCompare(company)}
-                          className={`rounded-lg p-1 transition-colors touch-manipulation ${
+                          onClick={() => (toggleCompare || onToggleCompare)(company)}
+                          className={`rounded-lg border px-2 py-1 text-[11px] font-bold transition-colors touch-manipulation ${
                             isCompared
+<<<<<<< HEAD
+                              ? 'border-blue-600 bg-blue-600 text-white dark:border-blue-500 dark:bg-blue-500'
+                              : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700'
+=======
                               ? 'bg-blue-600 text-white'
                               : 'border border-slate-200 bg-white text-slate-400 hover:text-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:text-white'
+>>>>>>> 849a418be89d51e24cfb514989e2cb7a96c63b3d
                           }`}
-                          title={isCompared ? 'Bỏ so sánh' : 'Thêm so sánh'}
-                          aria-label="So sánh"
                         >
-                          {isCompared ? <Check className="h-3.5 w-3.5" /> : <Plus className="h-3.5 w-3.5" />}
+                          {isCompared ? 'Đã chọn' : 'So Sánh'}
                         </button>
                         <a
                           href={company.accountOpeningUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className={`rounded-lg p-1 text-white transition-colors touch-manipulation ${
-                            isBsc ? 'bg-amber-500 hover:bg-amber-600' : 'bg-blue-600 hover:bg-blue-700'
-                          }`}
-                          title="Mở tài khoản"
+                          className="rounded-lg bg-blue-600 p-1 text-white hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 touch-manipulation inline-flex items-center justify-center"
+                          title={`Mở tài khoản tại ${company.shortName}`}
                           aria-label="Mở tài khoản"
                         >
                           <ArrowUpRight className="h-3.5 w-3.5" />
@@ -186,25 +209,60 @@ export default function SecuritiesTable({
 
                     {/* Column 3: Trading Fee */}
                     <td className="py-2.5 px-3">
-                      {isZeroFee ? (
-                        <div className="text-emerald-600 dark:text-emerald-400 font-extrabold text-xs sm:text-sm">
-                          0.00% (Zero-Fee)
+                      {company.id === 'tcbs' ? (
+                        <div>
+                          <div className="text-emerald-600 dark:text-emerald-400 font-extrabold text-xs sm:text-sm">
+                            {company.tradingFee.onlineMin}% (Gồm phí Sở)
+                          </div>
+                          <div className="text-[10px] text-slate-400 dark:text-slate-400 mt-0.5">
+                            Miễn phí môi giới trọn đời
+                          </div>
+                        </div>
+                      ) : company.id === 'dnse' ? (
+                        <div>
+                          <div className="text-emerald-600 dark:text-emerald-400 font-extrabold text-xs sm:text-sm">
+                            {company.tradingFee.onlineMin}% (Gồm phí Sở)
+                          </div>
+                          <div className="text-[10px] text-slate-400 dark:text-slate-400 mt-0.5">
+                            Miễn phí môi giới
+                          </div>
+                        </div>
+                      ) : company.tradingFee.onlineMin === 0 ? (
+                        <div>
+                          <div className="text-emerald-600 dark:text-emerald-400 font-extrabold text-xs sm:text-sm">
+                            0.00% (Zero-Fee)
+                          </div>
+                          <div className="text-[10px] text-slate-400 dark:text-slate-400 mt-0.5">
+                            Chưa gồm phí trả Sở
+                          </div>
                         </div>
                       ) : (
-                        <div className="font-extrabold text-slate-900 dark:text-white text-xs sm:text-sm">
-                          {company.tradingFee.onlineMin}%
-                          {company.tradingFee.onlineMin !== company.tradingFee.onlineMax && ` - ${company.tradingFee.onlineMax}%`}
+                        <div>
+                          <div className="font-extrabold text-slate-900 dark:text-white text-xs sm:text-sm">
+                            {company.tradingFee.onlineMin}%
+                            {company.tradingFee.onlineMin !== company.tradingFee.onlineMax && ` - ${company.tradingFee.onlineMax}%`}
+                          </div>
+                          <div className="text-[10px] text-slate-400 dark:text-slate-400 mt-0.5">
+                            Đã gồm phí trả Sở
+                          </div>
                         </div>
                       )}
+<<<<<<< HEAD
+=======
                       <div className="text-[10px] text-slate-400 dark:text-slate-300 mt-0.5">
                         Phí sở: ~0.027%
                       </div>
+>>>>>>> 849a418be89d51e24cfb514989e2cb7a96c63b3d
                     </td>
 
                     {/* Column 4: Margin */}
                     <td className="py-2.5 px-3">
                       <div className="font-extrabold text-slate-900 dark:text-white text-xs sm:text-sm">
+<<<<<<< HEAD
+                        {company.margin.baseRate ?? company.margin.standardRate90d}%/năm
+=======
                         {company.margin.baseRate}%/năm
+>>>>>>> 849a418be89d51e24cfb514989e2cb7a96c63b3d
                         <span className="ml-1 text-[10px] font-normal text-slate-400 dark:text-slate-300">(90 ngày)</span>
                       </div>
                       {(company.margin.shortTermRate || company.margin.promoRate) && (

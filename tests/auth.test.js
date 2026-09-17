@@ -4,6 +4,7 @@ import {
   ADMIN_FIXED_PASSWORD,
   isAuthorizedAdmin, 
   verifyAdminCredentials,
+  loginAdmin,
   loginWithGoogle, 
   getCurrentUser, 
   logoutAdmin 
@@ -105,5 +106,33 @@ describe('Google SSO & Admin Authorization Suite', () => {
 
     // Invalid email with correct password
     expect(verifyAdminCredentials('other@gmail.com', 'Kien$396731')).toBe(false);
+  });
+
+  it('should permit loginAdmin with valid credentials and store admin session', () => {
+    const res = loginAdmin('kienhpw@gmail.com', 'Kien$396731');
+    expect(res.success).toBe(true);
+    expect(res.user).toBeDefined();
+    expect(res.user.email).toBe('kienhpw@gmail.com');
+    expect(res.user.role).toBe('admin');
+    expect(res.user.provider).toBe('admin_auth');
+
+    // Verify session
+    const current = getCurrentUser();
+    expect(current).not.toBeNull();
+    expect(current.email).toBe('kienhpw@gmail.com');
+  });
+
+  it('should reject loginAdmin with invalid credentials or missing fields', () => {
+    // Missing email
+    expect(loginAdmin('', 'Kien$396731').success).toBe(false);
+    // Missing password
+    expect(loginAdmin('kienhpw@gmail.com', '').success).toBe(false);
+    // Wrong password
+    const wrongPass = loginAdmin('kienhpw@gmail.com', 'wrongpassword');
+    expect(wrongPass.success).toBe(false);
+    expect(wrongPass.error).toContain('Email hoặc mật khẩu quản trị viên không chính xác');
+    // Wrong email
+    const wrongEmail = loginAdmin('random@user.com', 'Kien$396731');
+    expect(wrongEmail.success).toBe(false);
   });
 });

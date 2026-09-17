@@ -20,7 +20,7 @@ import { SECURITIES_COMPANIES } from './data/securitiesData';
 import { getCurrentUser, logoutAdmin } from './utils/auth';
 
 export default function App() {
-  // Authentication & Google SSO state (Authorized Admin: Kienhpw@gmail.com)
+  // Authentication & Admin Authorization state
   const [currentUser, setCurrentUser] = useState(() => getCurrentUser());
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
@@ -124,7 +124,18 @@ export default function App() {
 
       return true;
     });
-  }, [searchQuery, activeFilter]);
+  }, [companiesData, searchQuery, activeFilter]);
+
+  // Always resolve compared companies from current companiesData so admin updates are reflected
+  const comparedCompanies = useMemo(() => {
+    return selectedForCompare.map(sel => companiesData.find(c => c.id === sel.id) || sel);
+  }, [selectedForCompare, companiesData]);
+
+  // Always resolve active company detail from current companiesData so admin updates are reflected
+  const currentDetailCompany = useMemo(() => {
+    if (!activeCompanyDetail) return null;
+    return companiesData.find(c => c.id === activeCompanyDetail.id) || activeCompanyDetail;
+  }, [activeCompanyDetail, companiesData]);
 
   // Handle comparison selection
   const handleToggleCompare = (company) => {
@@ -165,7 +176,7 @@ export default function App() {
     }
   };
 
-  // Google SSO Auth Handlers
+  // Admin Auth Handlers
   const handleOpenDataManager = () => {
     if (!currentUser) {
       setIsAuthModalOpen(true);
@@ -223,7 +234,10 @@ export default function App() {
 
         {/* Section: AI & Investor Key Points Synthesis */}
         <section id="key-points-summary" className="scroll-mt-24">
-          <KeyPointSynthesis onSelectCompany={(company) => setActiveCompanyDetail(company)} />
+          <KeyPointSynthesis 
+            companies={companiesData}
+            onSelectCompany={(company) => setActiveCompanyDetail(company)} 
+          />
         </section>
 
         {/* Section: Comparison Matrix & Directory */}
@@ -301,6 +315,7 @@ export default function App() {
         {/* Section: Interactive Cost & Savings Calculator */}
         <section id="calculator-section" className="scroll-mt-24">
           <CostCalculator
+            companies={companiesData}
             onSelectDetail={(company) => setActiveCompanyDetail(company)}
             onSwitchToPromoTab={() => {
               setComparisonTab('welcome_promo');
@@ -319,18 +334,19 @@ export default function App() {
       <HeadToHeadModal
         isOpen={isCompareModalOpen}
         onClose={() => setIsCompareModalOpen(false)}
-        companies={selectedForCompare}
+        companies={comparedCompanies}
         onRemoveCompany={handleRemoveFromCompare}
       />
 
       <CompanyDetailModal
-        company={activeCompanyDetail}
+        company={currentDetailCompany}
         onClose={() => setActiveCompanyDetail(null)}
       />
 
       <FeedbackModal
         isOpen={isFeedbackModalOpen}
         onClose={() => setIsFeedbackModalOpen(false)}
+        companies={companiesData}
       />
 
       <DataManagementModal

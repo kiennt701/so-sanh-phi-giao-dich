@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import {
   formatCurrency,
   formatCompactNumber,
+  formatVietnameseNumberWords,
   calculateCompanyCost,
   rankCompaniesByCost,
   getLowestFeeCompany,
@@ -66,6 +67,40 @@ describe('Calculator Utility Suite', () => {
 
       const zeroResult = formatCompactNumber(0);
       expect(zeroResult).toMatch(/0[\s\u00a0]*(₫|đ)/);
+    });
+
+    it('should format amounts >= 1.000 tỷ cleanly with dot separators', () => {
+      expect(formatCompactNumber(1_000_000_000_000)).toBe('1.000 tỷ');
+      expect(formatCompactNumber(10_000_000_000_000)).toBe('10.000 tỷ');
+    });
+  });
+
+  describe('formatVietnameseNumberWords()', () => {
+    it('should format zero or invalid amounts as "0 đồng"', () => {
+      expect(formatVietnameseNumberWords(0)).toBe('0 đồng');
+      expect(formatVietnameseNumberWords(-100)).toBe('0 đồng');
+      expect(formatVietnameseNumberWords(null)).toBe('0 đồng');
+      expect(formatVietnameseNumberWords(undefined)).toBe('0 đồng');
+      expect(formatVietnameseNumberWords(NaN)).toBe('0 đồng');
+    });
+
+    it('should format millions correctly', () => {
+      expect(formatVietnameseNumberWords(50_000_000)).toBe('50 triệu đồng');
+      expect(formatVietnameseNumberWords(200_000_000)).toBe('200 triệu đồng');
+      expect(formatVietnameseNumberWords(500_000_000)).toBe('500 triệu đồng');
+    });
+
+    it('should format billions and mixed amounts correctly', () => {
+      expect(formatVietnameseNumberWords(1_000_000_000)).toBe('1 tỷ đồng');
+      expect(formatVietnameseNumberWords(1_500_000_000)).toBe('1 tỷ 500 triệu đồng');
+      expect(formatVietnameseNumberWords(10_000_000_000)).toBe('10 tỷ đồng');
+      expect(formatVietnameseNumberWords(100_000_000_000)).toBe('100 tỷ đồng');
+    });
+
+    it('should format thousands of billions and cap at 10.000 tỷ đồng (Tối đa)', () => {
+      expect(formatVietnameseNumberWords(1_000_000_000_000)).toBe('1.000 tỷ đồng');
+      expect(formatVietnameseNumberWords(10_000_000_000_000)).toBe('10.000 tỷ đồng (Tối đa)');
+      expect(formatVietnameseNumberWords(15_000_000_000_000)).toBe('10.000 tỷ đồng (Tối đa)');
     });
   });
 
@@ -161,6 +196,31 @@ describe('Calculator Utility Suite', () => {
       expect(res.isZeroFeeApplied).toBe(false);
       expect(res.effectiveFeeRate).toBe(0.10);
       expect(res.monthlyTradingFee).toBe(500_000_000 * 0.001); // 500,000
+    });
+
+    it('should compute non-zero trading fee for DNSE (0.045%) and TCBS (0.03%) including exchange fees', () => {
+      const dnse = SECURITIES_COMPANIES.find(c => c.id === 'dnse');
+      const tcbs = SECURITIES_COMPANIES.find(c => c.id === 'tcbs');
+
+      const dnseRes = calculateCompanyCost(dnse, {
+        monthlyTradingVolume: 100_000_000,
+        marginLoanAmount: 0,
+        marginBorrowDays: 0,
+        isNewAccount: true
+      });
+      expect(dnseRes.effectiveFeeRate).toBe(0.045);
+      expect(dnseRes.monthlyTradingFee).toBe(45_000);
+      expect(dnseRes.isZeroFeeApplied).toBe(false);
+
+      const tcbsRes = calculateCompanyCost(tcbs, {
+        monthlyTradingVolume: 100_000_000,
+        marginLoanAmount: 0,
+        marginBorrowDays: 0,
+        isNewAccount: true
+      });
+      expect(tcbsRes.effectiveFeeRate).toBe(0.03);
+      expect(tcbsRes.monthlyTradingFee).toBe(30_000);
+      expect(tcbsRes.isZeroFeeApplied).toBe(false);
     });
 
     it('should keep 0% fee even if isNewAccount is false when onlineMin is 0 (permanent zero fee)', () => {
@@ -261,6 +321,24 @@ describe('Calculator Utility Suite', () => {
       });
       const expectedInterest = (100_000_000 * 0.115 / 365) * 60;
       expect(res.monthlyMarginInterest).toBeCloseTo(expectedInterest, 4);
+    });
+
+    it('should accurately calculate costs for ultra-high volumes up to 10.000 tỷ VNĐ without precision loss', () => {
+      const megaVolume = 10_000_000_000_000; // 10.000 tỷ
+      const megaLoan = 5_000_000_000_000;   // 5.000 tỷ
+      const res = calculateCompanyCost(mockCompanyWithoutZeroFee, {
+        monthlyTradingVolume: megaVolume,
+        marginLoanAmount: megaLoan,
+        marginBorrowDays: 20,
+        isNewAccount: false
+      });
+
+      // Fee: 10,000,000,000,000 * 0.15% = 15,000,000,000
+      expect(res.monthlyTradingFee).toBe(15_000_000_000);
+      // Margin: (5,000,000,000,000 * 0.115 / 365) * 20
+      const expectedInterest = (5_000_000_000_000 * 0.115 / 365) * 20;
+      expect(res.monthlyMarginInterest).toBeCloseTo(expectedInterest, 0);
+      expect(res.totalMonthlyCost).toBeCloseTo(15_000_000_000 + expectedInterest, 0);
     });
 
     it('should handle high volume and large loans (tens of billions VND)', () => {
@@ -369,11 +447,12 @@ describe('Calculator Utility Suite', () => {
     const ranked = rankCompaniesByCost(SECURITIES_COMPANIES, params);
 
     describe('getLowestFeeCompany()', () => {
-      it('should return company with 0 trading fee when Zero-Fee offer is active', () => {
+      it('should return company with lowest trading fee (TCBS 0.03%)', () => {
         const lowestFee = getLowestFeeCompany(ranked);
         expect(lowestFee).toBeDefined();
-        expect(lowestFee.monthlyTradingFee).toBe(0);
-        expect(lowestFee.isZeroFeeApplied).toBe(true);
+        expect(lowestFee.companyId).toBe('tcbs');
+        expect(lowestFee.effectiveFeeRate).toBe(0.03);
+        expect(lowestFee.monthlyTradingFee).toBe(60_000);
       });
 
       it('should return null for null or empty list', () => {
@@ -413,7 +492,8 @@ describe('Calculator Utility Suite', () => {
 
       it('should sort by lowest_fee when selected', () => {
         const sorted = sortCompaniesByCriterion(ranked, 'lowest_fee', 100_000_000);
-        expect(sorted[0].monthlyTradingFee).toBe(0);
+        expect(sorted[0].companyId).toBe('tcbs');
+        expect(sorted[0].effectiveFeeRate).toBe(0.03);
         for (let i = 0; i < sorted.length - 1; i++) {
           expect(sorted[i].monthlyTradingFee).toBeLessThanOrEqual(sorted[i + 1].monthlyTradingFee);
         }
@@ -467,6 +547,73 @@ describe('Calculator Utility Suite', () => {
       ];
       const sorted = sortCompaniesByCriterion(tiedResults, 'lowest_total');
       expect(sorted[0].companyId).toBe('bsc');
+    });
+  });
+
+  describe('Dynamic Admin Overrides & Custom Data Propagation Suite', () => {
+    it('should calculate cost accurately using custom/edited baseRate and onlineMin', () => {
+      const customCompany = {
+        id: 'dnse',
+        shortName: 'DNSE',
+        name: 'Chứng Khoán DNSE',
+        brandColor: '#00c389',
+        tradingFee: {
+          onlineMin: 0.05,
+          onlineMax: 0.05,
+          zeroFeeOffer: false
+        },
+        margin: {
+          baseRate: 11.0,
+          standardRate90d: 11.0,
+          promoRate: 6.0,
+          interestFreeDays: 0
+        }
+      };
+
+      const result = calculateCompanyCost(customCompany, {
+        monthlyTradingVolume: 100_000_000,
+        marginLoanAmount: 100_000_000,
+        marginBorrowDays: 30,
+        isNewAccount: false,
+        marginPackageType: 'standard_90d'
+      });
+
+      // Fee: 100tr * 0.05% = 50,000
+      expect(result.monthlyTradingFee).toBe(50000);
+      expect(result.effectiveFeeRate).toBe(0.05);
+
+      // Margin: 100tr * 11% / 365 * 30 = 904,109.589
+      expect(result.effectiveMarginRate).toBe(11.0);
+      expect(Math.round(result.monthlyMarginInterest)).toBe(Math.round(100_000_000 * 0.11 / 365 * 30));
+    });
+
+    it('should propagate overridden company list in rankCompaniesByCost', () => {
+      const customList = SECURITIES_COMPANIES.map(c => {
+        if (c.id === 'dnse') {
+          return {
+            ...c,
+            margin: {
+              ...c.margin,
+              baseRate: 8.0,
+              standardRate90d: 8.0
+            }
+          };
+        }
+        return c;
+      });
+
+      const ranked = rankCompaniesByCost(customList, {
+        monthlyTradingVolume: 200_000_000,
+        marginLoanAmount: 200_000_000,
+        marginBorrowDays: 30,
+        isNewAccount: false,
+        marginPackageType: 'standard_90d'
+      });
+
+      const dnseRanked = ranked.find(r => r.companyId === 'dnse');
+      expect(dnseRanked).toBeDefined();
+      expect(dnseRanked.effectiveMarginRate).toBe(8.0);
+      expect(dnseRanked.standardRate90d).toBe(8.0);
     });
   });
 });

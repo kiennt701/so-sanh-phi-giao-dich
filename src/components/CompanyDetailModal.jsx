@@ -205,7 +205,7 @@ export default function CompanyDetailModal({ company, onClose }) {
                       </div>
                       <div className="mt-1 flex items-baseline gap-1">
                         <span className="text-lg font-black text-slate-900 dark:text-white">
-                          {company.margin.standardRateDisplay || `${company.margin.standardRate90d || company.margin.baseRate}%/năm`}
+                          {company.margin.baseRate ? `${company.margin.baseRate}%/năm (Chuẩn 90 ngày)` : (company.margin.standardRateDisplay || `${company.margin.standardRate90d}%/năm`)}
                         </span>
                       </div>
                       <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-1 leading-normal">

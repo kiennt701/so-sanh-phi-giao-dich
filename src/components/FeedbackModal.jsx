@@ -8,7 +8,7 @@ import {
 } from 'lucide-react';
 import { SECURITIES_COMPANIES } from '../data/securitiesData';
 
-export default function FeedbackModal({ isOpen, onClose }) {
+export default function FeedbackModal({ isOpen, onClose, companies = SECURITIES_COMPANIES }) {
   const [selectedCompany, setSelectedCompany] = useState('');
   const [category, setCategory] = useState('trading_fee');
   const [content, setContent] = useState('');
@@ -42,7 +42,7 @@ export default function FeedbackModal({ isOpen, onClose }) {
 
     // Prepare mailto link with pre-filled content
     const companyName = selectedCompany 
-      ? SECURITIES_COMPANIES.find(c => c.id === selectedCompany)?.shortName || selectedCompany 
+      ? companies.find(c => c.id === selectedCompany)?.shortName || selectedCompany 
       : 'Chung';
 
     const categoryLabels = {
@@ -158,7 +158,7 @@ export default function FeedbackModal({ isOpen, onClose }) {
                 className="w-full rounded-xl border border-slate-200 bg-white py-2 px-3 text-xs text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
               >
                 <option value="">-- Chọn công ty chứng khoán (hoặc góp ý chung) --</option>
-                {SECURITIES_COMPANIES.map((company) => (
+                {companies.map((company) => (
                   <option key={company.id} value={company.id}>
                     {company.shortName} — {company.name}
                   </option>

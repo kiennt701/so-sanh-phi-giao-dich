@@ -22,6 +22,10 @@ export function formatCurrency(amount) {
  * @returns {string}
  */
 export function formatCompactNumber(amount) {
+  if (amount >= 1_000_000_000_000) {
+    const ty = amount / 1_000_000_000;
+    return `${ty.toLocaleString('vi-VN')} tỷ`;
+  }
   if (amount >= 1_000_000_000) {
     return `${(amount / 1_000_000_000).toFixed(1)} tỷ`;
   }
@@ -29,6 +33,38 @@ export function formatCompactNumber(amount) {
     return `${(amount / 1_000_000).toFixed(0)} triệu`;
   }
   return formatCurrency(amount);
+}
+
+/**
+ * Chuyển đổi số tiền thành chữ đọc tiếng Việt (VD: "200 triệu đồng", "1 tỷ 500 triệu đồng", "10.000 tỷ đồng (Tối đa)")
+ * Hỗ trợ người dùng kiểm tra trực quan số tiền khi gõ trực tiếp lên tới 10.000 tỷ VNĐ.
+ * @param {number} amount 
+ * @returns {string}
+ */
+export function formatVietnameseNumberWords(amount) {
+  if (amount === undefined || amount === null || isNaN(amount) || amount <= 0) return '0 đồng';
+  if (amount >= 10_000_000_000_000) return '10.000 tỷ đồng (Tối đa)';
+
+  const ty = Math.floor(amount / 1_000_000_000);
+  const trieu = Math.floor((amount % 1_000_000_000) / 1_000_000);
+  const ngan = Math.floor((amount % 1_000_000) / 1_000);
+  const dong = Math.floor(amount % 1_000);
+
+  const parts = [];
+  if (ty > 0) {
+    parts.push(`${ty.toLocaleString('vi-VN')} tỷ`);
+  }
+  if (trieu > 0) {
+    parts.push(`${trieu} triệu`);
+  }
+  if (ngan > 0 && ty === 0) {
+    parts.push(`${ngan} nghìn`);
+  }
+  if (dong > 0 && ty === 0 && trieu === 0) {
+    parts.push(`${dong}`);
+  }
+
+  return parts.length > 0 ? `${parts.join(' ')} đồng` : '0 đồng';
 }
 
 /**
@@ -45,11 +81,16 @@ export function calculateCompanyCost(company, params) {
     isNewAccount = true
   } = params;
 
-  // 1. Tính phí giao dịch
+  // 1. Tính phí giao dịch:
+  // DNSE và TCBS áp dụng chính sách miễn phí môi giới nhưng thu phí thực tế gồm phí trả Sở (DNSE: 0.045%, TCBS: 0.03%).
+  const isExchangeFeeFixed = ['dnse', 'tcbs'].includes(company.id) || company.tradingFee?.includesExchangeFee;
   let feeRatePercent = company.tradingFee.onlineMin;
   let isZeroFeeApplied = false;
 
-  if (isNewAccount && company.tradingFee.zeroFeeOffer) {
+  if (isExchangeFeeFixed) {
+    feeRatePercent = company.tradingFee.onlineMin;
+    isZeroFeeApplied = false;
+  } else if (isNewAccount && company.tradingFee.zeroFeeOffer) {
     feeRatePercent = 0;
     isZeroFeeApplied = true;
   } else if (company.tradingFee.onlineMin === 0) {
@@ -57,21 +98,24 @@ export function calculateCompanyCost(company, params) {
     isZeroFeeApplied = true;
   }
 
-  const monthlyTradingFee = (monthlyTradingVolume * (feeRatePercent / 100));
+  const monthlyTradingFee = Math.round(monthlyTradingVolume * (feeRatePercent / 100));
 
   // 2. Tính lãi vay Margin:
   // Phân biệt rõ lãi suất tiêu chuẩn (kỳ hạn 90 ngày) và gói lãi suất giao dịch ngắn hạn (T+ / Deal ngắn hạn)
-  let effectiveMarginRate = company.margin.standardRate90d || company.margin.medianRate || company.margin.baseRate;
+  const standard90dRate = company.margin.standardRate90d ?? company.margin.medianRate ?? company.margin.baseRate ?? 10.5;
+  const shortDealRate = company.margin.shortTermRate || company.margin.promoRate || company.margin.minRate || standard90dRate;
+
+  let effectiveMarginRate = standard90dRate;
   
   if (params.marginPackageType === 'short_term') {
-    effectiveMarginRate = company.margin.shortTermRate || company.margin.minRate || company.margin.promoRate;
+    effectiveMarginRate = shortDealRate;
   } else if (params.marginPackageType === 'standard_90d') {
-    effectiveMarginRate = company.margin.standardRate90d || company.margin.medianRate || company.margin.baseRate;
+    effectiveMarginRate = standard90dRate;
   } else if (isNewAccount && company.margin.promoRate) {
     effectiveMarginRate = company.margin.promoRate;
   } else {
     // Mặc định: ưu tiên lãi suất tiêu chuẩn 90 ngày, tiếp đến medianRate
-    effectiveMarginRate = company.margin.standardRate90d || company.margin.medianRate || company.margin.baseRate;
+    effectiveMarginRate = standard90dRate;
   }
 
   // Trừ số ngày miễn lãi nếu có (ví dụ DNSE miễn lãi T+0)
@@ -94,15 +138,17 @@ export function calculateCompanyCost(company, params) {
     effectiveFeeRate: feeRatePercent,
     effectiveMarginRate,
     marginPackageType: params.marginPackageType || 'standard_90d',
-    shortTermRate: company.margin.shortTermRate || company.margin.minRate || effectiveMarginRate,
+    shortTermRate: shortDealRate,
     shortTermTenor: company.margin.shortTermTenor || 'Gói ngắn hạn T+',
-    shortTermDisplay: company.margin.shortTermDisplay || `${company.margin.minRate || effectiveMarginRate}%/năm`,
-    standardRate90d: company.margin.standardRate90d || company.margin.medianRate || company.margin.baseRate,
-    standardRateDisplay: company.margin.standardRateDisplay || `${company.margin.standardRate90d || company.margin.medianRate}%/năm`,
+    shortTermDisplay: (company.margin.shortTermRate || company.margin.promoRate) 
+      ? `Từ ${company.margin.shortTermRate || company.margin.promoRate}%/năm` 
+      : `${standard90dRate}%/năm`,
+    standardRate90d: standard90dRate,
+    standardRateDisplay: company.margin.standardRateDisplay || `${standard90dRate}%/năm (Chuẩn 90 ngày)`,
     isShortTermDealOnly: Boolean(company.margin.isShortTermDealOnly),
     marginMinRate: company.margin.minRate || effectiveMarginRate,
     marginMaxRate: company.margin.maxRate || effectiveMarginRate,
-    marginMedianRate: company.margin.medianRate || effectiveMarginRate,
+    marginMedianRate: company.margin.medianRate ?? standard90dRate,
     marginNotes: company.margin.notes,
     monthlyTradingFee,
     monthlyMarginInterest,

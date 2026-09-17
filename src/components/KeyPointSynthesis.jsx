@@ -12,8 +12,12 @@ import {
   Percent
 } from 'lucide-react';
 
-export default function KeyPointSynthesis({ onSelectCompany }) {
-  const bscUrl = "https://dangky.bsc.com.vn/moi-gioi?online=false&cif=4768";
+export default function KeyPointSynthesis({ companies, onSelectCompany }) {
+  const bsc = companies?.find(c => c.id === 'bsc');
+  const tcbs = companies?.find(c => c.id === 'tcbs');
+  const dnse = companies?.find(c => c.id === 'dnse');
+  const vps = companies?.find(c => c.id === 'vps');
+  const bscUrl = bsc?.accountOpeningUrl || "https://dangky.bsc.com.vn/moi-gioi?online=false&cif=4768";
 
   return (
     <div className="rounded-3xl border border-blue-200 dark:border-blue-900/60 bg-gradient-to-br from-blue-50/70 via-white to-slate-50 dark:from-slate-900/80 dark:via-slate-900 dark:to-slate-950 p-5 sm:p-7 shadow-sm transition-colors">
@@ -65,11 +69,11 @@ export default function KeyPointSynthesis({ onSelectCompany }) {
             <ul className="space-y-3 text-xs sm:text-[13px] text-slate-700 dark:text-slate-300 leading-relaxed">
               <li className="flex items-start gap-2">
                 <CheckCircle2 className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
-                <span><strong>Phí mở mới:</strong> Chỉ <strong>0.08%</strong> (hiện hữu từ 0.10% – 0.13%).</span>
+                <span><strong>Phí mở mới:</strong> Chỉ <strong>{bsc?.tradingFee?.onlineMin || 0.08}%</strong> (hiện hữu từ {bsc?.tradingFee?.onlineMin || 0.08}% – {bsc?.tradingFee?.onlineMax || 0.13}%).</span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle2 className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
-                <span><strong>Lãi vay Margin T+:</strong> Cực rẻ từ <strong>7.5%/năm</strong> (trung vị 10%).</span>
+                <span><strong>Lãi vay Margin T+:</strong> Cực rẻ từ <strong>{bsc?.margin?.shortTermRate || bsc?.margin?.promoRate || 7.5}%/năm</strong> (chuẩn {bsc?.margin?.baseRate || 10.5}%).</span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle2 className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
@@ -85,7 +89,7 @@ export default function KeyPointSynthesis({ onSelectCompany }) {
               rel="noopener noreferrer"
               className="w-full inline-flex items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 px-3.5 py-2.5 text-xs font-black text-white shadow-xs hover:from-amber-600 hover:to-orange-600 transition-all"
             >
-              <span>Mở TK BSC Nhận Ưu Đãi 0.08%</span>
+              <span>Mở TK BSC Nhận Ưu Đãi {bsc?.tradingFee?.onlineMin || 0.08}%</span>
               <ArrowUpRight className="h-3.5 w-3.5" />
             </a>
           </div>
@@ -111,11 +115,11 @@ export default function KeyPointSynthesis({ onSelectCompany }) {
             <ul className="space-y-3 text-xs sm:text-[13px] text-slate-700 dark:text-slate-300 leading-relaxed">
               <li className="flex items-start gap-2">
                 <span className="text-emerald-500 font-bold shrink-0 mt-0.5">•</span>
-                <span><strong>Zero-Fee (0%):</strong> DNSE, TCBS, VPS, Kafi áp dụng chính sách miễn phí trực tuyến.</span>
+                <span><strong>Zero-Fee môi giới:</strong> TCBS ({tcbs?.tradingFee?.onlineMin ?? 0.03}% gồm Sở), DNSE ({dnse?.tradingFee?.onlineMin ?? 0.045}% gồm Sở) miễn 100% phí môi giới.</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-emerald-500 font-bold shrink-0 mt-0.5">•</span>
-                <span><strong>Phí rẻ có tư vấn:</strong> BSC (0.08% – 0.10%), VNDirect (0.10% – 0.15%).</span>
+                <span><strong>Phí rẻ có tư vấn:</strong> BSC ({bsc?.tradingFee?.onlineMin || 0.08}% – {bsc?.tradingFee?.onlineMax || 0.13}%), VNDirect (0.10% – 0.15%).</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-emerald-500 font-bold shrink-0 mt-0.5">•</span>
@@ -125,7 +129,7 @@ export default function KeyPointSynthesis({ onSelectCompany }) {
           </div>
 
           <div className="mt-5 pt-3.5 border-t border-slate-100 dark:border-slate-800 text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-            💡 Lưu ý: Phí chưa bao gồm 0.027% nộp Sở và thuế TNCN khi bán.
+            💡 Lưu ý: Phí giao dịch đã bao gồm phí trả Sở và chưa bao gồm thuế TNCN khi bán.
           </div>
         </div>
 
@@ -149,11 +153,11 @@ export default function KeyPointSynthesis({ onSelectCompany }) {
             <ul className="space-y-3 text-xs sm:text-[13px] text-slate-700 dark:text-slate-300 leading-relaxed">
               <li className="flex items-start gap-2">
                 <span className="text-indigo-500 font-bold shrink-0 mt-0.5">•</span>
-                <span><strong>Chuẩn 90 ngày:</strong> BSC (10.0% – 12.0%, trung vị 10.5%) tối ưu và an toàn nhất; TCBS (10.5%), VPS (13.5% – 14.0%), DNSE (11.5% – 12.5%).</span>
+                <span><strong>Chuẩn 90 ngày:</strong> BSC ({bsc?.margin?.baseRate ?? 10.5}%), TCBS ({tcbs?.margin?.baseRate ?? 14.0}%), VPS ({vps?.margin?.baseRate ?? 13.5}%), DNSE ({dnse?.margin?.baseRate ?? 12.5}%).</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-indigo-500 font-bold shrink-0 mt-0.5">•</span>
-                <span><strong>Deal ngắn hạn (T+):</strong> BSC (từ 7.5%), TCBS (từ 7.99%), VPS (từ 8.6%), DNSE (từ 5.99% – 5 ngày đầu).</span>
+                <span><strong>Deal ngắn hạn (T+):</strong> BSC (từ {bsc?.margin?.shortTermRate || bsc?.margin?.promoRate || 7.5}%), TCBS (từ {tcbs?.margin?.shortTermRate || tcbs?.margin?.promoRate || 7.99}%), VPS (từ {vps?.margin?.shortTermRate || vps?.margin?.promoRate || 8.6}%), DNSE (từ {dnse?.margin?.shortTermRate || dnse?.margin?.promoRate || 5.99}%).</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-indigo-500 font-bold shrink-0 mt-0.5">•</span>
