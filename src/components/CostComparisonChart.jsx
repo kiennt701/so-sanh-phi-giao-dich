@@ -124,6 +124,46 @@ export default function CostComparisonChart({
             );
           })}
 
+          {/* Horizontal Break-Even Reference Line */}
+          {(() => {
+            const top1Cost = chartData[0]?.totalMonthlyCost || 0;
+            const refLineY = topPadding + availableHeight - (top1Cost / yAxisMax) * availableHeight;
+            return (
+              <g className="transition-all duration-300">
+                <line
+                  x1={leftPadding - 8}
+                  y1={refLineY}
+                  x2={chartWidth - rightPadding - 92}
+                  y2={refLineY}
+                  stroke="#10b981"
+                  strokeWidth="1.5"
+                  strokeDasharray="4 3"
+                  opacity="0.9"
+                />
+                <g transform={`translate(${chartWidth - rightPadding - 88}, ${refLineY - 9})`}>
+                  <rect
+                    x="0"
+                    y="0"
+                    width="88"
+                    height="18"
+                    rx="9"
+                    fill="#064e3b"
+                    stroke="#10b981"
+                    strokeWidth="1"
+                  />
+                  <text
+                    x="44"
+                    y="12"
+                    textAnchor="middle"
+                    className="text-[9px] font-black fill-emerald-300"
+                  >
+                    Hòa vốn {getBreakEvenRatio(top1Cost)}
+                  </text>
+                </g>
+              </g>
+            );
+          })()}
+
           {/* Bars */}
           {chartData.map((item, idx) => {
             const colSpacing = availableWidth / chartData.length;
