@@ -388,7 +388,7 @@ export default function DataManagementModal({
                   disabled={!currentUser}
                   value={editForm.onlineMin}
                   onChange={(e) => setEditForm({ ...editForm, onlineMin: e.target.value })}
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-xs font-bold dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-850 disabled:cursor-not-allowed disabled:text-slate-500"
+                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-xs font-bold dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed disabled:text-slate-500"
                 />
               </div>
 
@@ -404,7 +404,7 @@ export default function DataManagementModal({
                   disabled={!currentUser}
                   value={editForm.onlineMax}
                   onChange={(e) => setEditForm({ ...editForm, onlineMax: e.target.value })}
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-xs font-bold dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-850 disabled:cursor-not-allowed disabled:text-slate-500"
+                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-xs font-bold dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed disabled:text-slate-500"
                 />
               </div>
             </div>
@@ -438,7 +438,7 @@ export default function DataManagementModal({
                   disabled={!currentUser}
                   value={editForm.marginBaseRate}
                   onChange={(e) => setEditForm({ ...editForm, marginBaseRate: e.target.value })}
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-xs font-bold dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-850 disabled:cursor-not-allowed disabled:text-slate-500"
+                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-xs font-bold dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed disabled:text-slate-500"
                 />
               </div>
 
@@ -454,7 +454,7 @@ export default function DataManagementModal({
                   disabled={!currentUser}
                   value={editForm.marginPromoRate}
                   onChange={(e) => setEditForm({ ...editForm, marginPromoRate: e.target.value })}
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-xs font-bold text-blue-600 dark:border-slate-700 dark:bg-slate-800 dark:text-blue-400 disabled:bg-slate-100 dark:disabled:bg-slate-850 disabled:cursor-not-allowed disabled:text-slate-500"
+                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-xs font-bold text-blue-600 dark:border-slate-700 dark:bg-slate-800 dark:text-blue-400 disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed disabled:text-slate-500"
                 />
               </div>
 
@@ -467,7 +467,7 @@ export default function DataManagementModal({
                   disabled={!currentUser}
                   value={editForm.maxLeverage}
                   onChange={(e) => setEditForm({ ...editForm, maxLeverage: e.target.value })}
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-xs font-bold dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-850 disabled:cursor-not-allowed disabled:text-slate-500"
+                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-xs font-bold dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed disabled:text-slate-500"
                 />
               </div>
             </div>
@@ -482,7 +482,7 @@ export default function DataManagementModal({
                 disabled={!currentUser}
                 value={editForm.accountOpeningUrl}
                 onChange={(e) => setEditForm({ ...editForm, accountOpeningUrl: e.target.value })}
-                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-xs font-mono dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-850 disabled:cursor-not-allowed disabled:text-slate-500"
+                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-xs font-mono dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed disabled:text-slate-500"
               />
             </div>
 
@@ -712,7 +712,7 @@ export default function DataManagementModal({
                       key={broker.id} 
                       className={`p-3.5 transition-colors ${
                         broker.isAccessible 
-                          ? 'hover:bg-slate-50 dark:hover:bg-slate-850' 
+                          ? 'hover:bg-slate-50 dark:hover:bg-slate-800' 
                           : 'bg-amber-50/40 dark:bg-amber-950/20 hover:bg-amber-50/70 dark:hover:bg-amber-950/30'
                       }`}
                     >

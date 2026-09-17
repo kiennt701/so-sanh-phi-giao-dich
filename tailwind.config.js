@@ -11,6 +11,9 @@ export default {
         sans: ['"Be Vietnam Pro"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif'],
       },
       colors: {
+        slate: {
+          850: '#141d2d',
+        },
         brand: {
           50: '#f0f7ff',
           100: '#e0effe',

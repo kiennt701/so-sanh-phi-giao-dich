@@ -41,7 +41,7 @@ export default function HeadToHeadModal({
                 {companies.map((company) => (
                   <th
                     key={company.id}
-                    className="sticky top-0 z-20 py-4 px-4 min-w-[240px] text-center bg-slate-50/95 dark:bg-slate-850/95 backdrop-blur-sm shadow-sm"
+                    className="sticky top-0 z-20 py-4 px-4 min-w-[240px] text-center bg-slate-50/95 dark:bg-slate-800/95 backdrop-blur-sm shadow-sm"
                   >
                     <div className="flex flex-col items-center">
                       <div className="relative mb-2">
