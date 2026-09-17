@@ -1,0 +1,2025 @@
+{
+  "metadata": {
+    "title": "Cơ Sở Dữ Liệu Hiệu Chỉnh Thủ Công 30 Công Ty Chứng Khoán Việt Nam",
+    "version": "2.2.1",
+    "updatedAt": "2026-09-17T01:49:07.029Z",
+    "totalBrokers": 30,
+    "accessibleBrokers": 26,
+    "unscannableBrokers": 4,
+    "instruction": "Người dùng có thể chỉnh sửa các giá trị phí, lãi suất vay margin, mã niêm yết hoặc link nguồn trong file này, sau đó nạp trực tiếp qua nút Tải lên file JSON tại Modal Quản Lý Dữ Liệu."
+  },
+  "overrides": {
+    "bsc": {
+      "tradingFee": {
+        "onlineMin": 0.08,
+        "onlineMax": 0.13,
+        "zeroFeeOffer": false,
+        "displaySummary": "0.08% - 0.13% (Trực tuyến ưu đãi)",
+        "notes": "Mức phí giao dịch thấp nhất là 0.08% (áp dụng ưu đãi mở mới và Inactive, khách hàng phổ thông hiện hữu từ 0.08% - 0.13%). Có chuyên gia tư vấn từ 0.10% - 0.15%."
+      },
+      "margin": {
+        "standardRate90d": 10.5,
+        "standardRateDisplay": "10.5% - 12.0%/năm (Chuẩn 90 ngày)",
+        "shortTermRate": 7.5,
+        "baseRate": 10.5,
+        "promoRate": 7.5,
+        "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+        "notes": "Lãi suất margin thấp nhất là 10.5%/năm cho kỳ hạn tiêu chuẩn 90 ngày (phổ thông 10.5% - 12.0%/năm, không yêu cầu điều kiện dư nợ tối thiểu), nguồn vốn Big4 BIDV & Hana Securities dồi dào, an toàn vốn tuyệt đối qua mọi chu kỳ. Gói deal ngắn hạn T+ chỉ từ 7.5%/năm."
+      },
+      "listingInfo": {
+        "stockCode": "BSI",
+        "listingExchange": "HOSE",
+        "isListed": true,
+        "listingStatus": "Niêm yết HOSE"
+      },
+      "sourceUrl": "https://www.bsc.com.vn/phi-giao-dich-qua-san/",
+      "accountOpeningUrl": "https://dangky.bsc.com.vn/moi-gioi?online=false&cif=4768"
+    },
+    "tcbs": {
+      "tradingFee": {
+        "onlineMin": 0,
+        "onlineMax": 0,
+        "zeroFeeOffer": true,
+        "displaySummary": "Zero-Fee (0% phí giao dịch trọn đời)",
+        "notes": "Tiên phong miễn phí 100% phí giao dịch cổ phiếu, chứng chỉ quỹ và phái sinh (chỉ trả phí Sở và Thuế)."
+      },
+      "margin": {
+        "standardRate90d": 14,
+        "standardRateDisplay": "14.0%/năm (Phổ thông hiện hữu)",
+        "shortTermRate": 7.99,
+        "baseRate": 14,
+        "promoRate": 7.99,
+        "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+        "notes": "Lãi suất vay margin phổ thông cho khách hàng hiện hữu là 14.0%/năm (không yêu cầu điều kiện dư nợ tối thiểu). Các mức 7.99% - 10.5% chỉ áp dụng theo danh mục deal hạn chế hoặc có điều kiện dư nợ lớn/kỳ hạn ngắn hạn."
+      },
+      "listingInfo": {
+        "stockCode": "TCX",
+        "listingExchange": "HOSE",
+        "isListed": true,
+        "listingStatus": "Niêm yết HOSE"
+      },
+      "sourceUrl": "https://www.tcbs.com.vn/bieu-phi",
+      "accountOpeningUrl": "https://tcinvest.tcbs.com.vn/"
+    },
+    "vps": {
+      "tradingFee": {
+        "onlineMin": 0.13,
+        "onlineMax": 0.15,
+        "zeroFeeOffer": false,
+        "displaySummary": "0.13% - 0.15% (Chuẩn thường)",
+        "notes": "Miễn phí giao dịch 6 tháng đầu cho tài khoản mở mới (tiểu khoản đuôi 1 và 6). Sau ưu đãi áp dụng 0.13% - 0.15%."
+      },
+      "margin": {
+        "standardRate90d": 13.5,
+        "standardRateDisplay": "13.5% - 14.0%/năm (Chuẩn 90 ngày)",
+        "shortTermRate": 8.6,
+        "baseRate": 13.5,
+        "promoRate": 7.5,
+        "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK) / Gói HTKD tới 3:7",
+        "notes": "LƯU Ý: Lãi suất thấp 8.6% - 9.8% chỉ áp dụng cho giao dịch lướt sóng ngắn hạn (gói T+5, T+10 hoặc miễn lãi T+2). Lãi suất vay tiêu chuẩn 90 ngày lên tới 13.5% - 14.0%/năm (thuộc nhóm cao nhất thị trường)."
+      },
+      "listingInfo": {
+        "stockCode": "VCK",
+        "listingExchange": "HOSE",
+        "isListed": true,
+        "listingStatus": "Niêm yết HOSE"
+      },
+      "sourceUrl": "https://vps.com.vn/bieu-phi",
+      "accountOpeningUrl": "https://openaccount.vps.com.vn/"
+    },
+    "ssi": {
+      "tradingFee": {
+        "onlineMin": 0.1,
+        "onlineMax": 0.15,
+        "zeroFeeOffer": false,
+        "displaySummary": "0.10% - 0.15% (Chính sách linh hoạt)",
+        "notes": "Phí giao dịch theo bậc thang giá trị tài sản và gói dịch vụ. Chương trình ưu đãi phí cho nhà đầu tư chủ động."
+      },
+      "margin": {
+        "standardRate90d": 12,
+        "standardRateDisplay": "11.5% - 13.0%/năm (Chuẩn 90 ngày)",
+        "shortTermRate": 9,
+        "baseRate": 11.25,
+        "promoRate": 9,
+        "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+        "notes": "Ưu đãi gói T+ ngắn hạn từ 9.0%/năm. Kỳ hạn vay tiêu chuẩn 90 ngày áp dụng mức lãi 11.5% - 13.0%/năm."
+      },
+      "listingInfo": {
+        "stockCode": "SSI",
+        "listingExchange": "HOSE",
+        "isListed": true,
+        "listingStatus": "Niêm yết HOSE"
+      },
+      "sourceUrl": "https://www.ssi.com.vn/bieu-phi",
+      "accountOpeningUrl": "https://www.ssi.com.vn/khach-hang-ca-nhan/mo-tai-khoan"
+    },
+    "vndirect": {
+      "tradingFee": {
+        "onlineMin": 0.1,
+        "onlineMax": 0.15,
+        "zeroFeeOffer": false,
+        "displaySummary": "0.10% - 0.15% (Linh hoạt theo tài sản)",
+        "notes": "Chính sách biểu phí D-Stock linh hoạt theo quy mô tài sản và hạn mức giao dịch."
+      },
+      "margin": {
+        "standardRate90d": 12.5,
+        "standardRateDisplay": "12.0% - 13.5%/năm (Chuẩn 90 ngày)",
+        "shortTermRate": 9.5,
+        "baseRate": 11.5,
+        "promoRate": 8.9,
+        "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+        "notes": "Gói D-Margin ưu đãi lãi suất 9.5% trong 30 ngày đầu. Kỳ hạn tiêu chuẩn 90 ngày áp dụng lãi suất 12.0% - 13.5%/năm."
+      },
+      "listingInfo": {
+        "stockCode": "VND",
+        "listingExchange": "HOSE",
+        "isListed": true,
+        "listingStatus": "Niêm yết HOSE"
+      },
+      "sourceUrl": "https://www.vndirect.com.vn/bieu-phi",
+      "accountOpeningUrl": "https://accounts.vndirect.com.vn/"
+    },
+    "mirae-asset": {
+      "tradingFee": {
+        "onlineMin": 0.1,
+        "onlineMax": 0.15,
+        "zeroFeeOffer": false,
+        "displaySummary": "0.10% - 0.15% (Cạnh tranh)",
+        "notes": "Biểu phí minh bạch, ổn định, cạnh tranh so với các công ty có vốn nước ngoài."
+      },
+      "margin": {
+        "standardRate90d": 11.5,
+        "standardRateDisplay": "11.0% - 12.5%/năm (Chuẩn 90 ngày)",
+        "shortTermRate": 9,
+        "baseRate": 10.75,
+        "promoRate": 7.99,
+        "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+        "notes": "Ưu đãi ngắn hạn 60 ngày đầu mở tài khoản từ 9.0%/năm. Dư nợ tiêu chuẩn 90 ngày áp dụng 11.0% - 12.5%/năm."
+      },
+      "listingInfo": {
+        "stockCode": null,
+        "listingExchange": null,
+        "isListed": false,
+        "listingStatus": "Chưa niêm yết (FDI Hàn Quốc)"
+      },
+      "sourceUrl": "https://masvn.com/bieu-phi",
+      "accountOpeningUrl": "https://masvn.com/register"
+    },
+    "dnse": {
+      "tradingFee": {
+        "onlineMin": 0,
+        "onlineMax": 0,
+        "zeroFeeOffer": true,
+        "displaySummary": "Zero-Fee trọn đời (0% phí GD)",
+        "notes": "Miễn phí 100% phí giao dịch cổ phiếu trọn đời trên nền tảng số Entrade X."
+      },
+      "margin": {
+        "standardRate90d": 11.5,
+        "standardRateDisplay": "11.5% - 12.5%/năm (Chuẩn 90 ngày)",
+        "shortTermRate": 5.99,
+        "baseRate": 8.75,
+        "promoRate": 5.99,
+        "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK) / Margin Deal linh hoạt",
+        "notes": "LƯU Ý ĐẶC BIỆT: Mức lãi 5.99% tại DNSE là sản phẩm Margin Deal chỉ áp dụng cho thời gian nắm giữ siêu ngắn (5 ngày). Gói 10 ngày áp dụng 8.99%/năm. Dư nợ tiêu chuẩn kỳ hạn 90 ngày áp dụng lãi suất 11.5% - 12.5%/năm."
+      },
+      "listingInfo": {
+        "stockCode": "DSE",
+        "listingExchange": "HOSE",
+        "isListed": true,
+        "listingStatus": "Niêm yết HOSE"
+      },
+      "sourceUrl": "https://www.dnse.com.vn/bieu-phi",
+      "accountOpeningUrl": "https://www.dnse.com.vn/mo-tai-khoan"
+    },
+    "vpbanks": {
+      "tradingFee": {
+        "onlineMin": 0.1,
+        "onlineMax": 0.15,
+        "zeroFeeOffer": false,
+        "displaySummary": "0.10% - 0.15% (Chuẩn thường)",
+        "notes": "Chính sách miễn phí giao dịch trong thời gian đầu mở tài khoản, sau đó áp dụng mức phí cạnh tranh."
+      },
+      "margin": {
+        "standardRate90d": 11.8,
+        "standardRateDisplay": "11.5% - 12.5%/năm (Chuẩn 90 ngày)",
+        "shortTermRate": 9.5,
+        "baseRate": 11,
+        "promoRate": 8.6,
+        "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+        "notes": "Gói ưu đãi mở mới từ 9.5%/năm. Lãi suất tiêu chuẩn 90 ngày khoảng 11.5% - 12.5%/năm."
+      },
+      "listingInfo": {
+        "stockCode": null,
+        "listingExchange": null,
+        "isListed": false,
+        "listingStatus": "Chưa niêm yết (Thuộc VPBank)"
+      },
+      "sourceUrl": "https://www.vpbanks.com.vn/bieu-phi",
+      "accountOpeningUrl": "https://www.vpbanks.com.vn/mo-tai-khoan"
+    },
+    "fpts": {
+      "tradingFee": {
+        "onlineMin": 0.08,
+        "onlineMax": 0.15,
+        "zeroFeeOffer": false,
+        "displaySummary": "0.08% - 0.15% (Biểu phí bậc thang)",
+        "notes": "Biểu phí bậc thang tính theo tổng giá trị khớp lệnh trong ngày. Giao dịch càng nhiều, phí càng rẻ (tối thiểu 0.08%)."
+      },
+      "margin": {
+        "standardRate90d": 12.5,
+        "standardRateDisplay": "12.0% - 13.5%/năm (Chuẩn 90 ngày)",
+        "shortTermRate": 10.5,
+        "baseRate": 12,
+        "promoRate": 9.5,
+        "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+        "notes": "Ưu đãi hạn mức từ 10.5%/năm. Kỳ hạn chuẩn 90 ngày áp dụng 12.0% - 13.5%/năm, quản trị rủi ro chặt chẽ."
+      },
+      "listingInfo": {
+        "stockCode": "FTS",
+        "listingExchange": "HOSE",
+        "isListed": true,
+        "listingStatus": "Niêm yết HOSE"
+      },
+      "sourceUrl": "https://www.fpts.com.vn/bieu-phi",
+      "accountOpeningUrl": "https://ezopen.fpts.com.vn/"
+    },
+    "hsc": {
+      "tradingFee": {
+        "onlineMin": 0.1,
+        "onlineMax": 0.15,
+        "zeroFeeOffer": false,
+        "displaySummary": "0.10% - 0.15% (Chuyên nghiệp)",
+        "notes": "Chính sách phân tầng dịch vụ rõ rệt: Tự giao dịch và Tư vấn chuyên gia cao cấp."
+      },
+      "margin": {
+        "standardRate90d": 12,
+        "standardRateDisplay": "11.5% - 13.0%/năm (Chuẩn 90 ngày)",
+        "shortTermRate": 9.5,
+        "baseRate": 11.5,
+        "promoRate": 9,
+        "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+        "notes": "Chính sách ưu đãi kích cầu ngắn hạn từ 9.5%/năm. Kỳ hạn tiêu chuẩn 90 ngày từ 11.5% - 13.0%/năm."
+      },
+      "listingInfo": {
+        "stockCode": "HCM",
+        "listingExchange": "HOSE",
+        "isListed": true,
+        "listingStatus": "Niêm yết HOSE"
+      },
+      "sourceUrl": "https://www.hsc.com.vn/bieu-phi",
+      "accountOpeningUrl": "https://register.hsc.com.vn/"
+    },
+    "vietcap": {
+      "tradingFee": {
+        "onlineMin": 0.1,
+        "onlineMax": 0.15,
+        "zeroFeeOffer": false,
+        "displaySummary": "0.10% - 0.15% (Chuẩn định chế)",
+        "notes": "Tập trung vào chất lượng dịch vụ và tư vấn chuyên sâu."
+      },
+      "margin": {
+        "standardRate90d": 11.5,
+        "standardRateDisplay": "11.0% - 12.5%/năm (Chuẩn 90 ngày)",
+        "shortTermRate": 9,
+        "baseRate": 11,
+        "promoRate": 9,
+        "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+        "notes": "Ưu đãi cho khách hàng VIP và hạn mức lớn từ 9.0%/năm. Kỳ hạn chuẩn 90 ngày từ 11.0% - 12.5%/năm."
+      },
+      "listingInfo": {
+        "stockCode": "VCI",
+        "listingExchange": "HOSE",
+        "isListed": true,
+        "listingStatus": "Niêm yết HOSE"
+      },
+      "sourceUrl": "https://www.vietcap.com.vn/bieu-phi",
+      "accountOpeningUrl": "https://www.vietcap.com.vn/mo-tai-khoan"
+    },
+    "kafi": {
+      "tradingFee": {
+        "onlineMin": 0.1,
+        "onlineMax": 0.15,
+        "zeroFeeOffer": false,
+        "displaySummary": "0.10% - 0.15% (Chuẩn thường)",
+        "notes": "Chính sách miễn phí giao dịch mở mới, gói phí cực thấp sau ưu đãi."
+      },
+      "margin": {
+        "standardRate90d": 11,
+        "standardRateDisplay": "10.5% - 11.8%/năm (Chuẩn 90 ngày)",
+        "shortTermRate": 7.8,
+        "baseRate": 9.8,
+        "promoRate": 7.8,
+        "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK) / Gói Hợp tác đầu tư",
+        "notes": "Chính sách linh hoạt cho gói lướt ngắn hạn từ 7.8%/năm. Dư nợ tiêu chuẩn 90 ngày áp dụng 10.5% - 11.8%/năm."
+      },
+      "listingInfo": {
+        "stockCode": null,
+        "listingExchange": null,
+        "isListed": false,
+        "listingStatus": "Chưa niêm yết"
+      },
+      "sourceUrl": "https://kafi.vn/bieu-phi",
+      "accountOpeningUrl": "https://kafi.vn/mo-tai-khoan"
+    },
+    "mbs": {
+      "tradingFee": {
+        "onlineMin": 0.1,
+        "onlineMax": 0.15,
+        "zeroFeeOffer": false,
+        "displaySummary": "0.10% - 0.15% (Ưu đãi eKYC)",
+        "notes": "Biểu phí cạnh tranh cho khách hàng mở tài khoản eKYC trực tuyến, tích hợp toàn diện hệ sinh thái MB."
+      },
+      "margin": {
+        "standardRate90d": 11.8,
+        "standardRateDisplay": "11.0% - 12.5%/năm (Chuẩn 90 ngày)",
+        "shortTermRate": 8.5,
+        "baseRate": 10.5,
+        "promoRate": 8.5,
+        "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+        "notes": "Gói M-Margin ưu đãi 30 ngày đầu từ 8.5%/năm. Kỳ hạn chuẩn 90 ngày từ 11.0% - 12.5%/năm, nguồn vốn ngân hàng MBBank."
+      },
+      "listingInfo": {
+        "stockCode": "MBS",
+        "listingExchange": "HNX",
+        "isListed": true,
+        "listingStatus": "Niêm yết HNX"
+      },
+      "sourceUrl": "https://mbs.com.vn/bieu-phi/",
+      "accountOpeningUrl": "https://mbs.com.vn/mo-tai-khoan/"
+    },
+    "shs": {
+      "tradingFee": {
+        "onlineMin": 0.1,
+        "onlineMax": 0.15,
+        "zeroFeeOffer": false,
+        "displaySummary": "0.10% - 0.15%",
+        "notes": "Phí giao dịch trực tuyến cạnh tranh qua ứng dụng SHS Mobile."
+      },
+      "margin": {
+        "standardRate90d": 12.5,
+        "standardRateDisplay": "12.0% - 13.5%/năm (Chuẩn 90 ngày)",
+        "shortTermRate": 9.9,
+        "baseRate": 11.7,
+        "promoRate": 8.9,
+        "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+        "notes": "Ưu đãi theo quý từ 9.9%/năm. Kỳ hạn tiêu chuẩn 90 ngày áp dụng 12.0% - 13.5%/năm."
+      },
+      "listingInfo": {
+        "stockCode": "SHS",
+        "listingExchange": "HNX",
+        "isListed": true,
+        "listingStatus": "Niêm yết HNX"
+      },
+      "sourceUrl": "https://www.shs.com.vn/bieu-phi",
+      "accountOpeningUrl": "https://openaccount.shs.com.vn/"
+    },
+    "vix": {
+      "tradingFee": {
+        "onlineMin": 0.1,
+        "onlineMax": 0.15,
+        "zeroFeeOffer": false,
+        "displaySummary": "0.10% - 0.15%",
+        "notes": "Biểu phí giao dịch cạnh tranh dành cho nhà đầu tư chủ động."
+      },
+      "margin": {
+        "standardRate90d": 12.5,
+        "standardRateDisplay": "12.0% - 13.5%/năm (Chuẩn 90 ngày)",
+        "shortTermRate": 10,
+        "baseRate": 11.75,
+        "promoRate": 8.8,
+        "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+        "notes": "Chính sách ưu đãi giao dịch ngắn hạn từ 10.0%/năm. Kỳ hạn chuẩn 90 ngày từ 12.0% - 13.5%/năm."
+      },
+      "listingInfo": {
+        "stockCode": "VIX",
+        "listingExchange": "HOSE",
+        "isListed": true,
+        "listingStatus": "Niêm yết HOSE"
+      },
+      "sourceUrl": "https://vixs.vn/bieu-phi",
+      "accountOpeningUrl": "https://vixs.vn/mo-tai-khoan"
+    },
+    "kis": {
+      "tradingFee": {
+        "onlineMin": 0.1,
+        "onlineMax": 0.15,
+        "zeroFeeOffer": false,
+        "displaySummary": "0.10% - 0.15%",
+        "notes": "Biểu phí ổn định theo tiêu chuẩn kiểm toán quốc tế Hàn Quốc."
+      },
+      "margin": {
+        "standardRate90d": 11.8,
+        "standardRateDisplay": "11.5% - 12.5%/năm (Chuẩn 90 ngày)",
+        "shortTermRate": 9.5,
+        "baseRate": 11,
+        "promoRate": 7.99,
+        "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+        "notes": "Nguồn vốn FDI Hàn Quốc, ưu đãi mở mới từ 9.5%/năm. Kỳ hạn tiêu chuẩn 90 ngày áp dụng 11.5% - 12.5%/năm."
+      },
+      "listingInfo": {
+        "stockCode": null,
+        "listingExchange": null,
+        "isListed": false,
+        "listingStatus": "Chưa niêm yết (FDI Hàn Quốc)"
+      },
+      "sourceUrl": "https://kisvn.vn/bieu-phi",
+      "accountOpeningUrl": "https://kisvn.vn/mo-tai-khoan"
+    },
+    "acbs": {
+      "tradingFee": {
+        "onlineMin": 0.1,
+        "onlineMax": 0.15,
+        "zeroFeeOffer": false,
+        "displaySummary": "0.10% - 0.15%",
+        "notes": "Biểu phí minh bạch, chuẩn định chế tài chính ngân hàng Á Châu (ACB)."
+      },
+      "margin": {
+        "standardRate90d": 11.8,
+        "standardRateDisplay": "11.5% - 12.5%/năm (Chuẩn 90 ngày)",
+        "shortTermRate": 9.5,
+        "baseRate": 11,
+        "promoRate": 8.5,
+        "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+        "notes": "Ưu đãi khách hàng liên kết ACB từ 9.5%/năm. Kỳ hạn chuẩn 90 ngày áp dụng 11.5% - 12.5%/năm."
+      },
+      "listingInfo": {
+        "stockCode": null,
+        "listingExchange": null,
+        "isListed": false,
+        "listingStatus": "Chưa niêm yết (Thuộc ACB)"
+      },
+      "sourceUrl": "https://acbs.com.vn/bieu-phi",
+      "accountOpeningUrl": "https://acbs.com.vn/mo-tai-khoan"
+    },
+    "vcbs": {
+      "tradingFee": {
+        "onlineMin": 0.12,
+        "onlineMax": 0.15,
+        "zeroFeeOffer": false,
+        "displaySummary": "0.12% - 0.15%",
+        "notes": "Biểu phí ổn định, bảo chứng uy tín tuyệt đối từ Ngân hàng Ngoại thương Việt Nam."
+      },
+      "margin": {
+        "standardRate90d": 11.5,
+        "standardRateDisplay": "11.0% - 12.5%/năm (Chuẩn 90 ngày)",
+        "shortTermRate": 10,
+        "baseRate": 11.25,
+        "promoRate": 8.5,
+        "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+        "notes": "Chính sách bậc thang Vietcombank từ 10.0%/năm cho hạn mức lớn. Kỳ hạn chuẩn 90 ngày 11.0% - 12.5%/năm."
+      },
+      "listingInfo": {
+        "stockCode": null,
+        "listingExchange": null,
+        "isListed": false,
+        "listingStatus": "Chưa niêm yết (Thuộc Vietcombank)"
+      },
+      "sourceUrl": "https://vcbs.com.vn/bieu-phi",
+      "accountOpeningUrl": "https://vcbs.com.vn/mo-tai-khoan"
+    },
+    "kbsv": {
+      "tradingFee": {
+        "onlineMin": 0.1,
+        "onlineMax": 0.15,
+        "zeroFeeOffer": false,
+        "displaySummary": "0.10% - 0.15%",
+        "notes": "Phí giao dịch cạnh tranh, tư vấn đầu tư chuyên nghiệp."
+      },
+      "margin": {
+        "standardRate90d": 11.8,
+        "standardRateDisplay": "11.5% - 12.5%/năm (Chuẩn 90 ngày)",
+        "shortTermRate": 9,
+        "baseRate": 10.75,
+        "promoRate": 7.9,
+        "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+        "notes": "Vốn tập đoàn KB Hàn Quốc, gói ngắn hạn từ 9.0%/năm. Dư nợ tiêu chuẩn 90 ngày từ 11.5% - 12.5%/năm."
+      },
+      "listingInfo": {
+        "stockCode": null,
+        "listingExchange": null,
+        "isListed": false,
+        "listingStatus": "Chưa niêm yết (FDI Hàn Quốc)"
+      },
+      "sourceUrl": "https://kbsec.com.vn/bieu-phi",
+      "accountOpeningUrl": "https://kbsec.com.vn/mo-tai-khoan"
+    },
+    "cts": {
+      "tradingFee": {
+        "onlineMin": 0.1,
+        "onlineMax": 0.15,
+        "zeroFeeOffer": false,
+        "displaySummary": "0.10% - 0.15%",
+        "notes": "Biểu phí cạnh tranh theo quy chuẩn định chế ngân hàng VietinBank."
+      },
+      "margin": {
+        "standardRate90d": 12,
+        "standardRateDisplay": "11.5% - 13.0%/năm (Chuẩn 90 ngày)",
+        "shortTermRate": 10,
+        "baseRate": 11.5,
+        "promoRate": 8.5,
+        "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+        "notes": "Nguồn vốn ổn định VietinBank, ưu đãi từ 10.0%/năm. Kỳ hạn chuẩn 90 ngày từ 11.5% - 13.0%/năm."
+      },
+      "listingInfo": {
+        "stockCode": "CTS",
+        "listingExchange": "HOSE",
+        "isListed": true,
+        "listingStatus": "Niêm yết HOSE"
+      },
+      "sourceUrl": "https://cts.vn/bieu-phi",
+      "accountOpeningUrl": "https://cts.vn/mo-tai-khoan"
+    },
+    "bvsc": {
+      "tradingFee": {
+        "onlineMin": 0.1,
+        "onlineMax": 0.15,
+        "zeroFeeOffer": false,
+        "displaySummary": "0.10% - 0.15%",
+        "notes": "Biểu phí ổn định, dịch vụ tư vấn nghiên cứu uy tín từ 1999."
+      },
+      "margin": {
+        "standardRate90d": 12,
+        "standardRateDisplay": "11.5% - 13.0%/năm (Chuẩn 90 ngày)",
+        "shortTermRate": 10,
+        "baseRate": 11.5,
+        "promoRate": 8.8,
+        "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+        "notes": "Bảo trợ từ Tập đoàn Bảo Việt, ưu đãi từ 10.0%/năm. Kỳ hạn chuẩn 90 ngày từ 11.5% - 13.0%/năm."
+      },
+      "listingInfo": {
+        "stockCode": "BVS",
+        "listingExchange": "HNX",
+        "isListed": true,
+        "listingStatus": "Niêm yết HNX"
+      },
+      "sourceUrl": "https://bvsc.com.vn/bieu-phi",
+      "accountOpeningUrl": "https://bvsc.com.vn/mo-tai-khoan"
+    },
+    "tps": {
+      "tradingFee": {
+        "onlineMin": 0.1,
+        "onlineMax": 0.15,
+        "zeroFeeOffer": false,
+        "displaySummary": "0.10% - 0.15%",
+        "notes": "Biểu phí cạnh tranh, liên kết chặt chẽ ngân hàng số TPBank."
+      },
+      "margin": {
+        "standardRate90d": 11.8,
+        "standardRateDisplay": "11.5% - 12.5%/năm (Chuẩn 90 ngày)",
+        "shortTermRate": 9.5,
+        "baseRate": 11,
+        "promoRate": 8.6,
+        "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+        "notes": "Liên kết TPBank, ưu đãi mở mới từ 9.5%/năm. Kỳ hạn chuẩn 90 ngày từ 11.5% - 12.5%/năm."
+      },
+      "listingInfo": {
+        "stockCode": "ORS",
+        "listingExchange": "HOSE",
+        "isListed": true,
+        "listingStatus": "Niêm yết HOSE"
+      },
+      "sourceUrl": "https://tpbs.com.vn/bieu-phi",
+      "accountOpeningUrl": "https://tpbs.com.vn/mo-tai-khoan"
+    },
+    "yuanta": {
+      "tradingFee": {
+        "onlineMin": 0.1,
+        "onlineMax": 0.15,
+        "zeroFeeOffer": false,
+        "displaySummary": "0.10% - 0.15%",
+        "notes": "Biểu phí ổn định, cung cấp công cụ phân tích YSRadar độc quyền."
+      },
+      "margin": {
+        "standardRate90d": 11.2,
+        "standardRateDisplay": "11.0% - 12.0%/năm (Chuẩn 90 ngày)",
+        "shortTermRate": 8.8,
+        "baseRate": 10.4,
+        "promoRate": 7.99,
+        "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+        "notes": "Vốn từ Yuanta Đài Loan, ưu đãi ban đầu từ 8.8%/năm. Dư nợ chuẩn 90 ngày sau ưu đãi từ 11.0% - 12.0%/năm."
+      },
+      "listingInfo": {
+        "stockCode": null,
+        "listingExchange": null,
+        "isListed": false,
+        "listingStatus": "Chưa niêm yết (FDI Đài Loan)"
+      },
+      "sourceUrl": "https://yuanta.com.vn/bieu-phi",
+      "accountOpeningUrl": "https://yuanta.com.vn/mo-tai-khoan"
+    },
+    "shinhan": {
+      "tradingFee": {
+        "onlineMin": 0.1,
+        "onlineMax": 0.15,
+        "zeroFeeOffer": false,
+        "displaySummary": "0.10% - 0.15%",
+        "notes": "Phí dịch vụ minh bạch chuẩn Hàn Quốc."
+      },
+      "margin": {
+        "standardRate90d": 11.2,
+        "standardRateDisplay": "11.0% - 12.0%/năm (Chuẩn 90 ngày)",
+        "shortTermRate": 8.5,
+        "baseRate": 10.25,
+        "promoRate": 8,
+        "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+        "notes": "Vốn từ Shinhan Financial Group, ưu đãi qua app SOL từ 8.5%/năm. Dư nợ tiêu chuẩn 90 ngày từ 11.0% - 12.0%/năm."
+      },
+      "listingInfo": {
+        "stockCode": null,
+        "listingExchange": null,
+        "isListed": false,
+        "listingStatus": "Chưa niêm yết (FDI Hàn Quốc)"
+      },
+      "sourceUrl": "https://shinhansec.com.vn/bieu-phi",
+      "accountOpeningUrl": "https://shinhansec.com.vn/mo-tai-khoan"
+    },
+    "agriseco": {
+      "tradingFee": {
+        "onlineMin": 0.1,
+        "onlineMax": 0.15,
+        "zeroFeeOffer": false,
+        "displaySummary": "0.10% - 0.15%",
+        "notes": "Biểu phí ổn định, độ an toàn cao."
+      },
+      "margin": {
+        "standardRate90d": 12.5,
+        "standardRateDisplay": "12.0% - 13.0%/năm (Chuẩn 90 ngày)",
+        "shortTermRate": 10.5,
+        "baseRate": 11.75,
+        "promoRate": 8.8,
+        "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+        "notes": "Bảo chứng Ngân hàng Nông nghiệp Agribank, ưu đãi từ 10.5%/năm. Kỳ hạn chuẩn 90 ngày từ 12.0% - 13.0%/năm."
+      },
+      "listingInfo": {
+        "stockCode": "AGR",
+        "listingExchange": "HOSE",
+        "isListed": true,
+        "listingStatus": "Niêm yết HOSE"
+      },
+      "sourceUrl": "https://agriseco.com.vn/bieu-phi",
+      "accountOpeningUrl": "https://agriseco.com.vn/mo-tai-khoan"
+    },
+    "hdbs": {
+      "tradingFee": {
+        "onlineMin": 0.1,
+        "onlineMax": 0.15,
+        "zeroFeeOffer": false,
+        "displaySummary": "0.10% - 0.15%",
+        "notes": "Phí dịch vụ cạnh tranh trong hệ sinh thái Sovico."
+      },
+      "margin": {
+        "standardRate90d": 11.8,
+        "standardRateDisplay": "11.5% - 12.5%/năm (Chuẩn 90 ngày)",
+        "shortTermRate": 9.5,
+        "baseRate": 11,
+        "promoRate": 8.5,
+        "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+        "notes": "Hỗ trợ từ HDBank, ưu đãi ban đầu từ 9.5%/năm. Kỳ hạn tiêu chuẩn 90 ngày từ 11.5% - 12.5%/năm."
+      },
+      "listingInfo": {
+        "stockCode": null,
+        "listingExchange": null,
+        "isListed": false,
+        "listingStatus": "Chưa niêm yết (Thuộc HDBank)"
+      },
+      "sourceUrl": "https://hdbs.vn/bieu-phi",
+      "accountOpeningUrl": "https://hdbs.com.vn/mo-tai-khoan"
+    },
+    "dsc": {
+      "tradingFee": {
+        "onlineMin": 0.1,
+        "onlineMax": 0.15,
+        "zeroFeeOffer": false,
+        "displaySummary": "0.10% - 0.15%",
+        "notes": "Biểu phí minh bạch, ứng dụng công nghệ mới."
+      },
+      "margin": {
+        "standardRate90d": 11.8,
+        "standardRateDisplay": "11.5% - 12.5%/năm (Chuẩn 90 ngày)",
+        "shortTermRate": 9,
+        "baseRate": 10.75,
+        "promoRate": 8.8,
+        "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+        "notes": "Bảo trợ Thành Công Group, ưu đãi từ 9.0%/năm. Dư nợ chuẩn 90 ngày từ 11.5% - 12.5%/năm."
+      },
+      "listingInfo": {
+        "stockCode": "DSC",
+        "listingExchange": "HOSE",
+        "isListed": true,
+        "listingStatus": "Niêm yết HOSE"
+      },
+      "sourceUrl": "https://dsc.com.vn/bieu-phi",
+      "accountOpeningUrl": "https://dsc.com.vn/mo-tai-khoan"
+    },
+    "phs": {
+      "tradingFee": {
+        "onlineMin": 0.1,
+        "onlineMax": 0.15,
+        "zeroFeeOffer": false,
+        "displaySummary": "0.10% - 0.15%",
+        "notes": "Phí giao dịch ổn định cho khách hàng cá nhân và tổ chức."
+      },
+      "margin": {
+        "standardRate90d": 12.2,
+        "standardRateDisplay": "12.0% - 13.0%/năm (Chuẩn 90 ngày)",
+        "shortTermRate": 9.9,
+        "baseRate": 11.45,
+        "promoRate": 8.9,
+        "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+        "notes": "Ưu đãi giao dịch định kỳ từ 9.9%/năm. Kỳ hạn chuẩn 90 ngày từ 12.0% - 13.0%/năm."
+      },
+      "listingInfo": {
+        "stockCode": "PHS",
+        "listingExchange": "UPCoM",
+        "isListed": true,
+        "listingStatus": "Đăng ký GD UPCoM"
+      },
+      "sourceUrl": "https://phs.vn/bieu-phi",
+      "accountOpeningUrl": "https://phs.vn/mo-tai-khoan"
+    },
+    "tvsi": {
+      "tradingFee": {
+        "onlineMin": 0.1,
+        "onlineMax": 0.15,
+        "zeroFeeOffer": false,
+        "displaySummary": "0.10% - 0.15%",
+        "notes": "Biểu phí giao dịch trực tuyến tiêu chuẩn."
+      },
+      "margin": {
+        "standardRate90d": 13,
+        "standardRateDisplay": "12.5% - 13.5%/năm (Chuẩn 90 ngày)",
+        "shortTermRate": 10.5,
+        "baseRate": 12,
+        "promoRate": 9,
+        "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+        "notes": "Ưu đãi theo mã danh mục từ 10.5%/năm. Kỳ hạn tiêu chuẩn 90 ngày áp dụng 12.5% - 13.5%/năm."
+      },
+      "listingInfo": {
+        "stockCode": null,
+        "listingExchange": null,
+        "isListed": false,
+        "listingStatus": "Chưa niêm yết"
+      },
+      "sourceUrl": "https://tvsi.com.vn/bieu-phi",
+      "accountOpeningUrl": "https://tvsi.com.vn/mo-tai-khoan"
+    },
+    "evs": {
+      "tradingFee": {
+        "onlineMin": 0.1,
+        "onlineMax": 0.15,
+        "zeroFeeOffer": false,
+        "displaySummary": "0.10% - 0.15%",
+        "notes": "Phí giao dịch cạnh tranh."
+      },
+      "margin": {
+        "standardRate90d": 12.5,
+        "standardRateDisplay": "12.0% - 13.5%/năm (Chuẩn 90 ngày)",
+        "shortTermRate": 10,
+        "baseRate": 11.75,
+        "promoRate": 8.9,
+        "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+        "notes": "Gói ưu đãi định kỳ từ 10.0%/năm. Kỳ hạn tiêu chuẩn 90 ngày áp dụng 12.0% - 13.5%/năm."
+      },
+      "listingInfo": {
+        "stockCode": "EVS",
+        "listingExchange": "HNX",
+        "isListed": true,
+        "listingStatus": "Niêm yết HNX"
+      },
+      "sourceUrl": "https://eves.com.vn/bieu-phi",
+      "accountOpeningUrl": "https://eves.com.vn/mo-tai-khoan"
+    }
+  },
+  "auditBrokers": [
+    {
+      "id": "bsc",
+      "shortName": "BSC",
+      "name": "Công ty Cổ phần Chứng khoán BIDV",
+      "stockCode": "BSI",
+      "isListed": true,
+      "listingStatus": "Niêm yết HOSE",
+      "sourceUrl": "https://www.bsc.com.vn/phi-giao-dich-qua-san/",
+      "scanStatus": "ACCESSIBLE_HTTP_200",
+      "httpStatus": 200,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "lastVerified": "Tháng 09/2026",
+      "verifiedBy": "Web Scanner & Kiểm định viên độc lập",
+      "data": {
+        "tradingFee": {
+          "onlineMin": 0.08,
+          "onlineMax": 0.13,
+          "zeroFeeOffer": false,
+          "displaySummary": "0.08% - 0.13% (Trực tuyến ưu đãi)",
+          "notes": "Mức phí giao dịch thấp nhất là 0.08% (áp dụng ưu đãi mở mới và Inactive, khách hàng phổ thông hiện hữu từ 0.08% - 0.13%). Có chuyên gia tư vấn từ 0.10% - 0.15%."
+        },
+        "margin": {
+          "standardRate90d": 10.5,
+          "standardRateDisplay": "10.5% - 12.0%/năm (Chuẩn 90 ngày)",
+          "shortTermRate": 7.5,
+          "baseRate": 10.5,
+          "promoRate": 7.5,
+          "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+          "notes": "Lãi suất margin thấp nhất là 10.5%/năm cho kỳ hạn tiêu chuẩn 90 ngày (phổ thông 10.5% - 12.0%/năm, không yêu cầu điều kiện dư nợ tối thiểu), nguồn vốn Big4 BIDV & Hana Securities dồi dào, an toàn vốn tuyệt đối qua mọi chu kỳ. Gói deal ngắn hạn T+ chỉ từ 7.5%/năm."
+        },
+        "listingInfo": {
+          "stockCode": "BSI",
+          "listingExchange": "HOSE",
+          "isListed": true,
+          "listingStatus": "Niêm yết HOSE"
+        },
+        "sourceUrl": "https://www.bsc.com.vn/phi-giao-dich-qua-san/",
+        "accountOpeningUrl": "https://dangky.bsc.com.vn/moi-gioi?online=false&cif=4768"
+      }
+    },
+    {
+      "id": "tcbs",
+      "shortName": "TCBS",
+      "name": "Công ty Cổ phần Chứng khoán Kỹ Thương",
+      "stockCode": "TCX",
+      "isListed": true,
+      "listingStatus": "Niêm yết HOSE",
+      "sourceUrl": "https://www.tcbs.com.vn/bieu-phi",
+      "scanStatus": "UNSCANNABLE_MANUAL_AUDIT_REQUIRED",
+      "httpStatus": 403,
+      "unscannableReason": "Bảo vệ bởi Cloudflare WAF Bot-Protection (HTTP 403) & Nền tảng SPA JavaScript. Cần đối chiếu thủ công qua trình duyệt.",
+      "manualCheckInstruction": "Truy cập trực tiếp liên kết chính thức: https://www.tcbs.com.vn/bieu-phi",
+      "lastVerified": "Tháng 09/2026",
+      "verifiedBy": "Web Scanner & Kiểm định viên độc lập",
+      "data": {
+        "tradingFee": {
+          "onlineMin": 0,
+          "onlineMax": 0,
+          "zeroFeeOffer": true,
+          "displaySummary": "Zero-Fee (0% phí giao dịch trọn đời)",
+          "notes": "Tiên phong miễn phí 100% phí giao dịch cổ phiếu, chứng chỉ quỹ và phái sinh (chỉ trả phí Sở và Thuế)."
+        },
+        "margin": {
+          "standardRate90d": 14,
+          "standardRateDisplay": "14.0%/năm (Phổ thông hiện hữu)",
+          "shortTermRate": 7.99,
+          "baseRate": 14,
+          "promoRate": 7.99,
+          "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+          "notes": "Lãi suất vay margin phổ thông cho khách hàng hiện hữu là 14.0%/năm (không yêu cầu điều kiện dư nợ tối thiểu). Các mức 7.99% - 10.5% chỉ áp dụng theo danh mục deal hạn chế hoặc có điều kiện dư nợ lớn/kỳ hạn ngắn hạn."
+        },
+        "listingInfo": {
+          "stockCode": "TCX",
+          "listingExchange": "HOSE",
+          "isListed": true,
+          "listingStatus": "Niêm yết HOSE"
+        },
+        "sourceUrl": "https://www.tcbs.com.vn/bieu-phi",
+        "accountOpeningUrl": "https://tcinvest.tcbs.com.vn/"
+      }
+    },
+    {
+      "id": "vps",
+      "shortName": "VPS",
+      "name": "Công ty Cổ phần Chứng khoán VPS",
+      "stockCode": "VCK",
+      "isListed": true,
+      "listingStatus": "Niêm yết HOSE",
+      "sourceUrl": "https://vps.com.vn/bieu-phi",
+      "scanStatus": "ACCESSIBLE_HTTP_200",
+      "httpStatus": 200,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "lastVerified": "Tháng 09/2026",
+      "verifiedBy": "Web Scanner & Kiểm định viên độc lập",
+      "data": {
+        "tradingFee": {
+          "onlineMin": 0.13,
+          "onlineMax": 0.15,
+          "zeroFeeOffer": false,
+          "displaySummary": "0.13% - 0.15% (Chuẩn thường)",
+          "notes": "Miễn phí giao dịch 6 tháng đầu cho tài khoản mở mới (tiểu khoản đuôi 1 và 6). Sau ưu đãi áp dụng 0.13% - 0.15%."
+        },
+        "margin": {
+          "standardRate90d": 13.5,
+          "standardRateDisplay": "13.5% - 14.0%/năm (Chuẩn 90 ngày)",
+          "shortTermRate": 8.6,
+          "baseRate": 13.5,
+          "promoRate": 7.5,
+          "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK) / Gói HTKD tới 3:7",
+          "notes": "LƯU Ý: Lãi suất thấp 8.6% - 9.8% chỉ áp dụng cho giao dịch lướt sóng ngắn hạn (gói T+5, T+10 hoặc miễn lãi T+2). Lãi suất vay tiêu chuẩn 90 ngày lên tới 13.5% - 14.0%/năm (thuộc nhóm cao nhất thị trường)."
+        },
+        "listingInfo": {
+          "stockCode": "VCK",
+          "listingExchange": "HOSE",
+          "isListed": true,
+          "listingStatus": "Niêm yết HOSE"
+        },
+        "sourceUrl": "https://vps.com.vn/bieu-phi",
+        "accountOpeningUrl": "https://openaccount.vps.com.vn/"
+      }
+    },
+    {
+      "id": "ssi",
+      "shortName": "SSI",
+      "name": "Công ty Cổ phần Chứng khoán SSI",
+      "stockCode": "SSI",
+      "isListed": true,
+      "listingStatus": "Niêm yết HOSE",
+      "sourceUrl": "https://www.ssi.com.vn/bieu-phi",
+      "scanStatus": "ACCESSIBLE_HTTP_200",
+      "httpStatus": 200,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "lastVerified": "Tháng 09/2026",
+      "verifiedBy": "Web Scanner & Kiểm định viên độc lập",
+      "data": {
+        "tradingFee": {
+          "onlineMin": 0.1,
+          "onlineMax": 0.15,
+          "zeroFeeOffer": false,
+          "displaySummary": "0.10% - 0.15% (Chính sách linh hoạt)",
+          "notes": "Phí giao dịch theo bậc thang giá trị tài sản và gói dịch vụ. Chương trình ưu đãi phí cho nhà đầu tư chủ động."
+        },
+        "margin": {
+          "standardRate90d": 12,
+          "standardRateDisplay": "11.5% - 13.0%/năm (Chuẩn 90 ngày)",
+          "shortTermRate": 9,
+          "baseRate": 11.25,
+          "promoRate": 9,
+          "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+          "notes": "Ưu đãi gói T+ ngắn hạn từ 9.0%/năm. Kỳ hạn vay tiêu chuẩn 90 ngày áp dụng mức lãi 11.5% - 13.0%/năm."
+        },
+        "listingInfo": {
+          "stockCode": "SSI",
+          "listingExchange": "HOSE",
+          "isListed": true,
+          "listingStatus": "Niêm yết HOSE"
+        },
+        "sourceUrl": "https://www.ssi.com.vn/bieu-phi",
+        "accountOpeningUrl": "https://www.ssi.com.vn/khach-hang-ca-nhan/mo-tai-khoan"
+      }
+    },
+    {
+      "id": "vndirect",
+      "shortName": "VNDIRECT",
+      "name": "Công ty Cổ phần Chứng khoán VNDIRECT",
+      "stockCode": "VND",
+      "isListed": true,
+      "listingStatus": "Niêm yết HOSE",
+      "sourceUrl": "https://www.vndirect.com.vn/bieu-phi",
+      "scanStatus": "UNSCANNABLE_MANUAL_AUDIT_REQUIRED",
+      "httpStatus": 403,
+      "unscannableReason": "Bảo vệ bởi Cloudflare WAF Bot-Protection (HTTP 403). Cần đối chiếu thủ công qua trình duyệt.",
+      "manualCheckInstruction": "Truy cập trực tiếp liên kết chính thức: https://www.vndirect.com.vn/bieu-phi-dich-vu-chung-khoan/",
+      "lastVerified": "Tháng 09/2026",
+      "verifiedBy": "Web Scanner & Kiểm định viên độc lập",
+      "data": {
+        "tradingFee": {
+          "onlineMin": 0.1,
+          "onlineMax": 0.15,
+          "zeroFeeOffer": false,
+          "displaySummary": "0.10% - 0.15% (Linh hoạt theo tài sản)",
+          "notes": "Chính sách biểu phí D-Stock linh hoạt theo quy mô tài sản và hạn mức giao dịch."
+        },
+        "margin": {
+          "standardRate90d": 12.5,
+          "standardRateDisplay": "12.0% - 13.5%/năm (Chuẩn 90 ngày)",
+          "shortTermRate": 9.5,
+          "baseRate": 11.5,
+          "promoRate": 8.9,
+          "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+          "notes": "Gói D-Margin ưu đãi lãi suất 9.5% trong 30 ngày đầu. Kỳ hạn tiêu chuẩn 90 ngày áp dụng lãi suất 12.0% - 13.5%/năm."
+        },
+        "listingInfo": {
+          "stockCode": "VND",
+          "listingExchange": "HOSE",
+          "isListed": true,
+          "listingStatus": "Niêm yết HOSE"
+        },
+        "sourceUrl": "https://www.vndirect.com.vn/bieu-phi",
+        "accountOpeningUrl": "https://accounts.vndirect.com.vn/"
+      }
+    },
+    {
+      "id": "mirae-asset",
+      "shortName": "Mirae Asset",
+      "name": "Công ty Cổ phần Chứng khoán Mirae Asset (Việt Nam)",
+      "stockCode": null,
+      "isListed": false,
+      "listingStatus": "Chưa niêm yết (FDI Hàn Quốc)",
+      "sourceUrl": "https://masvn.com/bieu-phi",
+      "scanStatus": "ACCESSIBLE_HTTP_200",
+      "httpStatus": 200,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "lastVerified": "Tháng 09/2026",
+      "verifiedBy": "Web Scanner & Kiểm định viên độc lập",
+      "data": {
+        "tradingFee": {
+          "onlineMin": 0.1,
+          "onlineMax": 0.15,
+          "zeroFeeOffer": false,
+          "displaySummary": "0.10% - 0.15% (Cạnh tranh)",
+          "notes": "Biểu phí minh bạch, ổn định, cạnh tranh so với các công ty có vốn nước ngoài."
+        },
+        "margin": {
+          "standardRate90d": 11.5,
+          "standardRateDisplay": "11.0% - 12.5%/năm (Chuẩn 90 ngày)",
+          "shortTermRate": 9,
+          "baseRate": 10.75,
+          "promoRate": 7.99,
+          "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+          "notes": "Ưu đãi ngắn hạn 60 ngày đầu mở tài khoản từ 9.0%/năm. Dư nợ tiêu chuẩn 90 ngày áp dụng 11.0% - 12.5%/năm."
+        },
+        "listingInfo": {
+          "stockCode": null,
+          "listingExchange": null,
+          "isListed": false,
+          "listingStatus": "Chưa niêm yết (FDI Hàn Quốc)"
+        },
+        "sourceUrl": "https://masvn.com/bieu-phi",
+        "accountOpeningUrl": "https://masvn.com/register"
+      }
+    },
+    {
+      "id": "dnse",
+      "shortName": "DNSE",
+      "name": "Công ty Cổ phần Chứng khoán DNSE",
+      "stockCode": "DSE",
+      "isListed": true,
+      "listingStatus": "Niêm yết HOSE",
+      "sourceUrl": "https://www.dnse.com.vn/bieu-phi",
+      "scanStatus": "ACCESSIBLE_HTTP_200",
+      "httpStatus": 200,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "lastVerified": "Tháng 09/2026",
+      "verifiedBy": "Web Scanner & Kiểm định viên độc lập",
+      "data": {
+        "tradingFee": {
+          "onlineMin": 0,
+          "onlineMax": 0,
+          "zeroFeeOffer": true,
+          "displaySummary": "Zero-Fee trọn đời (0% phí GD)",
+          "notes": "Miễn phí 100% phí giao dịch cổ phiếu trọn đời trên nền tảng số Entrade X."
+        },
+        "margin": {
+          "standardRate90d": 11.5,
+          "standardRateDisplay": "11.5% - 12.5%/năm (Chuẩn 90 ngày)",
+          "shortTermRate": 5.99,
+          "baseRate": 8.75,
+          "promoRate": 5.99,
+          "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK) / Margin Deal linh hoạt",
+          "notes": "LƯU Ý ĐẶC BIỆT: Mức lãi 5.99% tại DNSE là sản phẩm Margin Deal chỉ áp dụng cho thời gian nắm giữ siêu ngắn (5 ngày). Gói 10 ngày áp dụng 8.99%/năm. Dư nợ tiêu chuẩn kỳ hạn 90 ngày áp dụng lãi suất 11.5% - 12.5%/năm."
+        },
+        "listingInfo": {
+          "stockCode": "DSE",
+          "listingExchange": "HOSE",
+          "isListed": true,
+          "listingStatus": "Niêm yết HOSE"
+        },
+        "sourceUrl": "https://www.dnse.com.vn/bieu-phi",
+        "accountOpeningUrl": "https://www.dnse.com.vn/mo-tai-khoan"
+      }
+    },
+    {
+      "id": "vpbanks",
+      "shortName": "VPBankS",
+      "name": "Công ty Cổ phần Chứng khoán VPBank",
+      "stockCode": null,
+      "isListed": false,
+      "listingStatus": "Chưa niêm yết (Thuộc VPBank)",
+      "sourceUrl": "https://www.vpbanks.com.vn/bieu-phi",
+      "scanStatus": "ACCESSIBLE_HTTP_200",
+      "httpStatus": 200,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "lastVerified": "Tháng 09/2026",
+      "verifiedBy": "Web Scanner & Kiểm định viên độc lập",
+      "data": {
+        "tradingFee": {
+          "onlineMin": 0.1,
+          "onlineMax": 0.15,
+          "zeroFeeOffer": false,
+          "displaySummary": "0.10% - 0.15% (Chuẩn thường)",
+          "notes": "Chính sách miễn phí giao dịch trong thời gian đầu mở tài khoản, sau đó áp dụng mức phí cạnh tranh."
+        },
+        "margin": {
+          "standardRate90d": 11.8,
+          "standardRateDisplay": "11.5% - 12.5%/năm (Chuẩn 90 ngày)",
+          "shortTermRate": 9.5,
+          "baseRate": 11,
+          "promoRate": 8.6,
+          "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+          "notes": "Gói ưu đãi mở mới từ 9.5%/năm. Lãi suất tiêu chuẩn 90 ngày khoảng 11.5% - 12.5%/năm."
+        },
+        "listingInfo": {
+          "stockCode": null,
+          "listingExchange": null,
+          "isListed": false,
+          "listingStatus": "Chưa niêm yết (Thuộc VPBank)"
+        },
+        "sourceUrl": "https://www.vpbanks.com.vn/bieu-phi",
+        "accountOpeningUrl": "https://www.vpbanks.com.vn/mo-tai-khoan"
+      }
+    },
+    {
+      "id": "fpts",
+      "shortName": "FPTS",
+      "name": "Công ty Cổ phần Chứng khoán FPT",
+      "stockCode": "FTS",
+      "isListed": true,
+      "listingStatus": "Niêm yết HOSE",
+      "sourceUrl": "https://www.fpts.com.vn/bieu-phi",
+      "scanStatus": "ACCESSIBLE_HTTP_200",
+      "httpStatus": 200,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "lastVerified": "Tháng 09/2026",
+      "verifiedBy": "Web Scanner & Kiểm định viên độc lập",
+      "data": {
+        "tradingFee": {
+          "onlineMin": 0.08,
+          "onlineMax": 0.15,
+          "zeroFeeOffer": false,
+          "displaySummary": "0.08% - 0.15% (Biểu phí bậc thang)",
+          "notes": "Biểu phí bậc thang tính theo tổng giá trị khớp lệnh trong ngày. Giao dịch càng nhiều, phí càng rẻ (tối thiểu 0.08%)."
+        },
+        "margin": {
+          "standardRate90d": 12.5,
+          "standardRateDisplay": "12.0% - 13.5%/năm (Chuẩn 90 ngày)",
+          "shortTermRate": 10.5,
+          "baseRate": 12,
+          "promoRate": 9.5,
+          "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+          "notes": "Ưu đãi hạn mức từ 10.5%/năm. Kỳ hạn chuẩn 90 ngày áp dụng 12.0% - 13.5%/năm, quản trị rủi ro chặt chẽ."
+        },
+        "listingInfo": {
+          "stockCode": "FTS",
+          "listingExchange": "HOSE",
+          "isListed": true,
+          "listingStatus": "Niêm yết HOSE"
+        },
+        "sourceUrl": "https://www.fpts.com.vn/bieu-phi",
+        "accountOpeningUrl": "https://ezopen.fpts.com.vn/"
+      }
+    },
+    {
+      "id": "hsc",
+      "shortName": "HSC",
+      "name": "Công ty Cổ phần Chứng khoán TP.Hồ Chí Minh",
+      "stockCode": "HCM",
+      "isListed": true,
+      "listingStatus": "Niêm yết HOSE",
+      "sourceUrl": "https://www.hsc.com.vn/bieu-phi",
+      "scanStatus": "ACCESSIBLE_HTTP_200",
+      "httpStatus": 200,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "lastVerified": "Tháng 09/2026",
+      "verifiedBy": "Web Scanner & Kiểm định viên độc lập",
+      "data": {
+        "tradingFee": {
+          "onlineMin": 0.1,
+          "onlineMax": 0.15,
+          "zeroFeeOffer": false,
+          "displaySummary": "0.10% - 0.15% (Chuyên nghiệp)",
+          "notes": "Chính sách phân tầng dịch vụ rõ rệt: Tự giao dịch và Tư vấn chuyên gia cao cấp."
+        },
+        "margin": {
+          "standardRate90d": 12,
+          "standardRateDisplay": "11.5% - 13.0%/năm (Chuẩn 90 ngày)",
+          "shortTermRate": 9.5,
+          "baseRate": 11.5,
+          "promoRate": 9,
+          "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+          "notes": "Chính sách ưu đãi kích cầu ngắn hạn từ 9.5%/năm. Kỳ hạn tiêu chuẩn 90 ngày từ 11.5% - 13.0%/năm."
+        },
+        "listingInfo": {
+          "stockCode": "HCM",
+          "listingExchange": "HOSE",
+          "isListed": true,
+          "listingStatus": "Niêm yết HOSE"
+        },
+        "sourceUrl": "https://www.hsc.com.vn/bieu-phi",
+        "accountOpeningUrl": "https://register.hsc.com.vn/"
+      }
+    },
+    {
+      "id": "vietcap",
+      "shortName": "Vietcap",
+      "name": "Công ty Cổ phần Chứng khoán Vietcap",
+      "stockCode": "VCI",
+      "isListed": true,
+      "listingStatus": "Niêm yết HOSE",
+      "sourceUrl": "https://www.vietcap.com.vn/bieu-phi",
+      "scanStatus": "ACCESSIBLE_HTTP_200",
+      "httpStatus": 200,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "lastVerified": "Tháng 09/2026",
+      "verifiedBy": "Web Scanner & Kiểm định viên độc lập",
+      "data": {
+        "tradingFee": {
+          "onlineMin": 0.1,
+          "onlineMax": 0.15,
+          "zeroFeeOffer": false,
+          "displaySummary": "0.10% - 0.15% (Chuẩn định chế)",
+          "notes": "Tập trung vào chất lượng dịch vụ và tư vấn chuyên sâu."
+        },
+        "margin": {
+          "standardRate90d": 11.5,
+          "standardRateDisplay": "11.0% - 12.5%/năm (Chuẩn 90 ngày)",
+          "shortTermRate": 9,
+          "baseRate": 11,
+          "promoRate": 9,
+          "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+          "notes": "Ưu đãi cho khách hàng VIP và hạn mức lớn từ 9.0%/năm. Kỳ hạn chuẩn 90 ngày từ 11.0% - 12.5%/năm."
+        },
+        "listingInfo": {
+          "stockCode": "VCI",
+          "listingExchange": "HOSE",
+          "isListed": true,
+          "listingStatus": "Niêm yết HOSE"
+        },
+        "sourceUrl": "https://www.vietcap.com.vn/bieu-phi",
+        "accountOpeningUrl": "https://www.vietcap.com.vn/mo-tai-khoan"
+      }
+    },
+    {
+      "id": "kafi",
+      "shortName": "Kafi",
+      "name": "Công ty Cổ phần Chứng khoán Kafi",
+      "stockCode": null,
+      "isListed": false,
+      "listingStatus": "Chưa niêm yết",
+      "sourceUrl": "https://kafi.vn/bieu-phi",
+      "scanStatus": "ACCESSIBLE_HTTP_200",
+      "httpStatus": 200,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "lastVerified": "Tháng 09/2026",
+      "verifiedBy": "Web Scanner & Kiểm định viên độc lập",
+      "data": {
+        "tradingFee": {
+          "onlineMin": 0.1,
+          "onlineMax": 0.15,
+          "zeroFeeOffer": false,
+          "displaySummary": "0.10% - 0.15% (Chuẩn thường)",
+          "notes": "Chính sách miễn phí giao dịch mở mới, gói phí cực thấp sau ưu đãi."
+        },
+        "margin": {
+          "standardRate90d": 11,
+          "standardRateDisplay": "10.5% - 11.8%/năm (Chuẩn 90 ngày)",
+          "shortTermRate": 7.8,
+          "baseRate": 9.8,
+          "promoRate": 7.8,
+          "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK) / Gói Hợp tác đầu tư",
+          "notes": "Chính sách linh hoạt cho gói lướt ngắn hạn từ 7.8%/năm. Dư nợ tiêu chuẩn 90 ngày áp dụng 10.5% - 11.8%/năm."
+        },
+        "listingInfo": {
+          "stockCode": null,
+          "listingExchange": null,
+          "isListed": false,
+          "listingStatus": "Chưa niêm yết"
+        },
+        "sourceUrl": "https://kafi.vn/bieu-phi",
+        "accountOpeningUrl": "https://kafi.vn/mo-tai-khoan"
+      }
+    },
+    {
+      "id": "mbs",
+      "shortName": "MBS",
+      "name": "Công ty Cổ phần Chứng khoán MB",
+      "stockCode": "MBS",
+      "isListed": true,
+      "listingStatus": "Niêm yết HNX",
+      "sourceUrl": "https://mbs.com.vn/bieu-phi/",
+      "scanStatus": "UNSCANNABLE_MANUAL_AUDIT_REQUIRED",
+      "httpStatus": 403,
+      "unscannableReason": "Tường lửa máy chủ chặn kết nối tự động (HTTP 403). Cần đối chiếu thủ công qua liên kết chính thức.",
+      "manualCheckInstruction": "Truy cập trực tiếp liên kết chính thức: https://mbs.com.vn/bieu-phi/",
+      "lastVerified": "Tháng 09/2026",
+      "verifiedBy": "Web Scanner & Kiểm định viên độc lập",
+      "data": {
+        "tradingFee": {
+          "onlineMin": 0.1,
+          "onlineMax": 0.15,
+          "zeroFeeOffer": false,
+          "displaySummary": "0.10% - 0.15% (Ưu đãi eKYC)",
+          "notes": "Biểu phí cạnh tranh cho khách hàng mở tài khoản eKYC trực tuyến, tích hợp toàn diện hệ sinh thái MB."
+        },
+        "margin": {
+          "standardRate90d": 11.8,
+          "standardRateDisplay": "11.0% - 12.5%/năm (Chuẩn 90 ngày)",
+          "shortTermRate": 8.5,
+          "baseRate": 10.5,
+          "promoRate": 8.5,
+          "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+          "notes": "Gói M-Margin ưu đãi 30 ngày đầu từ 8.5%/năm. Kỳ hạn chuẩn 90 ngày từ 11.0% - 12.5%/năm, nguồn vốn ngân hàng MBBank."
+        },
+        "listingInfo": {
+          "stockCode": "MBS",
+          "listingExchange": "HNX",
+          "isListed": true,
+          "listingStatus": "Niêm yết HNX"
+        },
+        "sourceUrl": "https://mbs.com.vn/bieu-phi/",
+        "accountOpeningUrl": "https://mbs.com.vn/mo-tai-khoan/"
+      }
+    },
+    {
+      "id": "shs",
+      "shortName": "SHS",
+      "name": "Công ty Cổ phần Chứng khoán Sài Gòn - Hà Nội",
+      "stockCode": "SHS",
+      "isListed": true,
+      "listingStatus": "Niêm yết HNX",
+      "sourceUrl": "https://www.shs.com.vn/bieu-phi",
+      "scanStatus": "ACCESSIBLE_HTTP_200",
+      "httpStatus": 200,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "lastVerified": "Tháng 09/2026",
+      "verifiedBy": "Web Scanner & Kiểm định viên độc lập",
+      "data": {
+        "tradingFee": {
+          "onlineMin": 0.1,
+          "onlineMax": 0.15,
+          "zeroFeeOffer": false,
+          "displaySummary": "0.10% - 0.15%",
+          "notes": "Phí giao dịch trực tuyến cạnh tranh qua ứng dụng SHS Mobile."
+        },
+        "margin": {
+          "standardRate90d": 12.5,
+          "standardRateDisplay": "12.0% - 13.5%/năm (Chuẩn 90 ngày)",
+          "shortTermRate": 9.9,
+          "baseRate": 11.7,
+          "promoRate": 8.9,
+          "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+          "notes": "Ưu đãi theo quý từ 9.9%/năm. Kỳ hạn tiêu chuẩn 90 ngày áp dụng 12.0% - 13.5%/năm."
+        },
+        "listingInfo": {
+          "stockCode": "SHS",
+          "listingExchange": "HNX",
+          "isListed": true,
+          "listingStatus": "Niêm yết HNX"
+        },
+        "sourceUrl": "https://www.shs.com.vn/bieu-phi",
+        "accountOpeningUrl": "https://openaccount.shs.com.vn/"
+      }
+    },
+    {
+      "id": "vix",
+      "shortName": "VIX",
+      "name": "Công ty Cổ phần Chứng khoán VIX",
+      "stockCode": "VIX",
+      "isListed": true,
+      "listingStatus": "Niêm yết HOSE",
+      "sourceUrl": "https://vixs.vn/bieu-phi",
+      "scanStatus": "UNSCANNABLE_MANUAL_AUDIT_REQUIRED",
+      "httpStatus": 403,
+      "unscannableReason": "Trang con biểu phí hạn chế truy cập bot tự động (HTTP 403). Cần đối chiếu thủ công qua trình duyệt.",
+      "manualCheckInstruction": "Truy cập trực tiếp liên kết chính thức: https://vixs.vn/bieu-phi",
+      "lastVerified": "Tháng 09/2026",
+      "verifiedBy": "Web Scanner & Kiểm định viên độc lập",
+      "data": {
+        "tradingFee": {
+          "onlineMin": 0.1,
+          "onlineMax": 0.15,
+          "zeroFeeOffer": false,
+          "displaySummary": "0.10% - 0.15%",
+          "notes": "Biểu phí giao dịch cạnh tranh dành cho nhà đầu tư chủ động."
+        },
+        "margin": {
+          "standardRate90d": 12.5,
+          "standardRateDisplay": "12.0% - 13.5%/năm (Chuẩn 90 ngày)",
+          "shortTermRate": 10,
+          "baseRate": 11.75,
+          "promoRate": 8.8,
+          "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+          "notes": "Chính sách ưu đãi giao dịch ngắn hạn từ 10.0%/năm. Kỳ hạn chuẩn 90 ngày từ 12.0% - 13.5%/năm."
+        },
+        "listingInfo": {
+          "stockCode": "VIX",
+          "listingExchange": "HOSE",
+          "isListed": true,
+          "listingStatus": "Niêm yết HOSE"
+        },
+        "sourceUrl": "https://vixs.vn/bieu-phi",
+        "accountOpeningUrl": "https://vixs.vn/mo-tai-khoan"
+      }
+    },
+    {
+      "id": "kis",
+      "shortName": "KIS",
+      "name": "Công ty Cổ phần Chứng khoán KIS Việt Nam",
+      "stockCode": null,
+      "isListed": false,
+      "listingStatus": "Chưa niêm yết (FDI Hàn Quốc)",
+      "sourceUrl": "https://kisvn.vn/bieu-phi",
+      "scanStatus": "ACCESSIBLE_HTTP_200",
+      "httpStatus": 200,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "lastVerified": "Tháng 09/2026",
+      "verifiedBy": "Web Scanner & Kiểm định viên độc lập",
+      "data": {
+        "tradingFee": {
+          "onlineMin": 0.1,
+          "onlineMax": 0.15,
+          "zeroFeeOffer": false,
+          "displaySummary": "0.10% - 0.15%",
+          "notes": "Biểu phí ổn định theo tiêu chuẩn kiểm toán quốc tế Hàn Quốc."
+        },
+        "margin": {
+          "standardRate90d": 11.8,
+          "standardRateDisplay": "11.5% - 12.5%/năm (Chuẩn 90 ngày)",
+          "shortTermRate": 9.5,
+          "baseRate": 11,
+          "promoRate": 7.99,
+          "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+          "notes": "Nguồn vốn FDI Hàn Quốc, ưu đãi mở mới từ 9.5%/năm. Kỳ hạn tiêu chuẩn 90 ngày áp dụng 11.5% - 12.5%/năm."
+        },
+        "listingInfo": {
+          "stockCode": null,
+          "listingExchange": null,
+          "isListed": false,
+          "listingStatus": "Chưa niêm yết (FDI Hàn Quốc)"
+        },
+        "sourceUrl": "https://kisvn.vn/bieu-phi",
+        "accountOpeningUrl": "https://kisvn.vn/mo-tai-khoan"
+      }
+    },
+    {
+      "id": "acbs",
+      "shortName": "ACBS",
+      "name": "Công ty TNHH Chứng khoán ACB",
+      "stockCode": null,
+      "isListed": false,
+      "listingStatus": "Chưa niêm yết (Thuộc ACB)",
+      "sourceUrl": "https://acbs.com.vn/bieu-phi",
+      "scanStatus": "ACCESSIBLE_HTTP_200",
+      "httpStatus": 200,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "lastVerified": "Tháng 09/2026",
+      "verifiedBy": "Web Scanner & Kiểm định viên độc lập",
+      "data": {
+        "tradingFee": {
+          "onlineMin": 0.1,
+          "onlineMax": 0.15,
+          "zeroFeeOffer": false,
+          "displaySummary": "0.10% - 0.15%",
+          "notes": "Biểu phí minh bạch, chuẩn định chế tài chính ngân hàng Á Châu (ACB)."
+        },
+        "margin": {
+          "standardRate90d": 11.8,
+          "standardRateDisplay": "11.5% - 12.5%/năm (Chuẩn 90 ngày)",
+          "shortTermRate": 9.5,
+          "baseRate": 11,
+          "promoRate": 8.5,
+          "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+          "notes": "Ưu đãi khách hàng liên kết ACB từ 9.5%/năm. Kỳ hạn chuẩn 90 ngày áp dụng 11.5% - 12.5%/năm."
+        },
+        "listingInfo": {
+          "stockCode": null,
+          "listingExchange": null,
+          "isListed": false,
+          "listingStatus": "Chưa niêm yết (Thuộc ACB)"
+        },
+        "sourceUrl": "https://acbs.com.vn/bieu-phi",
+        "accountOpeningUrl": "https://acbs.com.vn/mo-tai-khoan"
+      }
+    },
+    {
+      "id": "vcbs",
+      "shortName": "VCBS",
+      "name": "Công ty TNHH Chứng khoán Vietcombank",
+      "stockCode": null,
+      "isListed": false,
+      "listingStatus": "Chưa niêm yết (Thuộc Vietcombank)",
+      "sourceUrl": "https://vcbs.com.vn/bieu-phi",
+      "scanStatus": "ACCESSIBLE_HTTP_200",
+      "httpStatus": 200,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "lastVerified": "Tháng 09/2026",
+      "verifiedBy": "Web Scanner & Kiểm định viên độc lập",
+      "data": {
+        "tradingFee": {
+          "onlineMin": 0.12,
+          "onlineMax": 0.15,
+          "zeroFeeOffer": false,
+          "displaySummary": "0.12% - 0.15%",
+          "notes": "Biểu phí ổn định, bảo chứng uy tín tuyệt đối từ Ngân hàng Ngoại thương Việt Nam."
+        },
+        "margin": {
+          "standardRate90d": 11.5,
+          "standardRateDisplay": "11.0% - 12.5%/năm (Chuẩn 90 ngày)",
+          "shortTermRate": 10,
+          "baseRate": 11.25,
+          "promoRate": 8.5,
+          "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+          "notes": "Chính sách bậc thang Vietcombank từ 10.0%/năm cho hạn mức lớn. Kỳ hạn chuẩn 90 ngày 11.0% - 12.5%/năm."
+        },
+        "listingInfo": {
+          "stockCode": null,
+          "listingExchange": null,
+          "isListed": false,
+          "listingStatus": "Chưa niêm yết (Thuộc Vietcombank)"
+        },
+        "sourceUrl": "https://vcbs.com.vn/bieu-phi",
+        "accountOpeningUrl": "https://vcbs.com.vn/mo-tai-khoan"
+      }
+    },
+    {
+      "id": "kbsv",
+      "shortName": "KBSV",
+      "name": "Công ty Cổ phần Chứng khoán KB Việt Nam",
+      "stockCode": null,
+      "isListed": false,
+      "listingStatus": "Chưa niêm yết (FDI Hàn Quốc)",
+      "sourceUrl": "https://kbsec.com.vn/bieu-phi",
+      "scanStatus": "ACCESSIBLE_HTTP_200",
+      "httpStatus": 200,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "lastVerified": "Tháng 09/2026",
+      "verifiedBy": "Web Scanner & Kiểm định viên độc lập",
+      "data": {
+        "tradingFee": {
+          "onlineMin": 0.1,
+          "onlineMax": 0.15,
+          "zeroFeeOffer": false,
+          "displaySummary": "0.10% - 0.15%",
+          "notes": "Phí giao dịch cạnh tranh, tư vấn đầu tư chuyên nghiệp."
+        },
+        "margin": {
+          "standardRate90d": 11.8,
+          "standardRateDisplay": "11.5% - 12.5%/năm (Chuẩn 90 ngày)",
+          "shortTermRate": 9,
+          "baseRate": 10.75,
+          "promoRate": 7.9,
+          "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+          "notes": "Vốn tập đoàn KB Hàn Quốc, gói ngắn hạn từ 9.0%/năm. Dư nợ tiêu chuẩn 90 ngày từ 11.5% - 12.5%/năm."
+        },
+        "listingInfo": {
+          "stockCode": null,
+          "listingExchange": null,
+          "isListed": false,
+          "listingStatus": "Chưa niêm yết (FDI Hàn Quốc)"
+        },
+        "sourceUrl": "https://kbsec.com.vn/bieu-phi",
+        "accountOpeningUrl": "https://kbsec.com.vn/mo-tai-khoan"
+      }
+    },
+    {
+      "id": "cts",
+      "shortName": "VietinBank Sec (CTS)",
+      "name": "Công ty Cổ phần Chứng khoán Ngân hàng Công Thương Việt Nam",
+      "stockCode": "CTS",
+      "isListed": true,
+      "listingStatus": "Niêm yết HOSE",
+      "sourceUrl": "https://cts.vn/bieu-phi",
+      "scanStatus": "ACCESSIBLE_HTTP_200",
+      "httpStatus": 200,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "lastVerified": "Tháng 09/2026",
+      "verifiedBy": "Web Scanner & Kiểm định viên độc lập",
+      "data": {
+        "tradingFee": {
+          "onlineMin": 0.1,
+          "onlineMax": 0.15,
+          "zeroFeeOffer": false,
+          "displaySummary": "0.10% - 0.15%",
+          "notes": "Biểu phí cạnh tranh theo quy chuẩn định chế ngân hàng VietinBank."
+        },
+        "margin": {
+          "standardRate90d": 12,
+          "standardRateDisplay": "11.5% - 13.0%/năm (Chuẩn 90 ngày)",
+          "shortTermRate": 10,
+          "baseRate": 11.5,
+          "promoRate": 8.5,
+          "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+          "notes": "Nguồn vốn ổn định VietinBank, ưu đãi từ 10.0%/năm. Kỳ hạn chuẩn 90 ngày từ 11.5% - 13.0%/năm."
+        },
+        "listingInfo": {
+          "stockCode": "CTS",
+          "listingExchange": "HOSE",
+          "isListed": true,
+          "listingStatus": "Niêm yết HOSE"
+        },
+        "sourceUrl": "https://cts.vn/bieu-phi",
+        "accountOpeningUrl": "https://cts.vn/mo-tai-khoan"
+      }
+    },
+    {
+      "id": "bvsc",
+      "shortName": "BVSC",
+      "name": "Công ty Cổ phần Chứng khoán Bảo Việt",
+      "stockCode": "BVS",
+      "isListed": true,
+      "listingStatus": "Niêm yết HNX",
+      "sourceUrl": "https://bvsc.com.vn/bieu-phi",
+      "scanStatus": "ACCESSIBLE_HTTP_200",
+      "httpStatus": 200,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "lastVerified": "Tháng 09/2026",
+      "verifiedBy": "Web Scanner & Kiểm định viên độc lập",
+      "data": {
+        "tradingFee": {
+          "onlineMin": 0.1,
+          "onlineMax": 0.15,
+          "zeroFeeOffer": false,
+          "displaySummary": "0.10% - 0.15%",
+          "notes": "Biểu phí ổn định, dịch vụ tư vấn nghiên cứu uy tín từ 1999."
+        },
+        "margin": {
+          "standardRate90d": 12,
+          "standardRateDisplay": "11.5% - 13.0%/năm (Chuẩn 90 ngày)",
+          "shortTermRate": 10,
+          "baseRate": 11.5,
+          "promoRate": 8.8,
+          "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+          "notes": "Bảo trợ từ Tập đoàn Bảo Việt, ưu đãi từ 10.0%/năm. Kỳ hạn chuẩn 90 ngày từ 11.5% - 13.0%/năm."
+        },
+        "listingInfo": {
+          "stockCode": "BVS",
+          "listingExchange": "HNX",
+          "isListed": true,
+          "listingStatus": "Niêm yết HNX"
+        },
+        "sourceUrl": "https://bvsc.com.vn/bieu-phi",
+        "accountOpeningUrl": "https://bvsc.com.vn/mo-tai-khoan"
+      }
+    },
+    {
+      "id": "tps",
+      "shortName": "TPS",
+      "name": "Công ty Cổ phần Chứng khoán Tiên Phong",
+      "stockCode": "ORS",
+      "isListed": true,
+      "listingStatus": "Niêm yết HOSE",
+      "sourceUrl": "https://tpbs.com.vn/bieu-phi",
+      "scanStatus": "ACCESSIBLE_HTTP_200",
+      "httpStatus": 200,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "lastVerified": "Tháng 09/2026",
+      "verifiedBy": "Web Scanner & Kiểm định viên độc lập",
+      "data": {
+        "tradingFee": {
+          "onlineMin": 0.1,
+          "onlineMax": 0.15,
+          "zeroFeeOffer": false,
+          "displaySummary": "0.10% - 0.15%",
+          "notes": "Biểu phí cạnh tranh, liên kết chặt chẽ ngân hàng số TPBank."
+        },
+        "margin": {
+          "standardRate90d": 11.8,
+          "standardRateDisplay": "11.5% - 12.5%/năm (Chuẩn 90 ngày)",
+          "shortTermRate": 9.5,
+          "baseRate": 11,
+          "promoRate": 8.6,
+          "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+          "notes": "Liên kết TPBank, ưu đãi mở mới từ 9.5%/năm. Kỳ hạn chuẩn 90 ngày từ 11.5% - 12.5%/năm."
+        },
+        "listingInfo": {
+          "stockCode": "ORS",
+          "listingExchange": "HOSE",
+          "isListed": true,
+          "listingStatus": "Niêm yết HOSE"
+        },
+        "sourceUrl": "https://tpbs.com.vn/bieu-phi",
+        "accountOpeningUrl": "https://tpbs.com.vn/mo-tai-khoan"
+      }
+    },
+    {
+      "id": "yuanta",
+      "shortName": "Yuanta",
+      "name": "Công ty TNHH Chứng khoán Yuanta Việt Nam",
+      "stockCode": null,
+      "isListed": false,
+      "listingStatus": "Chưa niêm yết (FDI Đài Loan)",
+      "sourceUrl": "https://yuanta.com.vn/bieu-phi",
+      "scanStatus": "ACCESSIBLE_HTTP_200",
+      "httpStatus": 200,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "lastVerified": "Tháng 09/2026",
+      "verifiedBy": "Web Scanner & Kiểm định viên độc lập",
+      "data": {
+        "tradingFee": {
+          "onlineMin": 0.1,
+          "onlineMax": 0.15,
+          "zeroFeeOffer": false,
+          "displaySummary": "0.10% - 0.15%",
+          "notes": "Biểu phí ổn định, cung cấp công cụ phân tích YSRadar độc quyền."
+        },
+        "margin": {
+          "standardRate90d": 11.2,
+          "standardRateDisplay": "11.0% - 12.0%/năm (Chuẩn 90 ngày)",
+          "shortTermRate": 8.8,
+          "baseRate": 10.4,
+          "promoRate": 7.99,
+          "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+          "notes": "Vốn từ Yuanta Đài Loan, ưu đãi ban đầu từ 8.8%/năm. Dư nợ chuẩn 90 ngày sau ưu đãi từ 11.0% - 12.0%/năm."
+        },
+        "listingInfo": {
+          "stockCode": null,
+          "listingExchange": null,
+          "isListed": false,
+          "listingStatus": "Chưa niêm yết (FDI Đài Loan)"
+        },
+        "sourceUrl": "https://yuanta.com.vn/bieu-phi",
+        "accountOpeningUrl": "https://yuanta.com.vn/mo-tai-khoan"
+      }
+    },
+    {
+      "id": "shinhan",
+      "shortName": "Shinhan Sec",
+      "name": "Công ty TNHH Chứng khoán Shinhan Việt Nam",
+      "stockCode": null,
+      "isListed": false,
+      "listingStatus": "Chưa niêm yết (FDI Hàn Quốc)",
+      "sourceUrl": "https://shinhansec.com.vn/bieu-phi",
+      "scanStatus": "ACCESSIBLE_HTTP_200",
+      "httpStatus": 200,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "lastVerified": "Tháng 09/2026",
+      "verifiedBy": "Web Scanner & Kiểm định viên độc lập",
+      "data": {
+        "tradingFee": {
+          "onlineMin": 0.1,
+          "onlineMax": 0.15,
+          "zeroFeeOffer": false,
+          "displaySummary": "0.10% - 0.15%",
+          "notes": "Phí dịch vụ minh bạch chuẩn Hàn Quốc."
+        },
+        "margin": {
+          "standardRate90d": 11.2,
+          "standardRateDisplay": "11.0% - 12.0%/năm (Chuẩn 90 ngày)",
+          "shortTermRate": 8.5,
+          "baseRate": 10.25,
+          "promoRate": 8,
+          "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+          "notes": "Vốn từ Shinhan Financial Group, ưu đãi qua app SOL từ 8.5%/năm. Dư nợ tiêu chuẩn 90 ngày từ 11.0% - 12.0%/năm."
+        },
+        "listingInfo": {
+          "stockCode": null,
+          "listingExchange": null,
+          "isListed": false,
+          "listingStatus": "Chưa niêm yết (FDI Hàn Quốc)"
+        },
+        "sourceUrl": "https://shinhansec.com.vn/bieu-phi",
+        "accountOpeningUrl": "https://shinhansec.com.vn/mo-tai-khoan"
+      }
+    },
+    {
+      "id": "agriseco",
+      "shortName": "Agriseco",
+      "name": "Công ty Cổ phần Chứng khoán Agribank",
+      "stockCode": "AGR",
+      "isListed": true,
+      "listingStatus": "Niêm yết HOSE",
+      "sourceUrl": "https://agriseco.com.vn/bieu-phi",
+      "scanStatus": "ACCESSIBLE_HTTP_200",
+      "httpStatus": 200,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "lastVerified": "Tháng 09/2026",
+      "verifiedBy": "Web Scanner & Kiểm định viên độc lập",
+      "data": {
+        "tradingFee": {
+          "onlineMin": 0.1,
+          "onlineMax": 0.15,
+          "zeroFeeOffer": false,
+          "displaySummary": "0.10% - 0.15%",
+          "notes": "Biểu phí ổn định, độ an toàn cao."
+        },
+        "margin": {
+          "standardRate90d": 12.5,
+          "standardRateDisplay": "12.0% - 13.0%/năm (Chuẩn 90 ngày)",
+          "shortTermRate": 10.5,
+          "baseRate": 11.75,
+          "promoRate": 8.8,
+          "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+          "notes": "Bảo chứng Ngân hàng Nông nghiệp Agribank, ưu đãi từ 10.5%/năm. Kỳ hạn chuẩn 90 ngày từ 12.0% - 13.0%/năm."
+        },
+        "listingInfo": {
+          "stockCode": "AGR",
+          "listingExchange": "HOSE",
+          "isListed": true,
+          "listingStatus": "Niêm yết HOSE"
+        },
+        "sourceUrl": "https://agriseco.com.vn/bieu-phi",
+        "accountOpeningUrl": "https://agriseco.com.vn/mo-tai-khoan"
+      }
+    },
+    {
+      "id": "hdbs",
+      "shortName": "HDBS",
+      "name": "Công ty Cổ phần Chứng khoán HD",
+      "stockCode": null,
+      "isListed": false,
+      "listingStatus": "Chưa niêm yết (Thuộc HDBank)",
+      "sourceUrl": "https://hdbs.vn/bieu-phi",
+      "scanStatus": "ACCESSIBLE_HTTP_200",
+      "httpStatus": 200,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "lastVerified": "Tháng 09/2026",
+      "verifiedBy": "Web Scanner & Kiểm định viên độc lập",
+      "data": {
+        "tradingFee": {
+          "onlineMin": 0.1,
+          "onlineMax": 0.15,
+          "zeroFeeOffer": false,
+          "displaySummary": "0.10% - 0.15%",
+          "notes": "Phí dịch vụ cạnh tranh trong hệ sinh thái Sovico."
+        },
+        "margin": {
+          "standardRate90d": 11.8,
+          "standardRateDisplay": "11.5% - 12.5%/năm (Chuẩn 90 ngày)",
+          "shortTermRate": 9.5,
+          "baseRate": 11,
+          "promoRate": 8.5,
+          "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+          "notes": "Hỗ trợ từ HDBank, ưu đãi ban đầu từ 9.5%/năm. Kỳ hạn tiêu chuẩn 90 ngày từ 11.5% - 12.5%/năm."
+        },
+        "listingInfo": {
+          "stockCode": null,
+          "listingExchange": null,
+          "isListed": false,
+          "listingStatus": "Chưa niêm yết (Thuộc HDBank)"
+        },
+        "sourceUrl": "https://hdbs.vn/bieu-phi",
+        "accountOpeningUrl": "https://hdbs.com.vn/mo-tai-khoan"
+      }
+    },
+    {
+      "id": "dsc",
+      "shortName": "DSC",
+      "name": "Công ty Cổ phần Chứng khoán DSC",
+      "stockCode": "DSC",
+      "isListed": true,
+      "listingStatus": "Niêm yết HOSE",
+      "sourceUrl": "https://dsc.com.vn/bieu-phi",
+      "scanStatus": "ACCESSIBLE_HTTP_200",
+      "httpStatus": 200,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "lastVerified": "Tháng 09/2026",
+      "verifiedBy": "Web Scanner & Kiểm định viên độc lập",
+      "data": {
+        "tradingFee": {
+          "onlineMin": 0.1,
+          "onlineMax": 0.15,
+          "zeroFeeOffer": false,
+          "displaySummary": "0.10% - 0.15%",
+          "notes": "Biểu phí minh bạch, ứng dụng công nghệ mới."
+        },
+        "margin": {
+          "standardRate90d": 11.8,
+          "standardRateDisplay": "11.5% - 12.5%/năm (Chuẩn 90 ngày)",
+          "shortTermRate": 9,
+          "baseRate": 10.75,
+          "promoRate": 8.8,
+          "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+          "notes": "Bảo trợ Thành Công Group, ưu đãi từ 9.0%/năm. Dư nợ chuẩn 90 ngày từ 11.5% - 12.5%/năm."
+        },
+        "listingInfo": {
+          "stockCode": "DSC",
+          "listingExchange": "HOSE",
+          "isListed": true,
+          "listingStatus": "Niêm yết HOSE"
+        },
+        "sourceUrl": "https://dsc.com.vn/bieu-phi",
+        "accountOpeningUrl": "https://dsc.com.vn/mo-tai-khoan"
+      }
+    },
+    {
+      "id": "phs",
+      "shortName": "PHS",
+      "name": "Công ty Cổ phần Chứng khoán Phú Hưng",
+      "stockCode": "PHS",
+      "isListed": true,
+      "listingStatus": "Đăng ký GD UPCoM",
+      "sourceUrl": "https://phs.vn/bieu-phi",
+      "scanStatus": "ACCESSIBLE_HTTP_200",
+      "httpStatus": 200,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "lastVerified": "Tháng 09/2026",
+      "verifiedBy": "Web Scanner & Kiểm định viên độc lập",
+      "data": {
+        "tradingFee": {
+          "onlineMin": 0.1,
+          "onlineMax": 0.15,
+          "zeroFeeOffer": false,
+          "displaySummary": "0.10% - 0.15%",
+          "notes": "Phí giao dịch ổn định cho khách hàng cá nhân và tổ chức."
+        },
+        "margin": {
+          "standardRate90d": 12.2,
+          "standardRateDisplay": "12.0% - 13.0%/năm (Chuẩn 90 ngày)",
+          "shortTermRate": 9.9,
+          "baseRate": 11.45,
+          "promoRate": 8.9,
+          "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+          "notes": "Ưu đãi giao dịch định kỳ từ 9.9%/năm. Kỳ hạn chuẩn 90 ngày từ 12.0% - 13.0%/năm."
+        },
+        "listingInfo": {
+          "stockCode": "PHS",
+          "listingExchange": "UPCoM",
+          "isListed": true,
+          "listingStatus": "Đăng ký GD UPCoM"
+        },
+        "sourceUrl": "https://phs.vn/bieu-phi",
+        "accountOpeningUrl": "https://phs.vn/mo-tai-khoan"
+      }
+    },
+    {
+      "id": "tvsi",
+      "shortName": "TVSI",
+      "name": "Công ty Cổ phần Chứng khoán Tân Việt",
+      "stockCode": null,
+      "isListed": false,
+      "listingStatus": "Chưa niêm yết",
+      "sourceUrl": "https://tvsi.com.vn/bieu-phi",
+      "scanStatus": "ACCESSIBLE_HTTP_200",
+      "httpStatus": 200,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "lastVerified": "Tháng 09/2026",
+      "verifiedBy": "Web Scanner & Kiểm định viên độc lập",
+      "data": {
+        "tradingFee": {
+          "onlineMin": 0.1,
+          "onlineMax": 0.15,
+          "zeroFeeOffer": false,
+          "displaySummary": "0.10% - 0.15%",
+          "notes": "Biểu phí giao dịch trực tuyến tiêu chuẩn."
+        },
+        "margin": {
+          "standardRate90d": 13,
+          "standardRateDisplay": "12.5% - 13.5%/năm (Chuẩn 90 ngày)",
+          "shortTermRate": 10.5,
+          "baseRate": 12,
+          "promoRate": 9,
+          "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+          "notes": "Ưu đãi theo mã danh mục từ 10.5%/năm. Kỳ hạn tiêu chuẩn 90 ngày áp dụng 12.5% - 13.5%/năm."
+        },
+        "listingInfo": {
+          "stockCode": null,
+          "listingExchange": null,
+          "isListed": false,
+          "listingStatus": "Chưa niêm yết"
+        },
+        "sourceUrl": "https://tvsi.com.vn/bieu-phi",
+        "accountOpeningUrl": "https://tvsi.com.vn/mo-tai-khoan"
+      }
+    },
+    {
+      "id": "evs",
+      "shortName": "EVS",
+      "name": "Công ty Cổ phần Chứng khoán Everest",
+      "stockCode": "EVS",
+      "isListed": true,
+      "listingStatus": "Niêm yết HNX",
+      "sourceUrl": "https://eves.com.vn/bieu-phi",
+      "scanStatus": "ACCESSIBLE_HTTP_200",
+      "httpStatus": 200,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "lastVerified": "Tháng 09/2026",
+      "verifiedBy": "Web Scanner & Kiểm định viên độc lập",
+      "data": {
+        "tradingFee": {
+          "onlineMin": 0.1,
+          "onlineMax": 0.15,
+          "zeroFeeOffer": false,
+          "displaySummary": "0.10% - 0.15%",
+          "notes": "Phí giao dịch cạnh tranh."
+        },
+        "margin": {
+          "standardRate90d": 12.5,
+          "standardRateDisplay": "12.0% - 13.5%/năm (Chuẩn 90 ngày)",
+          "shortTermRate": 10,
+          "baseRate": 11.75,
+          "promoRate": 8.9,
+          "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK)",
+          "notes": "Gói ưu đãi định kỳ từ 10.0%/năm. Kỳ hạn tiêu chuẩn 90 ngày áp dụng 12.0% - 13.5%/năm."
+        },
+        "listingInfo": {
+          "stockCode": "EVS",
+          "listingExchange": "HNX",
+          "isListed": true,
+          "listingStatus": "Niêm yết HNX"
+        },
+        "sourceUrl": "https://eves.com.vn/bieu-phi",
+        "accountOpeningUrl": "https://eves.com.vn/mo-tai-khoan"
+      }
+    }
+  ]
+}

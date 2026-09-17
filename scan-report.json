@@ -1,0 +1,595 @@
+{
+  "summary": {
+    "total": 30,
+    "accessible": 26,
+    "unscannable": 4,
+    "timestamp": "2026-09-17T01:49:07.018Z",
+    "note": "Dữ liệu được quét tự động từ các trang web biểu phí công khai của 30 CTCK."
+  },
+  "brokers": [
+    {
+      "id": "bsc",
+      "name": "Công ty Cổ phần Chứng khoán BIDV",
+      "shortName": "BSC",
+      "stockCode": "BSI",
+      "isListed": true,
+      "url": "https://www.bsc.com.vn/bieu-phi",
+      "officialSource": "https://www.bsc.com.vn/phi-giao-dich-qua-san/",
+      "httpStatus": 200,
+      "isAccessible": true,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "signals": {
+        "hasZeroFeeMention": true,
+        "hasMarginMention": true,
+        "hasPromoRateMention": true
+      },
+      "contentLength": 151634,
+      "scannedAt": "2026-09-17T01:48:44.765Z"
+    },
+    {
+      "id": "tcbs",
+      "name": "Công ty Cổ phần Chứng khoán Kỹ Thương",
+      "shortName": "TCBS",
+      "stockCode": "TCX",
+      "isListed": true,
+      "url": "https://www.tcbs.com.vn/bieu-phi",
+      "officialSource": "https://www.tcbs.com.vn/bieu-phi",
+      "httpStatus": 403,
+      "isAccessible": false,
+      "unscannableReason": "Bảo vệ bởi Cloudflare WAF Bot-Protection (HTTP 403) & Nền tảng SPA JavaScript. Cần đối chiếu thủ công qua trình duyệt.",
+      "manualCheckInstruction": "Truy cập trực tiếp liên kết chính thức: https://www.tcbs.com.vn/bieu-phi",
+      "signals": null,
+      "contentLength": 0,
+      "scannedAt": "2026-09-17T01:48:44.949Z"
+    },
+    {
+      "id": "vps",
+      "name": "Công ty Cổ phần Chứng khoán VPS",
+      "shortName": "VPS",
+      "stockCode": "VCK",
+      "isListed": true,
+      "url": "https://vps.com.vn",
+      "officialSource": "https://vps.com.vn/bieu-phi-dich-vu/",
+      "httpStatus": 200,
+      "isAccessible": true,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "signals": {
+        "hasZeroFeeMention": true,
+        "hasMarginMention": true,
+        "hasPromoRateMention": false
+      },
+      "contentLength": 58644,
+      "scannedAt": "2026-09-17T01:48:45.121Z"
+    },
+    {
+      "id": "ssi",
+      "name": "Công ty Cổ phần Chứng khoán SSI",
+      "shortName": "SSI",
+      "stockCode": "SSI",
+      "isListed": true,
+      "url": "https://www.ssi.com.vn",
+      "officialSource": "https://www.ssi.com.vn/khach-hang-ca-nhan/bieu-phi",
+      "httpStatus": 200,
+      "isAccessible": true,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "signals": {
+        "hasZeroFeeMention": true,
+        "hasMarginMention": true,
+        "hasPromoRateMention": true
+      },
+      "contentLength": 89504,
+      "scannedAt": "2026-09-17T01:48:46.565Z"
+    },
+    {
+      "id": "vndirect",
+      "name": "Công ty Cổ phần Chứng khoán VNDIRECT",
+      "shortName": "VNDIRECT",
+      "stockCode": "VND",
+      "isListed": true,
+      "url": "https://www.vndirect.com.vn/bieu-phi-dich-vu-chung-khoan/",
+      "officialSource": "https://www.vndirect.com.vn/bieu-phi-dich-vu-chung-khoan/",
+      "httpStatus": 403,
+      "isAccessible": false,
+      "unscannableReason": "Bảo vệ bởi Cloudflare WAF Bot-Protection (HTTP 403). Cần đối chiếu thủ công qua trình duyệt.",
+      "manualCheckInstruction": "Truy cập trực tiếp liên kết chính thức: https://www.vndirect.com.vn/bieu-phi-dich-vu-chung-khoan/",
+      "signals": null,
+      "contentLength": 0,
+      "scannedAt": "2026-09-17T01:48:46.769Z"
+    },
+    {
+      "id": "mirae-asset",
+      "name": "Công ty Cổ phần Chứng khoán Mirae Asset (Việt Nam)",
+      "shortName": "Mirae Asset",
+      "stockCode": null,
+      "isListed": false,
+      "url": "https://masvn.com/bieu-phi",
+      "officialSource": "https://masvn.com/bieu-phi",
+      "httpStatus": 200,
+      "isAccessible": true,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "signals": {
+        "hasZeroFeeMention": true,
+        "hasMarginMention": true,
+        "hasPromoRateMention": true
+      },
+      "contentLength": 145400,
+      "scannedAt": "2026-09-17T01:48:47.403Z"
+    },
+    {
+      "id": "dnse",
+      "name": "Công ty Cổ phần Chứng khoán DNSE",
+      "shortName": "DNSE",
+      "stockCode": "DSE",
+      "isListed": true,
+      "url": "https://www.dnse.com.vn/bieu-phi",
+      "officialSource": "https://www.dnse.com.vn/bieu-phi",
+      "httpStatus": 200,
+      "isAccessible": true,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "signals": {
+        "hasZeroFeeMention": true,
+        "hasMarginMention": true,
+        "hasPromoRateMention": true
+      },
+      "contentLength": 517969,
+      "scannedAt": "2026-09-17T01:48:47.658Z"
+    },
+    {
+      "id": "vpbanks",
+      "name": "Công ty Cổ phần Chứng khoán VPBank",
+      "shortName": "VPBankS",
+      "stockCode": null,
+      "isListed": false,
+      "url": "https://www.vpbanks.com.vn/bieu-phi",
+      "officialSource": "https://www.vpbanks.com.vn/bieu-phi",
+      "httpStatus": 200,
+      "isAccessible": true,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "signals": {
+        "hasZeroFeeMention": true,
+        "hasMarginMention": true,
+        "hasPromoRateMention": false
+      },
+      "contentLength": 141976,
+      "scannedAt": "2026-09-17T01:48:48.626Z"
+    },
+    {
+      "id": "fpts",
+      "name": "Công ty Cổ phần Chứng khoán FPT",
+      "shortName": "FPTS",
+      "stockCode": "FTS",
+      "isListed": true,
+      "url": "https://www.fpts.com.vn",
+      "officialSource": "https://www.fpts.com.vn/ho-tro-khach-hang/bieu-phi-dich-vu/",
+      "httpStatus": 200,
+      "isAccessible": true,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "signals": {
+        "hasZeroFeeMention": true,
+        "hasMarginMention": true,
+        "hasPromoRateMention": false
+      },
+      "contentLength": 193078,
+      "scannedAt": "2026-09-17T01:48:48.955Z"
+    },
+    {
+      "id": "hsc",
+      "name": "Công ty Cổ phần Chứng khoán TP.Hồ Chí Minh",
+      "shortName": "HSC",
+      "stockCode": "HCM",
+      "isListed": true,
+      "url": "https://www.hsc.com.vn/bieu-phi",
+      "officialSource": "https://www.hsc.com.vn/bieu-phi",
+      "httpStatus": 200,
+      "isAccessible": true,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "signals": {
+        "hasZeroFeeMention": true,
+        "hasMarginMention": true,
+        "hasPromoRateMention": true
+      },
+      "contentLength": 108488,
+      "scannedAt": "2026-09-17T01:48:49.387Z"
+    },
+    {
+      "id": "vietcap",
+      "name": "Công ty Cổ phần Chứng khoán Vietcap",
+      "shortName": "Vietcap",
+      "stockCode": "VCI",
+      "isListed": true,
+      "url": "https://www.vietcap.com.vn/bieu-phi",
+      "officialSource": "https://www.vietcap.com.vn/bieu-phi",
+      "httpStatus": 200,
+      "isAccessible": true,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "signals": {
+        "hasZeroFeeMention": true,
+        "hasMarginMention": true,
+        "hasPromoRateMention": false
+      },
+      "contentLength": 63521,
+      "scannedAt": "2026-09-17T01:48:49.622Z"
+    },
+    {
+      "id": "kafi",
+      "name": "Công ty Cổ phần Chứng khoán Kafi",
+      "shortName": "Kafi",
+      "stockCode": null,
+      "isListed": false,
+      "url": "https://kafi.vn",
+      "officialSource": "https://kafi.vn/bieu-phi-dich-vu",
+      "httpStatus": 200,
+      "isAccessible": true,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "signals": {
+        "hasZeroFeeMention": true,
+        "hasMarginMention": true,
+        "hasPromoRateMention": false
+      },
+      "contentLength": 87212,
+      "scannedAt": "2026-09-17T01:48:50.451Z"
+    },
+    {
+      "id": "mbs",
+      "name": "Công ty Cổ phần Chứng khoán MB",
+      "shortName": "MBS",
+      "stockCode": "MBS",
+      "isListed": true,
+      "url": "https://mbs.com.vn/bieu-phi/",
+      "officialSource": "https://mbs.com.vn/bieu-phi/",
+      "httpStatus": 403,
+      "isAccessible": false,
+      "unscannableReason": "Tường lửa máy chủ chặn kết nối tự động (HTTP 403). Cần đối chiếu thủ công qua liên kết chính thức.",
+      "manualCheckInstruction": "Truy cập trực tiếp liên kết chính thức: https://mbs.com.vn/bieu-phi/",
+      "signals": null,
+      "contentLength": 0,
+      "scannedAt": "2026-09-17T01:48:51.046Z"
+    },
+    {
+      "id": "shs",
+      "name": "Công ty Cổ phần Chứng khoán Sài Gòn - Hà Nội",
+      "shortName": "SHS",
+      "stockCode": "SHS",
+      "isListed": true,
+      "url": "https://www.shs.com.vn/Pages/BieuPhiDichVu.aspx",
+      "officialSource": "https://www.shs.com.vn/Pages/BieuPhiDichVu.aspx",
+      "httpStatus": 200,
+      "isAccessible": true,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "signals": {
+        "hasZeroFeeMention": false,
+        "hasMarginMention": false,
+        "hasPromoRateMention": false
+      },
+      "contentLength": 0,
+      "scannedAt": "2026-09-17T01:48:51.276Z"
+    },
+    {
+      "id": "vix",
+      "name": "Công ty Cổ phần Chứng khoán VIX",
+      "shortName": "VIX",
+      "stockCode": "VIX",
+      "isListed": true,
+      "url": "https://vixs.vn/bieu-phi",
+      "officialSource": "https://vixs.vn/bieu-phi",
+      "httpStatus": 403,
+      "isAccessible": false,
+      "unscannableReason": "Trang con biểu phí hạn chế truy cập bot tự động (HTTP 403). Cần đối chiếu thủ công qua trình duyệt.",
+      "manualCheckInstruction": "Truy cập trực tiếp liên kết chính thức: https://vixs.vn/bieu-phi",
+      "signals": null,
+      "contentLength": 0,
+      "scannedAt": "2026-09-17T01:48:51.333Z"
+    },
+    {
+      "id": "kis",
+      "name": "Công ty Cổ phần Chứng khoán KIS Việt Nam",
+      "shortName": "KIS",
+      "stockCode": null,
+      "isListed": false,
+      "url": "https://kisvn.vn",
+      "officialSource": "https://kisvn.vn/bieu-phi-dich-vu/",
+      "httpStatus": 200,
+      "isAccessible": true,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "signals": {
+        "hasZeroFeeMention": true,
+        "hasMarginMention": true,
+        "hasPromoRateMention": true
+      },
+      "contentLength": 970593,
+      "scannedAt": "2026-09-17T01:48:51.979Z"
+    },
+    {
+      "id": "acbs",
+      "name": "Công ty TNHH Chứng khoán ACB",
+      "shortName": "ACBS",
+      "stockCode": null,
+      "isListed": false,
+      "url": "https://acbs.com.vn/bieu-phi",
+      "officialSource": "https://acbs.com.vn/bieu-phi",
+      "httpStatus": 200,
+      "isAccessible": true,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "signals": {
+        "hasZeroFeeMention": true,
+        "hasMarginMention": true,
+        "hasPromoRateMention": true
+      },
+      "contentLength": 159693,
+      "scannedAt": "2026-09-17T01:48:53.471Z"
+    },
+    {
+      "id": "vcbs",
+      "name": "Công ty TNHH Chứng khoán Vietcombank",
+      "shortName": "VCBS",
+      "stockCode": null,
+      "isListed": false,
+      "url": "https://vcbs.com.vn/bieu-phi",
+      "officialSource": "https://vcbs.com.vn/bieu-phi",
+      "httpStatus": 200,
+      "isAccessible": true,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "signals": {
+        "hasZeroFeeMention": false,
+        "hasMarginMention": false,
+        "hasPromoRateMention": false
+      },
+      "contentLength": 11982,
+      "scannedAt": "2026-09-17T01:48:53.692Z"
+    },
+    {
+      "id": "kbsv",
+      "name": "Công ty Cổ phần Chứng khoán KB Việt Nam",
+      "shortName": "KBSV",
+      "stockCode": null,
+      "isListed": false,
+      "url": "https://kbsec.com.vn/bieu-phi",
+      "officialSource": "https://kbsec.com.vn/bieu-phi",
+      "httpStatus": 200,
+      "isAccessible": true,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "signals": {
+        "hasZeroFeeMention": false,
+        "hasMarginMention": false,
+        "hasPromoRateMention": false
+      },
+      "contentLength": 552,
+      "scannedAt": "2026-09-17T01:48:53.858Z"
+    },
+    {
+      "id": "cts",
+      "name": "Công ty Cổ phần Chứng khoán Ngân hàng Công Thương Việt Nam",
+      "shortName": "VietinBank Sec (CTS)",
+      "stockCode": "CTS",
+      "isListed": true,
+      "url": "https://cts.vn/bieu-phi",
+      "officialSource": "https://cts.vn/bieu-phi",
+      "httpStatus": 200,
+      "isAccessible": true,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "signals": {
+        "hasZeroFeeMention": true,
+        "hasMarginMention": true,
+        "hasPromoRateMention": false
+      },
+      "contentLength": 75749,
+      "scannedAt": "2026-09-17T01:48:54.216Z"
+    },
+    {
+      "id": "bvsc",
+      "name": "Công ty Cổ phần Chứng khoán Bảo Việt",
+      "shortName": "BVSC",
+      "stockCode": "BVS",
+      "isListed": true,
+      "url": "https://bvsc.com.vn/bieu-phi",
+      "officialSource": "https://bvsc.com.vn/bieu-phi",
+      "httpStatus": 200,
+      "isAccessible": true,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "signals": {
+        "hasZeroFeeMention": true,
+        "hasMarginMention": true,
+        "hasPromoRateMention": false
+      },
+      "contentLength": 122844,
+      "scannedAt": "2026-09-17T01:48:55.110Z"
+    },
+    {
+      "id": "tps",
+      "name": "Công ty Cổ phần Chứng khoán Tiên Phong",
+      "shortName": "TPS",
+      "stockCode": "ORS",
+      "isListed": true,
+      "url": "https://tpbs.com.vn",
+      "officialSource": "https://tpbs.com.vn/bieu-phi",
+      "httpStatus": 200,
+      "isAccessible": true,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "signals": {
+        "hasZeroFeeMention": false,
+        "hasMarginMention": true,
+        "hasPromoRateMention": false
+      },
+      "contentLength": 71133,
+      "scannedAt": "2026-09-17T01:48:56.101Z"
+    },
+    {
+      "id": "yuanta",
+      "name": "Công ty TNHH Chứng khoán Yuanta Việt Nam",
+      "shortName": "Yuanta",
+      "stockCode": null,
+      "isListed": false,
+      "url": "https://yuanta.com.vn/bieu-phi",
+      "officialSource": "https://yuanta.com.vn/bieu-phi",
+      "httpStatus": 200,
+      "isAccessible": true,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "signals": {
+        "hasZeroFeeMention": false,
+        "hasMarginMention": false,
+        "hasPromoRateMention": false
+      },
+      "contentLength": 1479,
+      "scannedAt": "2026-09-17T01:48:56.827Z"
+    },
+    {
+      "id": "shinhan",
+      "name": "Công ty TNHH Chứng khoán Shinhan Việt Nam",
+      "shortName": "Shinhan Sec",
+      "stockCode": null,
+      "isListed": false,
+      "url": "https://shinhansec.com.vn",
+      "officialSource": "https://shinhansec.com.vn/bieu-phi",
+      "httpStatus": 200,
+      "isAccessible": true,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "signals": {
+        "hasZeroFeeMention": false,
+        "hasMarginMention": false,
+        "hasPromoRateMention": false
+      },
+      "contentLength": 74533,
+      "scannedAt": "2026-09-17T01:48:58.596Z"
+    },
+    {
+      "id": "agriseco",
+      "name": "Công ty Cổ phần Chứng khoán Agribank",
+      "shortName": "Agriseco",
+      "stockCode": "AGR",
+      "isListed": true,
+      "url": "https://agriseco.com.vn",
+      "officialSource": "https://agriseco.com.vn/bieu-phi",
+      "httpStatus": 200,
+      "isAccessible": true,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "signals": {
+        "hasZeroFeeMention": false,
+        "hasMarginMention": true,
+        "hasPromoRateMention": false
+      },
+      "contentLength": 65195,
+      "scannedAt": "2026-09-17T01:48:58.929Z"
+    },
+    {
+      "id": "hdbs",
+      "name": "Công ty Cổ phần Chứng khoán HD",
+      "shortName": "HDBS",
+      "stockCode": null,
+      "isListed": false,
+      "url": "https://hdbs.vn/bieu-phi",
+      "officialSource": "https://hdbs.vn/bieu-phi",
+      "httpStatus": 200,
+      "isAccessible": true,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "signals": {
+        "hasZeroFeeMention": true,
+        "hasMarginMention": true,
+        "hasPromoRateMention": false
+      },
+      "contentLength": 74954,
+      "scannedAt": "2026-09-17T01:49:05.138Z"
+    },
+    {
+      "id": "dsc",
+      "name": "Công ty Cổ phần Chứng khoán DSC",
+      "shortName": "DSC",
+      "stockCode": "DSC",
+      "isListed": true,
+      "url": "https://dsc.com.vn/bieu-phi",
+      "officialSource": "https://dsc.com.vn/bieu-phi",
+      "httpStatus": 200,
+      "isAccessible": true,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "signals": {
+        "hasZeroFeeMention": true,
+        "hasMarginMention": true,
+        "hasPromoRateMention": true
+      },
+      "contentLength": 160020,
+      "scannedAt": "2026-09-17T01:49:05.284Z"
+    },
+    {
+      "id": "phs",
+      "name": "Công ty Cổ phần Chứng khoán Phú Hưng",
+      "shortName": "PHS",
+      "stockCode": null,
+      "isListed": false,
+      "url": "https://phs.vn",
+      "officialSource": "https://phs.vn/bieu-phi",
+      "httpStatus": 200,
+      "isAccessible": true,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "signals": {
+        "hasZeroFeeMention": true,
+        "hasMarginMention": true,
+        "hasPromoRateMention": false
+      },
+      "contentLength": 325438,
+      "scannedAt": "2026-09-17T01:49:05.730Z"
+    },
+    {
+      "id": "tvsi",
+      "name": "Công ty Cổ phần Chứng khoán Tân Việt",
+      "shortName": "TVSI",
+      "stockCode": null,
+      "isListed": false,
+      "url": "https://tvsi.com.vn/bieu-phi",
+      "officialSource": "https://tvsi.com.vn/bieu-phi",
+      "httpStatus": 200,
+      "isAccessible": true,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "signals": {
+        "hasZeroFeeMention": false,
+        "hasMarginMention": true,
+        "hasPromoRateMention": false
+      },
+      "contentLength": 76828,
+      "scannedAt": "2026-09-17T01:49:06.331Z"
+    },
+    {
+      "id": "evs",
+      "name": "Công ty Cổ phần Chứng khoán Everest",
+      "shortName": "EVS",
+      "stockCode": "EVS",
+      "isListed": true,
+      "url": "https://eves.com.vn",
+      "officialSource": "https://eves.com.vn/bieu-phi",
+      "httpStatus": 200,
+      "isAccessible": true,
+      "unscannableReason": null,
+      "manualCheckInstruction": null,
+      "signals": {
+        "hasZeroFeeMention": true,
+        "hasMarginMention": true,
+        "hasPromoRateMention": false
+      },
+      "contentLength": 79853,
+      "scannedAt": "2026-09-17T01:49:07.018Z"
+    }
+  ]
+}
