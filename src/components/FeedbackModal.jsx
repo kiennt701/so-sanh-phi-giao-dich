@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { 
   X, 
-  Mail, 
   Send, 
-  Check, 
-  Copy, 
+  ShieldCheck, 
   MessageSquarePlus, 
-  ExternalLink, 
   CheckCircle2
 } from 'lucide-react';
 import { SECURITIES_COMPANIES } from '../data/securitiesData';
@@ -17,7 +14,6 @@ export default function FeedbackModal({ isOpen, onClose }) {
   const [content, setContent] = useState('');
   const [sourceUrl, setSourceUrl] = useState('');
   const [senderContact, setSenderContact] = useState('');
-  const [isCopied, setIsCopied] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   // Close on Escape key
@@ -40,12 +36,6 @@ export default function FeedbackModal({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   const contactEmail = 'kienhpw@gmail.com';
-
-  const handleCopyEmail = () => {
-    navigator.clipboard.writeText(contactEmail);
-    setIsCopied(true);
-    setTimeout(() => setIsCopied(false), 2500);
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -124,44 +114,12 @@ export default function FeedbackModal({ isOpen, onClose }) {
           </button>
         </div>
 
-        {/* Direct Email Contact Badge */}
-        <div className="mt-4 rounded-2xl border border-blue-100 bg-blue-50/60 p-3.5 dark:border-blue-900/40 dark:bg-blue-950/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
-          <div className="flex items-center gap-2 text-xs text-slate-700 dark:text-slate-300">
-            <Mail className="h-4 w-4 text-blue-600 dark:text-blue-400 shrink-0" />
-            <span>
-              Email liên hệ trực tiếp: <strong className="font-bold text-blue-700 dark:text-blue-300">{contactEmail}</strong>
-            </span>
-          </div>
-
-          <div className="flex items-center gap-1.5 self-end sm:self-auto">
-            <button
-              type="button"
-              onClick={handleCopyEmail}
-              className="inline-flex items-center gap-1 rounded-lg border border-blue-200 bg-white px-2.5 py-1 text-[11px] font-bold text-blue-700 hover:bg-blue-50 dark:border-blue-800 dark:bg-slate-800 dark:text-blue-300 dark:hover:bg-slate-700 transition-all shadow-xs"
-              title="Sao chép địa chỉ email"
-            >
-              {isCopied ? (
-                <>
-                  <Check className="h-3 w-3 text-emerald-600" />
-                  <span className="text-emerald-600">Đã chép</span>
-                </>
-              ) : (
-                <>
-                  <Copy className="h-3 w-3" />
-                  <span>Sao chép</span>
-                </>
-              )}
-            </button>
-
-            <a
-              href={`mailto:${contactEmail}`}
-              className="inline-flex items-center gap-1 rounded-lg bg-blue-600 px-2.5 py-1 text-[11px] font-bold text-white hover:bg-blue-700 transition-all shadow-xs"
-              title="Mở ứng dụng gửi email"
-            >
-              <span>Gửi thư</span>
-              <ExternalLink className="h-3 w-3" />
-            </a>
-          </div>
+        {/* Verification Info Banner */}
+        <div className="mt-4 rounded-2xl border border-blue-100 bg-blue-50/60 p-3.5 dark:border-blue-900/40 dark:bg-blue-950/30 flex items-start gap-2.5">
+          <ShieldCheck className="h-4 w-4 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
+          <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
+            Ý kiến đóng góp và đề xuất cập nhật biểu phí của bạn sẽ được gửi trực tiếp đến Ban Quản Trị để đối chiếu xác thực với biểu phí niêm yết chính thức.
+          </p>
         </div>
 
         {isSubmitted ? (

@@ -14,6 +14,7 @@ import KeyPointSynthesis from './components/KeyPointSynthesis';
 import AIAdvisor from './components/AIAdvisor';
 import DataManagementModal from './components/DataManagementModal';
 import GoogleAuthModal from './components/GoogleAuthModal';
+import MobileBottomNav from './components/MobileBottomNav';
 import Footer from './components/Footer';
 import { SECURITIES_COMPANIES } from './data/securitiesData';
 import { getCurrentUser, logoutAdmin } from './utils/auth';
@@ -70,7 +71,13 @@ export default function App() {
   // Search & Filter state
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState('all');
-  const [viewMode, setViewMode] = useState('table'); // 'table' | 'cards'
+  const [viewMode, setViewMode] = useState(() => {
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      return 'cards';
+    }
+    return 'table';
+  });
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Comparison & Detail Modals state
   const [selectedForCompare, setSelectedForCompare] = useState([]);
@@ -178,7 +185,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 transition-colors">
+    <div className="min-h-screen w-full max-w-full overflow-x-hidden flex flex-col bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 transition-colors">
       {/* Header Navigation */}
       <Header
         darkMode={darkMode}
@@ -188,6 +195,8 @@ export default function App() {
         onOpenDataManager={handleOpenDataManager}
         currentUser={currentUser}
         onLogoutAdmin={handleLogoutAdmin}
+        isMobileMenuOpen={isMobileMenuOpen}
+        setIsMobileMenuOpen={setIsMobileMenuOpen}
       />
 
       {/* Hero Section */}
@@ -197,8 +206,8 @@ export default function App() {
         scrollToSection={scrollToSection}
       />
 
-      {/* Main Content Body with Optimized Spacing */}
-      <main className="mx-auto max-w-7xl flex-1 px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-8 sm:space-y-10">
+      {/* Main Content Body with Strict Width Containment & Optimized Spacing */}
+      <main className="mx-auto w-full max-w-7xl min-w-0 flex-1 px-3 sm:px-6 lg:px-8 py-5 sm:py-8 space-y-6 sm:space-y-10 pb-24 md:pb-8">
         {/* Section: AI Advisor & Smart Recommendations */}
         <section id="ai-advisor-section" className="scroll-mt-24">
           <AIAdvisor
@@ -345,6 +354,21 @@ export default function App() {
       <Footer 
         scrollToSection={scrollToSection} 
         onOpenFeedback={() => setIsFeedbackModalOpen(true)}
+      />
+
+      {/* Mobile Sticky Bottom Navigation */}
+      <MobileBottomNav
+        scrollToSection={scrollToSection}
+        isMenuOpen={isMobileMenuOpen}
+        setIsMenuOpen={setIsMobileMenuOpen}
+        darkMode={darkMode}
+        setDarkMode={setDarkMode}
+        onOpenFeedback={() => setIsFeedbackModalOpen(true)}
+        onOpenDataManager={handleOpenDataManager}
+        currentUser={currentUser}
+        onLogoutAdmin={handleLogoutAdmin}
+        selectedForCompare={selectedForCompare}
+        openCompareModal={handleOpenCompareModal}
       />
     </div>
   );
