@@ -15,8 +15,11 @@ import {
   Info,
   Award,
   Percent,
-  TrendingDown
+  TrendingDown,
+  BarChart3,
+  Layers
 } from 'lucide-react';
+import CostComparisonChart from './CostComparisonChart';
 
 // Tính toán tỷ lệ % tổng chi phí so với Giá trị giao dịch và mức sinh lời cần thiết để bù chi phí
 const formatCostRatio = (cost, volume) => {
@@ -526,6 +529,14 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
             </div>
           )}
 
+          {/* Visual Stacked Bar Chart */}
+          <CostComparisonChart 
+            rankedResults={rankedResults}
+            tradingVolume={tradingVolume}
+            marginLoan={marginLoan}
+            onSelectCompany={handleCompanyClick}
+          />
+
           {/* Company Display Count Control with Range Slider */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 bg-slate-50 dark:bg-slate-800/70 px-3.5 py-2 rounded-2xl border border-slate-200 dark:border-slate-700/80">
             <div className="flex items-center gap-2">
@@ -638,6 +649,22 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
                         <span className="font-bold text-slate-800 dark:text-slate-200 text-xs">
                           {formatCurrency(item.monthlyMarginInterest)}
                         </span>
+                      </div>
+                    </div>
+
+                    {/* Mini Visual Stacked Bar */}
+                    <div className="mt-2 space-y-1">
+                      <div className="h-1.5 w-full bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden flex">
+                        <div 
+                          style={{ width: `${Math.round((item.monthlyTradingFee / (item.totalMonthlyCost || 1)) * 100)}%` }} 
+                          className="bg-blue-500 h-full transition-all duration-300" 
+                          title={`Phí GD: ${formatCurrency(item.monthlyTradingFee)}`}
+                        />
+                        <div 
+                          style={{ width: `${Math.round((item.monthlyMarginInterest / (item.totalMonthlyCost || 1)) * 100)}%` }} 
+                          className="bg-emerald-500 h-full transition-all duration-300" 
+                          title={`Lãi Margin: ${formatCurrency(item.monthlyMarginInterest)}`}
+                        />
                       </div>
                     </div>
 
@@ -889,9 +916,22 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
                         <td className={`py-2 px-2.5 whitespace-nowrap ${
                           activeCriterion === 'lowest_total' ? 'bg-emerald-50/50 dark:bg-emerald-950/20' : ''
                         }`}>
-                          <span className="font-black text-xs sm:text-sm text-blue-600 dark:text-blue-400">
+                          <div className="font-black text-xs sm:text-sm text-blue-600 dark:text-blue-400">
                             {formatCurrency(item.totalMonthlyCost)}
-                          </span>
+                          </div>
+                          {/* Mini visual breakdown bar */}
+                          <div className="mt-1 h-1.5 w-24 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden flex">
+                            <div 
+                              style={{ width: `${Math.round((item.monthlyTradingFee / (item.totalMonthlyCost || 1)) * 100)}%` }} 
+                              className="bg-blue-500 h-full transition-all duration-300" 
+                              title={`Phí GD: ${formatCurrency(item.monthlyTradingFee)}`}
+                            />
+                            <div 
+                              style={{ width: `${Math.round((item.monthlyMarginInterest / (item.totalMonthlyCost || 1)) * 100)}%` }} 
+                              className="bg-emerald-500 h-full transition-all duration-300" 
+                              title={`Lãi Margin: ${formatCurrency(item.monthlyMarginInterest)}`}
+                            />
+                          </div>
                         </td>
 
                         {/* Cost Ratio / Break-even Point Column */}
