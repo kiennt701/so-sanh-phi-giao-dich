@@ -48,7 +48,7 @@ export default function HeroSection({ searchQuery, setSearchQuery, scrollToSecti
                 Tìm Kiếm
               </button>
             </div>
-            <div className="mt-2 flex flex-wrap items-center justify-center gap-1.5 text-[11px] text-slate-500 dark:text-slate-400">
+            <div className="mt-2 flex flex-wrap items-center justify-center gap-1.5 text-[11px] text-slate-500 dark:text-slate-300">
               <span>Gợi ý tìm nhanh:</span>
               {[
                 { label: 'BSI (BSC)', val: 'BSI' },
@@ -63,7 +63,7 @@ export default function HeroSection({ searchQuery, setSearchQuery, scrollToSecti
                 <button
                   key={item.label}
                   onClick={() => setSearchQuery(item.val)}
-                  className="rounded-md bg-slate-100 px-1.5 py-0.5 font-medium hover:bg-blue-100 hover:text-blue-700 dark:bg-slate-800 dark:hover:bg-slate-700 dark:hover:text-blue-400 transition-colors"
+                  className="rounded-md bg-slate-100 px-1.5 py-0.5 font-medium hover:bg-blue-100 hover:text-blue-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 dark:hover:text-blue-300 transition-colors"
                 >
                   {item.label}
                 </button>
@@ -78,7 +78,7 @@ export default function HeroSection({ searchQuery, setSearchQuery, scrollToSecti
                 <Zap className="h-4 w-4" />
               </div>
               <div className="text-xl font-bold text-slate-900 dark:text-white">30 CTCK</div>
-              <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Top tổng tài sản lớn nhất</div>
+              <div className="text-[11px] text-slate-500 dark:text-slate-300 mt-0.5 font-medium">Top tổng tài sản lớn nhất</div>
             </div>
 
             <div className="rounded-2xl border border-slate-200 bg-white/70 p-3 text-left shadow-xs backdrop-blur-sm dark:border-slate-800 dark:bg-slate-900/60">
@@ -86,7 +86,7 @@ export default function HeroSection({ searchQuery, setSearchQuery, scrollToSecti
                 <TrendingDown className="h-4 w-4" />
               </div>
               <div className="text-xl font-bold text-slate-900 dark:text-white">Từ 0.00%</div>
-              <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Chính sách Zero-Fee & ưu đãi</div>
+              <div className="text-[11px] text-slate-500 dark:text-slate-300 mt-0.5 font-medium">Chính sách Zero-Fee & ưu đãi</div>
             </div>
 
             <div className="rounded-2xl border border-slate-200 bg-white/70 p-3 text-left shadow-xs backdrop-blur-sm dark:border-slate-800 dark:bg-slate-900/60">
@@ -94,7 +94,7 @@ export default function HeroSection({ searchQuery, setSearchQuery, scrollToSecti
                 <Sparkles className="h-4 w-4" />
               </div>
               <div className="text-xl font-bold text-slate-900 dark:text-white">Từ 5.99%</div>
-              <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Lãi vay Margin ưu đãi/năm</div>
+              <div className="text-[11px] text-slate-500 dark:text-slate-300 mt-0.5 font-medium">Lãi vay Margin ưu đãi/năm</div>
             </div>
 
             <div className="rounded-2xl border border-slate-200 bg-white/70 p-3 text-left shadow-xs backdrop-blur-sm dark:border-slate-800 dark:bg-slate-900/60">
@@ -102,7 +102,7 @@ export default function HeroSection({ searchQuery, setSearchQuery, scrollToSecti
                 <Shield className="h-4 w-4" />
               </div>
               <div className="text-xl font-bold text-slate-900 dark:text-white">100% Khách quan</div>
-              <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Mã nguồn mở, dữ liệu minh bạch</div>
+              <div className="text-[11px] text-slate-500 dark:text-slate-300 mt-0.5 font-medium">Mã nguồn mở, dữ liệu minh bạch</div>
             </div>
           </div>
 

@@ -25,7 +25,7 @@ export default function FilterBar({
   return (
     <div className="space-y-2.5 sm:space-y-3">
       {/* Primary Mode Switcher: Existing Client Standard Rates vs Welcome Promo Comparator */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 bg-slate-100 dark:bg-slate-850 p-1.5 rounded-2xl border border-slate-200/80 dark:border-slate-800">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 bg-slate-100 dark:bg-slate-800/90 p-1.5 rounded-2xl border border-slate-200/80 dark:border-slate-700">
         <div className="grid grid-cols-2 sm:flex items-center gap-1 sm:gap-1.5 flex-1">
           {/* Tab 1: Existing Clients */}
           <button
@@ -33,8 +33,8 @@ export default function FilterBar({
             onClick={() => setComparisonTab && setComparisonTab('existing')}
             className={`inline-flex items-center justify-center gap-1.5 sm:gap-2 rounded-xl px-2.5 sm:px-3.5 py-2 text-xs sm:text-sm font-extrabold transition-all text-center ${
               comparisonTab === 'existing'
-                ? 'bg-white text-blue-700 shadow-sm ring-1 ring-slate-200/80 dark:bg-slate-800 dark:text-blue-400 dark:ring-slate-700'
-                : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
+                ? 'bg-white text-blue-700 shadow-sm ring-1 ring-slate-200/80 dark:bg-slate-900 dark:text-blue-300 dark:ring-slate-700'
+                : 'text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white'
             }`}
           >
             <Table className="h-4 w-4 text-blue-600 dark:text-blue-400 shrink-0" />
@@ -49,10 +49,10 @@ export default function FilterBar({
             className={`inline-flex items-center justify-center gap-1.5 sm:gap-2 rounded-xl px-2.5 sm:px-3.5 py-2 text-xs sm:text-sm font-extrabold transition-all text-center ${
               comparisonTab === 'welcome_promo'
                 ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-sm shadow-orange-500/25'
-                : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
+                : 'text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white'
             }`}
           >
-            <Gift className="h-4 w-4 text-amber-400 shrink-0" />
+            <Gift className="h-4 w-4 text-amber-300 shrink-0" />
             <span className="hidden sm:inline">Ưu Đãi Mở Tài Khoản Mới (eKYC)</span>
             <span className="sm:hidden text-xs">Ưu Đãi Mở Mới</span>
             <span className="rounded-full bg-red-500 text-white text-[9px] sm:text-[10px] font-black px-1.5 py-0.2 shrink-0">
@@ -61,11 +61,11 @@ export default function FilterBar({
           </button>
         </div>
 
-        <div className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 px-2 text-center sm:text-right">
+        <div className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-300 px-2 text-center sm:text-right font-medium">
           {comparisonTab === 'existing' ? (
-            <span>Biểu phí & margin chuẩn <strong>dài hạn 90 ngày</strong></span>
+            <span>Biểu phí & margin chuẩn <strong className="text-slate-700 dark:text-white font-bold">dài hạn 90 ngày</strong></span>
           ) : (
-            <span>Tổng hợp các gói <strong>miễn phí & quà tặng eKYC</strong></span>
+            <span>Tổng hợp các gói <strong className="text-slate-700 dark:text-white font-bold">miễn phí & quà tặng eKYC</strong></span>
           )}
         </div>
       </div>
@@ -86,7 +86,7 @@ export default function FilterBar({
                   className={`inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold transition-all shrink-0 shadow-xs ${
                     isActive
                       ? 'bg-blue-600 text-white shadow-blue-500/25 ring-2 ring-blue-600 dark:ring-blue-500'
-                      : 'bg-white text-slate-700 hover:bg-slate-100 hover:text-slate-900 border border-slate-200 dark:bg-slate-900 dark:text-slate-300 dark:border-slate-800 dark:hover:bg-slate-800'
+                      : 'bg-white text-slate-700 hover:bg-slate-100 hover:text-slate-900 border border-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700 dark:hover:bg-slate-700'
                   }`}
                 >
                   {Icon && <Icon className={`h-3.5 w-3.5 ${isActive ? 'text-white' : 'text-slate-400'}`} />}
@@ -98,17 +98,17 @@ export default function FilterBar({
 
           {/* View Mode Toggle & Result count */}
           <div className="flex items-center justify-between sm:justify-end gap-2.5 shrink-0 pt-1 sm:pt-0">
-            <span className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400">
+            <span className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-300">
               Hiển thị <strong className="text-slate-900 dark:text-white">{filteredCount}</strong> CTCK
             </span>
 
-            <div className="inline-flex rounded-xl border border-slate-200 bg-white p-1 dark:border-slate-800 dark:bg-slate-900 shadow-xs">
+            <div className="inline-flex rounded-xl border border-slate-200 bg-white p-1 dark:border-slate-700 dark:bg-slate-800 shadow-xs">
               <button
                 onClick={() => setViewMode('cards')}
                 className={`rounded-lg px-2.5 py-1 text-xs font-bold flex items-center gap-1 transition-colors ${
                   viewMode === 'cards'
                     ? 'bg-blue-50 text-blue-600 dark:bg-blue-950 dark:text-blue-400'
-                    : 'text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
+                    : 'text-slate-400 hover:text-slate-700 dark:text-slate-300 dark:hover:text-white'
                 }`}
                 title="Dạng thẻ lưới trực quan (khuyên dùng trên điện thoại)"
               >
@@ -121,7 +121,7 @@ export default function FilterBar({
                 className={`rounded-lg px-2.5 py-1 text-xs font-bold flex items-center gap-1 transition-colors ${
                   viewMode === 'table'
                     ? 'bg-blue-50 text-blue-600 dark:bg-blue-950 dark:text-blue-400'
-                    : 'text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
+                    : 'text-slate-400 hover:text-slate-700 dark:text-slate-300 dark:hover:text-white'
                 }`}
                 title="Dạng bảng chi tiết"
               >

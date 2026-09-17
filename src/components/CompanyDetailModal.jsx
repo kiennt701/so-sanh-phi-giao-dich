@@ -252,8 +252,8 @@ export default function CompanyDetailModal({ company, onClose }) {
               </div>
 
               {/* Derivatives & Fee Breakdown Details */}
-              <div className="rounded-2xl border border-slate-200 p-4 bg-slate-50/40 dark:border-slate-800 dark:bg-slate-850/40">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2 flex items-center gap-1.5">
+              <div className="rounded-2xl border border-slate-200 p-4 bg-slate-50/40 dark:border-slate-700 dark:bg-slate-800/60">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-2 flex items-center gap-1.5">
                   <Layers className="h-4 w-4 text-blue-500" />
                   <span>Phí Giao Dịch Phái Sinh & Dịch Vụ</span>
                 </h4>
@@ -409,8 +409,8 @@ export default function CompanyDetailModal({ company, onClose }) {
               </div>
 
               {/* Official SSC Verification Portal Callout */}
-              <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-850/60 p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-                <div className="flex items-start sm:items-center gap-2.5 text-slate-600 dark:text-slate-300">
+              <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50/70 dark:bg-slate-800/80 p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+                <div className="flex items-start sm:items-center gap-2.5 text-slate-700 dark:text-slate-200">
                   <ShieldCheck className="h-4 w-4 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5 sm:mt-0" />
                   <span>
                     Thông tin công ty niêm yết & hồ sơ công ty đại chúng được quản lý và công bố chính thức tại <strong>Cổng thông tin UBCKNN (SSC)</strong>.
@@ -481,12 +481,12 @@ export default function CompanyDetailModal({ company, onClose }) {
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-slate-200 dark:border-slate-800 p-4 bg-slate-50 dark:bg-slate-850 text-xs text-slate-600 dark:text-slate-400 space-y-1.5">
-                <span className="font-bold text-slate-800 dark:text-slate-200 block">Lưu ý khi mở tài khoản eKYC:</span>
+              <div className="rounded-2xl border border-slate-200 dark:border-slate-700 p-4 bg-slate-50 dark:bg-slate-800/90 text-xs text-slate-700 dark:text-slate-200 space-y-1.5 font-medium">
+                <span className="font-bold text-slate-800 dark:text-white block">Lưu ý khi mở tài khoản eKYC:</span>
                 <p>• Sử dụng CCCD gắn chip chính chủ còn hạn sử dụng, chụp ở nơi đủ ánh sáng và không bị lóa.</p>
                 <p>• Sau khi hoàn tất eKYC, tài khoản sẽ được kích hoạt giao dịch ngay trong ngày làm việc.</p>
                 {isBsc && (
-                  <p className="text-blue-700 dark:text-blue-300 font-bold">• Mã giới thiệu CIF BSC: <code className="bg-blue-100 dark:bg-blue-900/60 px-1.5 py-0.5 rounded text-blue-900 dark:text-blue-100">4768</code> được tích hợp sẵn qua liên kết mở tài khoản.</p>
+                  <p className="text-blue-700 dark:text-amber-300 font-bold">• Mã giới thiệu CIF BSC: <code className="bg-blue-100 dark:bg-blue-900/80 px-1.5 py-0.5 rounded text-blue-900 dark:text-blue-100">4768</code> được tích hợp sẵn qua liên kết mở tài khoản.</p>
                 )}
               </div>
             </div>

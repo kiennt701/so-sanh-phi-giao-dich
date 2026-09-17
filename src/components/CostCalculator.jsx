@@ -15,8 +15,11 @@ import {
   Info,
   Award,
   Percent,
-  TrendingDown
+  TrendingDown,
+  BarChart3,
+  Layers
 } from 'lucide-react';
+import CostComparisonChart from './CostComparisonChart';
 
 // Tính toán tỷ lệ % tổng chi phí so với Giá trị giao dịch và mức sinh lời cần thiết để bù chi phí
 const formatCostRatio = (cost, volume) => {
@@ -209,14 +212,16 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
         {/* Left column: Input controls (5 cols) */}
         <div className="lg:col-span-5 space-y-3 sm:space-y-3.5">
           {/* Input 1: Monthly Trading Volume */}
-          <div className="space-y-1.5 bg-slate-50/80 dark:bg-slate-850/60 p-3 sm:p-3.5 rounded-2xl border border-slate-100 dark:border-slate-800/80">
-            <div className="flex items-center justify-between">
-              <label className="text-[11px] font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+          <div className="space-y-2 bg-slate-50/90 dark:bg-slate-800/90 p-3.5 sm:p-4 rounded-2xl border border-slate-100 dark:border-slate-700/80 shadow-xs">
+            <div className="flex items-center justify-between gap-2">
+              <label className="text-[11px] font-bold uppercase tracking-wider text-slate-700 dark:text-slate-200">
                 Giá trị giao dịch cổ phiếu / tháng
               </label>
-              <span className="text-sm font-extrabold text-blue-600 dark:text-blue-400">
-                {formatCurrency(tradingVolume)}
-              </span>
+              <div className="rounded-xl bg-white dark:bg-slate-900 px-3 py-1 border border-slate-200/80 dark:border-slate-700 shadow-xs">
+                <span className="text-xs sm:text-sm font-black text-blue-600 dark:text-blue-400">
+                  {formatCurrency(tradingVolume)}
+                </span>
+              </div>
             </div>
 
             <input
@@ -236,8 +241,8 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
                   onClick={() => setTradingVolume(preset.value)}
                   className={`rounded-lg px-2 py-0.5 text-[11px] font-semibold transition-colors ${
                     tradingVolume === preset.value
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700'
+                      ? 'bg-blue-600 text-white shadow-xs'
+                      : 'bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-600 border border-slate-200 dark:border-slate-600'
                   }`}
                 >
                   {preset.label}
@@ -247,14 +252,16 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
           </div>
 
           {/* Input 2: Margin Loan Balance */}
-          <div className="space-y-1.5 bg-slate-50/80 dark:bg-slate-850/60 p-3 sm:p-3.5 rounded-2xl border border-slate-100 dark:border-slate-800/80">
-            <div className="flex items-center justify-between">
-              <label className="text-[11px] font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+          <div className="space-y-2 bg-slate-50/90 dark:bg-slate-800/90 p-3.5 sm:p-4 rounded-2xl border border-slate-100 dark:border-slate-700/80 shadow-xs">
+            <div className="flex items-center justify-between gap-2">
+              <label className="text-[11px] font-bold uppercase tracking-wider text-slate-700 dark:text-slate-200">
                 Dư nợ vay Margin bình quân
               </label>
-              <span className="text-sm font-extrabold text-emerald-600 dark:text-emerald-400">
-                {formatCurrency(marginLoan)}
-              </span>
+              <div className="rounded-xl bg-white dark:bg-slate-900 px-3 py-1 border border-slate-200/80 dark:border-slate-700 shadow-xs">
+                <span className="text-xs sm:text-sm font-black text-emerald-600 dark:text-emerald-400">
+                  {formatCurrency(marginLoan)}
+                </span>
+              </div>
             </div>
 
             <input
@@ -274,8 +281,8 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
                   onClick={() => setMarginLoan(preset.value)}
                   className={`rounded-lg px-2 py-0.5 text-[11px] font-semibold transition-colors ${
                     marginLoan === preset.value
-                      ? 'bg-emerald-600 text-white'
-                      : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700'
+                      ? 'bg-emerald-600 text-white shadow-xs'
+                      : 'bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-600 border border-slate-200 dark:border-slate-600'
                   }`}
                 >
                   {preset.label}
@@ -285,9 +292,9 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
           </div>
 
           {/* Margin Package Type Selector: Standard 90-day vs Short-term Deal */}
-          <div className="bg-slate-50/80 dark:bg-slate-850/60 p-3 sm:p-3.5 rounded-2xl border border-slate-100 dark:border-slate-800/80 space-y-2">
+          <div className="bg-slate-50/90 dark:bg-slate-800/90 p-3 sm:p-3.5 rounded-2xl border border-slate-100 dark:border-slate-700/80 space-y-2">
             <div className="flex items-center justify-between">
-              <label className="text-[11px] font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+              <label className="text-[11px] font-bold uppercase tracking-wider text-slate-700 dark:text-slate-200">
                 Gói Lãi Suất Ký Quỹ Áp Dụng
               </label>
               <span className="text-[10px] font-extrabold text-indigo-600 dark:text-indigo-400">
@@ -295,18 +302,18 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
               </span>
             </div>
 
-            <div className="grid grid-cols-2 gap-1.5 p-1 bg-slate-200/70 dark:bg-slate-800 rounded-xl">
+            <div className="grid grid-cols-2 gap-1.5 p-1 bg-slate-200/70 dark:bg-slate-900 rounded-xl">
               <button
                 type="button"
                 onClick={() => setMarginPackageType('standard_90d')}
                 className={`py-1.5 px-2 rounded-lg text-xs font-bold transition-all text-center flex flex-col items-center justify-center ${
                   marginPackageType === 'standard_90d'
-                    ? 'bg-white text-indigo-700 dark:bg-slate-700 dark:text-indigo-300 shadow-xs ring-1 ring-black/5'
-                    : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200'
+                    ? 'bg-white text-indigo-700 dark:bg-slate-800 dark:text-indigo-300 shadow-xs ring-1 ring-black/5 dark:ring-slate-700'
+                    : 'text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white'
                 }`}
               >
                 <span>📅 Tiêu Chuẩn 90 Ngày</span>
-                <span className="text-[9px] font-normal text-slate-500 dark:text-slate-400">Duy trì sóng trung hạn</span>
+                <span className="text-[9px] font-normal text-slate-500 dark:text-slate-300">Duy trì sóng trung hạn</span>
               </button>
               <button
                 type="button"
@@ -314,14 +321,14 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
                 className={`py-1.5 px-2 rounded-lg text-xs font-bold transition-all text-center flex flex-col items-center justify-center ${
                   marginPackageType === 'short_term'
                     ? 'bg-indigo-600 text-white shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200'
+                    : 'text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white'
                 }`}
               >
                 <span>⚡ Ngắn Hạn Deal (T+)</span>
-                <span className={`text-[9px] font-normal ${marginPackageType === 'short_term' ? 'text-indigo-100' : 'text-slate-500 dark:text-slate-400'}`}>Lướt sóng 5–10 ngày</span>
+                <span className={`text-[9px] font-normal ${marginPackageType === 'short_term' ? 'text-indigo-100' : 'text-slate-500 dark:text-slate-300'}`}>Lướt sóng 5–10 ngày</span>
               </button>
             </div>
-            <p className="text-[10px] text-slate-500 dark:text-slate-400 leading-tight">
+            <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
               {marginPackageType === 'standard_90d' 
                 ? 'ℹ️ Gói tiêu chuẩn 90 ngày phản ánh chi phí duy trì thực tế: BSC (10.0% - 12.0%), DNSE (11.5% - 12.5%), VPS (13.5% - 14.0%).' 
                 : '⚡ Lãi thấp tại DNSE (5.99%), VPS (8.6%) chỉ áp dụng cho Deal nắm giữ ngắn (5–10 ngày). Quá hạn sẽ chuyển về lãi chuẩn.'}
@@ -329,14 +336,16 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
           </div>
 
           {/* Input 3: Days Borrowed */}
-          <div className="space-y-1.5 bg-slate-50/80 dark:bg-slate-850/60 p-3 sm:p-3.5 rounded-2xl border border-slate-100 dark:border-slate-800/80">
-            <div className="flex items-center justify-between">
-              <label className="text-[11px] font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+          <div className="space-y-2 bg-slate-50/90 dark:bg-slate-800/90 p-3.5 sm:p-4 rounded-2xl border border-slate-100 dark:border-slate-700/80 shadow-xs">
+            <div className="flex items-center justify-between gap-2">
+              <label className="text-[11px] font-bold uppercase tracking-wider text-slate-700 dark:text-slate-200">
                 Số ngày vay Margin trong tháng
               </label>
-              <span className="text-sm font-extrabold text-amber-600 dark:text-amber-400">
-                {borrowDays} ngày
-              </span>
+              <div className="rounded-xl bg-white dark:bg-slate-900 px-3 py-1 border border-slate-200/80 dark:border-slate-700 shadow-xs">
+                <span className="text-xs sm:text-sm font-black text-amber-600 dark:text-amber-400">
+                  {borrowDays} ngày
+                </span>
+              </div>
             </div>
 
             <input
@@ -349,20 +358,30 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
               className="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-amber-600 dark:bg-slate-700"
             />
 
-            <div className="flex justify-between text-[10px] text-slate-400 pt-0.5">
-              <span>Lướt T+ ngắn (5 ngày)</span>
-              <span>Nửa tháng (15 ngày)</span>
-              <span>Trọn tháng (30 ngày)</span>
+            <div className="flex flex-wrap gap-1 pt-0.5">
+              {[5, 10, 15, 20, 30].map((d) => (
+                <button
+                  key={d}
+                  onClick={() => setBorrowDays(d)}
+                  className={`rounded-lg px-2 py-0.5 text-[11px] font-semibold transition-colors ${
+                    borrowDays === d
+                      ? 'bg-amber-600 text-white shadow-xs'
+                      : 'bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-600 border border-slate-200 dark:border-slate-600'
+                  }`}
+                >
+                  {d} ngày
+                </button>
+              ))}
             </div>
           </div>
 
           {/* Strategy Hint */}
-          <div className="rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50/50 p-3 border border-blue-100 dark:from-blue-950/30 dark:to-indigo-950/20 dark:border-blue-900/40">
+          <div className="rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50/50 p-3.5 border border-blue-100 dark:from-blue-950/60 dark:to-indigo-950/40 dark:border-blue-900/60">
             <div className="flex items-center gap-1.5 text-xs font-bold text-blue-900 dark:text-blue-300">
               <Sparkles className="h-3.5 w-3.5 text-blue-500 shrink-0" />
               <span>Gợi ý chiến lược tối ưu:</span>
             </div>
-            <p className="mt-1 text-[11px] text-blue-800/85 dark:text-blue-300/85 leading-relaxed">
+            <p className="mt-1 text-[11px] text-blue-900/90 dark:text-blue-200 leading-relaxed font-medium">
               Nếu bạn có giá trị giao dịch lớn và nắm giữ margin ngắn ngày (T+), việc chọn các công ty có chính sách <strong>Zero-Fee</strong> (như TCBS, DNSE) hoặc <strong>Lãi Margin ưu đãi theo deal T+</strong> (như BSC, Kafi, VPS) sẽ giúp tiết kiệm từ vài triệu đến hàng chục triệu đồng mỗi tháng.
             </p>
           </div>
@@ -419,8 +438,8 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
               onClick={() => setActiveCriterion('lowest_total')}
               className={`group relative flex items-center justify-between p-2.5 sm:p-3 rounded-2xl border text-left transition-all ${
                 activeCriterion === 'lowest_total'
-                  ? 'bg-emerald-50/90 border-emerald-500 shadow-xs ring-2 ring-emerald-500/20 dark:bg-emerald-950/40 dark:border-emerald-500'
-                  : 'bg-white border-slate-200 hover:border-emerald-300 hover:bg-slate-50/80 dark:bg-slate-850 dark:border-slate-800 dark:hover:bg-slate-800'
+                  ? 'bg-emerald-50/90 border-emerald-500 shadow-xs ring-2 ring-emerald-500/20 dark:bg-emerald-950/60 dark:border-emerald-500'
+                  : 'bg-white border-slate-200 hover:border-emerald-300 hover:bg-slate-50/80 dark:bg-slate-800/90 dark:border-slate-700 dark:hover:bg-slate-700'
               }`}
             >
               <div className="min-w-0 pr-1.5">
@@ -431,7 +450,7 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
                 <div className="mt-0.5 text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white truncate">
                   {bestOverall?.companyName}
                 </div>
-                <div className="text-[10px] text-slate-500 dark:text-slate-400 truncate">
+                <div className="text-[10px] text-slate-500 dark:text-slate-300 truncate">
                   Tổng: <strong className="text-emerald-600 dark:text-emerald-400 font-bold">{formatCurrency(bestOverall?.totalMonthlyCost)}</strong>
                 </div>
               </div>
@@ -444,8 +463,8 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
               onClick={() => setActiveCriterion('lowest_fee')}
               className={`group relative flex items-center justify-between p-2.5 sm:p-3 rounded-2xl border text-left transition-all ${
                 activeCriterion === 'lowest_fee'
-                  ? 'bg-blue-50/90 border-blue-500 shadow-xs ring-2 ring-blue-500/20 dark:bg-blue-950/40 dark:border-blue-500'
-                  : 'bg-white border-slate-200 hover:border-blue-300 hover:bg-slate-50/80 dark:bg-slate-850 dark:border-slate-800 dark:hover:bg-slate-800'
+                  ? 'bg-blue-50/90 border-blue-500 shadow-xs ring-2 ring-blue-500/20 dark:bg-blue-950/60 dark:border-blue-500'
+                  : 'bg-white border-slate-200 hover:border-blue-300 hover:bg-slate-50/80 dark:bg-slate-800/90 dark:border-slate-700 dark:hover:bg-slate-700'
               }`}
             >
               <div className="min-w-0 pr-1.5">
@@ -456,7 +475,7 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
                 <div className="mt-0.5 text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white truncate">
                   {lowestFeeOption?.companyName}
                 </div>
-                <div className="text-[10px] text-slate-500 dark:text-slate-400 truncate">
+                <div className="text-[10px] text-slate-500 dark:text-slate-300 truncate">
                   Phí: <strong className="text-blue-600 dark:text-blue-400 font-bold">{lowestFeeOption?.isZeroFeeApplied ? '0 đ (0%)' : `${lowestFeeOption?.effectiveFeeRate}%`}</strong>
                 </div>
               </div>
@@ -469,8 +488,8 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
               onClick={() => setActiveCriterion('lowest_interest')}
               className={`group relative flex items-center justify-between p-2.5 sm:p-3 rounded-2xl border text-left transition-all ${
                 activeCriterion === 'lowest_interest'
-                  ? 'bg-indigo-50/90 border-indigo-500 shadow-xs ring-2 ring-indigo-500/20 dark:bg-indigo-950/40 dark:border-indigo-500'
-                  : 'bg-white border-slate-200 hover:border-indigo-300 hover:bg-slate-50/80 dark:bg-slate-850 dark:border-slate-800 dark:hover:bg-slate-800'
+                  ? 'bg-indigo-50/90 border-indigo-500 shadow-xs ring-2 ring-indigo-500/20 dark:bg-indigo-950/60 dark:border-indigo-500'
+                  : 'bg-white border-slate-200 hover:border-indigo-300 hover:bg-slate-50/80 dark:bg-slate-800/90 dark:border-slate-700 dark:hover:bg-slate-700'
               }`}
             >
               <div className="min-w-0 pr-1.5">
@@ -481,7 +500,7 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
                 <div className="mt-0.5 text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white truncate">
                   {lowestInterestOption?.companyName}
                 </div>
-                <div className="text-[10px] text-slate-500 dark:text-slate-400 truncate">
+                <div className="text-[10px] text-slate-500 dark:text-slate-300 truncate">
                   Lãi: <strong className="text-indigo-600 dark:text-indigo-400 font-bold">{lowestInterestOption?.effectiveMarginRate}%</strong>/năm
                 </div>
               </div>
@@ -525,6 +544,14 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
               </a>
             </div>
           )}
+
+          {/* Visual Stacked Bar Chart */}
+          <CostComparisonChart 
+            rankedResults={rankedResults}
+            tradingVolume={tradingVolume}
+            marginLoan={marginLoan}
+            onSelectCompany={handleCompanyClick}
+          />
 
           {/* Company Display Count Control with Range Slider */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 bg-slate-50 dark:bg-slate-800/70 px-3.5 py-2 rounded-2xl border border-slate-200 dark:border-slate-700/80">
@@ -585,7 +612,7 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
                     className={`p-3 rounded-2xl border transition-all ${
                       isBsc 
                         ? 'border-blue-300 bg-blue-50/70 dark:border-blue-800 dark:bg-blue-950/40 ring-1 ring-blue-500/30 shadow-xs' 
-                        : 'border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-850'
+                        : 'border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800/80'
                     }`}
                   >
                     {/* Top bar: Rank, Logo, Name & Tag */}
@@ -638,6 +665,22 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
                         <span className="font-bold text-slate-800 dark:text-slate-200 text-xs">
                           {formatCurrency(item.monthlyMarginInterest)}
                         </span>
+                      </div>
+                    </div>
+
+                    {/* Mini Visual Stacked Bar */}
+                    <div className="mt-2 space-y-1">
+                      <div className="h-1.5 w-full bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden flex">
+                        <div 
+                          style={{ width: `${Math.round((item.monthlyTradingFee / (item.totalMonthlyCost || 1)) * 100)}%` }} 
+                          className="bg-blue-500 h-full transition-all duration-300" 
+                          title={`Phí GD: ${formatCurrency(item.monthlyTradingFee)}`}
+                        />
+                        <div 
+                          style={{ width: `${Math.round((item.monthlyMarginInterest / (item.totalMonthlyCost || 1)) * 100)}%` }} 
+                          className="bg-emerald-500 h-full transition-all duration-300" 
+                          title={`Lãi Margin: ${formatCurrency(item.monthlyMarginInterest)}`}
+                        />
                       </div>
                     </div>
 
@@ -792,7 +835,7 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
                         <td className={`sticky left-0 z-10 w-12 min-w-[48px] max-w-[48px] text-center py-2 px-1.5 border-r border-slate-100 dark:border-slate-800 transition-colors ${
                           isBsc
                             ? 'bg-blue-50/90 dark:bg-blue-950/90'
-                            : 'bg-white dark:bg-slate-900 group-hover:bg-blue-50/50 dark:group-hover:bg-slate-850'
+                            : 'bg-white dark:bg-slate-900 group-hover:bg-blue-50/50 dark:group-hover:bg-slate-800'
                         }`}>
                           <span
                             className={`inline-flex h-5 w-5 items-center justify-center rounded-full text-[11px] font-black ${
@@ -817,7 +860,7 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
                           className={`sticky left-[48px] z-10 min-w-[145px] sm:min-w-[180px] lg:min-w-[210px] py-2 px-2.5 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] dark:shadow-[2px_0_5px_-2px_rgba(0,0,0,0.4)] cursor-pointer transition-colors ${
                             isBsc
                               ? 'bg-blue-50/90 dark:bg-blue-950/90'
-                              : 'bg-white dark:bg-slate-900 group-hover:bg-blue-50/50 dark:group-hover:bg-slate-850'
+                              : 'bg-white dark:bg-slate-900 group-hover:bg-blue-50/50 dark:group-hover:bg-slate-800'
                           }`}
                         >
                           <div className="flex items-center gap-1.5">
@@ -848,6 +891,16 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
                                 {isBsc && (
                                   <span className="rounded bg-amber-500 px-1 py-0.2 text-[8px] font-black text-white uppercase tracking-wider">
                                     Top 1
+                                  </span>
+                                )}
+                                {rowRank === 1 && !isBsc && (
+                                  <span className="rounded bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-400/30 px-1 py-0.2 text-[8px] font-black uppercase tracking-wider">
+                                    Thấp nhất
+                                  </span>
+                                )}
+                                {item.isZeroFeeApplied && (
+                                  <span className="rounded bg-blue-500/15 text-blue-700 dark:text-blue-300 border border-blue-400/30 px-1 py-0.2 text-[8px] font-black uppercase tracking-wider">
+                                    Zero-Fee
                                   </span>
                                 )}
                               </div>
@@ -889,9 +942,22 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
                         <td className={`py-2 px-2.5 whitespace-nowrap ${
                           activeCriterion === 'lowest_total' ? 'bg-emerald-50/50 dark:bg-emerald-950/20' : ''
                         }`}>
-                          <span className="font-black text-xs sm:text-sm text-blue-600 dark:text-blue-400">
+                          <div className="font-black text-xs sm:text-sm text-blue-600 dark:text-blue-400">
                             {formatCurrency(item.totalMonthlyCost)}
-                          </span>
+                          </div>
+                          {/* Mini visual breakdown bar */}
+                          <div className="mt-1 h-1.5 w-24 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden flex">
+                            <div 
+                              style={{ width: `${Math.round((item.monthlyTradingFee / (item.totalMonthlyCost || 1)) * 100)}%` }} 
+                              className="bg-blue-500 h-full transition-all duration-300" 
+                              title={`Phí GD: ${formatCurrency(item.monthlyTradingFee)}`}
+                            />
+                            <div 
+                              style={{ width: `${Math.round((item.monthlyMarginInterest / (item.totalMonthlyCost || 1)) * 100)}%` }} 
+                              className="bg-emerald-500 h-full transition-all duration-300" 
+                              title={`Lãi Margin: ${formatCurrency(item.monthlyMarginInterest)}`}
+                            />
+                          </div>
                         </td>
 
                         {/* Cost Ratio / Break-even Point Column */}

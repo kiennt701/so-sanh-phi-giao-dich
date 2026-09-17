@@ -122,10 +122,10 @@ export default function SecuritiesCards({
               </div>
 
               {/* Metrics Grid */}
-              <div className="mt-2.5 grid grid-cols-2 gap-2 rounded-xl bg-slate-50 p-2 sm:p-2.5 dark:bg-slate-800/60 leading-normal">
+              <div className="mt-2.5 grid grid-cols-2 gap-2 rounded-xl bg-slate-50 p-2 sm:p-2.5 dark:bg-slate-800/80 leading-normal">
                 {/* Trading fee metric */}
                 <div>
-                  <div className="text-[9px] sm:text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                  <div className="text-[9px] sm:text-[10px] font-bold text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                     Phí GD Online
                   </div>
                   <div className="text-xs sm:text-sm font-black text-slate-900 dark:text-white mt-0.5">
@@ -145,21 +145,21 @@ export default function SecuritiesCards({
 
                 {/* Margin rate metric */}
                 <div>
-                  <div className="text-[9px] sm:text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                  <div className="text-[9px] sm:text-[10px] font-bold text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                     Lãi Margin Chuẩn
                   </div>
                   <div className="text-xs sm:text-sm font-black text-slate-900 dark:text-white mt-0.5">
                     <span className={company.margin.baseRate <= 11.5 ? 'text-amber-600 dark:text-amber-400' : ''}>
                       {company.margin.baseRate}%
                     </span>
-                    <span className="text-[10px] font-normal text-slate-400">/năm</span>
+                    <span className="text-[10px] font-normal text-slate-400 dark:text-slate-300">/năm</span>
                   </div>
                 </div>
               </div>
 
               {/* Short-term / Deal margin note if available */}
               {(company.margin.shortTermRate || company.margin.promoRate) && (
-                <div className="mt-2 flex items-center justify-between rounded-lg bg-indigo-50/70 dark:bg-indigo-950/40 px-2 py-1 text-[10px] font-bold text-indigo-800 dark:text-indigo-300 border border-indigo-100 dark:border-indigo-900/60">
+                <div className="mt-2 flex items-center justify-between rounded-lg bg-indigo-50/70 dark:bg-indigo-950/60 px-2 py-1 text-[10px] font-bold text-indigo-800 dark:text-indigo-200 border border-indigo-100 dark:border-indigo-800/60">
                   <span className="flex items-center gap-1">
                     <TrendingDown className="h-3 w-3 text-indigo-600 dark:text-indigo-400 shrink-0" />
                     Deal ngắn T+:
@@ -175,7 +175,7 @@ export default function SecuritiesCards({
                 {(company.keyHighlights || company.pros || []).slice(0, 2).map((hl, idx) => (
                   <div
                     key={idx}
-                    className="inline-flex items-start gap-1.5 rounded-lg bg-slate-50 dark:bg-slate-800/80 px-2 py-1 text-[11px] sm:text-xs font-medium text-slate-600 dark:text-slate-300 border border-slate-100 dark:border-slate-800/60 leading-snug"
+                    className="inline-flex items-start gap-1.5 rounded-lg bg-slate-50 dark:bg-slate-800/90 px-2 py-1 text-[11px] sm:text-xs font-medium text-slate-700 dark:text-slate-200 border border-slate-100 dark:border-slate-700/70 leading-snug"
                   >
                     <span className="text-emerald-500 font-bold shrink-0 mt-0.5">✓</span>
                     <span>{hl}</span>
@@ -184,12 +184,12 @@ export default function SecuritiesCards({
               </div>
 
               {/* Promotion snippet */}
-              <div className="mt-2.5 rounded-lg border-l-2 border-amber-400 bg-amber-50/40 p-2 dark:bg-amber-950/20 text-[11px]">
-                <div className="font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1 text-[10px] sm:text-[11px]">
+              <div className="mt-2.5 rounded-lg border-l-2 border-amber-400 bg-amber-50/40 p-2 dark:bg-amber-950/30 text-[11px]">
+                <div className="font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1 text-[10px] sm:text-[11px]">
                   <Sparkles className="h-3 w-3 text-amber-500 shrink-0" />
                   Ưu đãi:
                 </div>
-                <p className="line-clamp-2 text-slate-500 dark:text-slate-400 pl-2 leading-relaxed text-[10px] sm:text-[11px] mt-0.5">
+                <p className="line-clamp-2 text-slate-600 dark:text-slate-300 pl-2 leading-relaxed text-[10px] sm:text-[11px] mt-0.5 font-medium">
                   {company.promotions?.[0] || company.pros?.[0] || ''}
                 </p>
               </div>

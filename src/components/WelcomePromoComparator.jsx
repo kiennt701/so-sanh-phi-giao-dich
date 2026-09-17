@@ -300,7 +300,7 @@ export default function WelcomePromoComparator({ companies, onSelectDetail }) {
                     {/* Sticky CTCK column */}
                     <td
                       onClick={() => onSelectDetail && onSelectDetail(company)}
-                      className="sticky left-0 z-10 bg-white dark:bg-slate-900 group-hover:bg-slate-50 dark:group-hover:bg-slate-850 transition-colors py-2.5 px-3 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] cursor-pointer"
+                      className="sticky left-0 z-10 bg-white dark:bg-slate-900 group-hover:bg-slate-50 dark:group-hover:bg-slate-800 transition-colors py-2.5 px-3 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] cursor-pointer"
                     >
                       <div className="flex items-center gap-2">
                         <span

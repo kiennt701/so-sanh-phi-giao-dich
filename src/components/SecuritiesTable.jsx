@@ -86,21 +86,21 @@ export default function SecuritiesTable({
                 </th>
 
                 {/* 3. Phí GD Cơ Sở (Online) */}
-                <th className="sticky top-0 z-20 bg-slate-50/95 dark:bg-slate-900/95 backdrop-blur-sm py-3 px-3 w-[145px] min-w-[145px]">
+                <th className="sticky top-0 z-20 bg-slate-50/95 dark:bg-slate-800/95 backdrop-blur-sm py-3 px-3 w-[145px] min-w-[145px]">
                   <div>Phí GD Online</div>
-                  <div className="text-[9px] font-semibold text-slate-400 normal-case">Đã gồm sở, chưa thuế</div>
+                  <div className="text-[9px] font-semibold text-slate-400 dark:text-slate-300 normal-case">Đã gồm sở, chưa thuế</div>
                 </th>
 
                 {/* 4. Lãi Margin */}
-                <th className="sticky top-0 z-20 bg-slate-50/95 dark:bg-slate-900/95 backdrop-blur-sm py-3 px-3 w-[185px] min-w-[185px]">
+                <th className="sticky top-0 z-20 bg-slate-50/95 dark:bg-slate-800/95 backdrop-blur-sm py-3 px-3 w-[185px] min-w-[185px]">
                   <div>Lãi Ký Quỹ Margin</div>
-                  <div className="text-[9px] font-semibold text-slate-400 normal-case">Chuẩn 90 ngày vs Gói Deal</div>
+                  <div className="text-[9px] font-semibold text-slate-400 dark:text-slate-300 normal-case">Chuẩn 90 ngày vs Gói Deal</div>
                 </th>
 
                 {/* 5. Key Points */}
-                <th className="sticky top-0 z-20 bg-slate-50/95 dark:bg-slate-900/95 backdrop-blur-sm py-3 px-4 min-w-[340px] lg:min-w-[420px] w-full">
+                <th className="sticky top-0 z-20 bg-slate-50/95 dark:bg-slate-800/95 backdrop-blur-sm py-3 px-4 min-w-[340px] lg:min-w-[420px] w-full">
                   <div>Key Points Nổi Bật</div>
-                  <div className="text-[9px] font-semibold text-slate-400 normal-case">Lợi thế cạnh tranh & dịch vụ</div>
+                  <div className="text-[9px] font-semibold text-slate-400 dark:text-slate-300 normal-case">Lợi thế cạnh tranh & dịch vụ</div>
                 </th>
               </tr>
             </thead>
@@ -139,7 +139,7 @@ export default function SecuritiesTable({
                               </span>
                             ) : null}
                           </div>
-                          <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate max-w-[150px] sm:max-w-[200px] lg:max-w-[250px] mt-0.5">
+                          <p className="text-[11px] text-slate-500 dark:text-slate-300 truncate max-w-[150px] sm:max-w-[200px] lg:max-w-[250px] mt-0.5 font-medium">
                             {company.name}
                           </p>
                         </div>
@@ -152,7 +152,7 @@ export default function SecuritiesTable({
                         <button
                           type="button"
                           onClick={() => onSelectDetail(company)}
-                          className="rounded-lg border border-slate-200 bg-white px-2 py-1 text-[11px] font-bold text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 touch-manipulation"
+                          className="rounded-lg border border-slate-200 bg-white px-2 py-1 text-[11px] font-bold text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 touch-manipulation"
                         >
                           Chi Tiết
                         </button>
@@ -162,7 +162,7 @@ export default function SecuritiesTable({
                           className={`rounded-lg p-1 transition-colors touch-manipulation ${
                             isCompared
                               ? 'bg-blue-600 text-white'
-                              : 'border border-slate-200 bg-white text-slate-400 hover:text-slate-700 dark:border-slate-700 dark:bg-slate-800'
+                              : 'border border-slate-200 bg-white text-slate-400 hover:text-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:text-white'
                           }`}
                           title={isCompared ? 'Bỏ so sánh' : 'Thêm so sánh'}
                           aria-label="So sánh"
@@ -196,7 +196,7 @@ export default function SecuritiesTable({
                           {company.tradingFee.onlineMin !== company.tradingFee.onlineMax && ` - ${company.tradingFee.onlineMax}%`}
                         </div>
                       )}
-                      <div className="text-[10px] text-slate-400 mt-0.5">
+                      <div className="text-[10px] text-slate-400 dark:text-slate-300 mt-0.5">
                         Phí sở: ~0.027%
                       </div>
                     </td>
@@ -205,10 +205,10 @@ export default function SecuritiesTable({
                     <td className="py-2.5 px-3">
                       <div className="font-extrabold text-slate-900 dark:text-white text-xs sm:text-sm">
                         {company.margin.baseRate}%/năm
-                        <span className="ml-1 text-[10px] font-normal text-slate-400">(90 ngày)</span>
+                        <span className="ml-1 text-[10px] font-normal text-slate-400 dark:text-slate-300">(90 ngày)</span>
                       </div>
                       {(company.margin.shortTermRate || company.margin.promoRate) && (
-                        <div className="text-[10px] text-indigo-600 dark:text-indigo-400 font-bold flex items-center gap-1 mt-0.5">
+                        <div className="text-[10px] text-indigo-600 dark:text-indigo-300 font-bold flex items-center gap-1 mt-0.5">
                           <TrendingDown className="h-3 w-3 shrink-0" />
                           <span>Gói Deal từ {company.margin.shortTermRate || company.margin.promoRate}%</span>
                         </div>
@@ -221,7 +221,7 @@ export default function SecuritiesTable({
                         {(company.keyHighlights || company.pros || []).slice(0, 2).map((hl, idx) => (
                           <div
                             key={idx}
-                            className="inline-flex items-start gap-1.5 rounded-lg bg-slate-50 dark:bg-slate-800/80 px-2 py-1 text-[11px] sm:text-xs font-medium text-slate-700 dark:text-slate-300 border border-slate-100 dark:border-slate-800/60 leading-snug"
+                            className="inline-flex items-start gap-1.5 rounded-lg bg-slate-50 dark:bg-slate-800/90 px-2 py-1 text-[11px] sm:text-xs font-medium text-slate-700 dark:text-slate-200 border border-slate-100 dark:border-slate-700/70 leading-snug"
                           >
                             <span className="text-emerald-500 font-bold shrink-0 mt-0.5">✓</span>
                             <span>{hl}</span>
