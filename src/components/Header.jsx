@@ -87,7 +87,7 @@ export default function Header({
             <span>Tiêu Chí</span>
           </button>
 
-          {/* Data Management with Google SSO Auth Badge */}
+          {/* Data Management with Admin Auth Badge */}
           <button
             onClick={onOpenDataManager}
             className={`transition-all flex items-center gap-1.5 whitespace-nowrap py-1 px-2 rounded-lg text-xs font-bold border ${
@@ -95,7 +95,7 @@ export default function Header({
                 ? 'border-emerald-300 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300'
                 : 'border-slate-200 hover:border-blue-300 hover:text-blue-600 dark:border-slate-800 dark:text-slate-300 dark:hover:border-blue-700'
             }`}
-            title={currentUser ? "Bạn đang đăng nhập quyền Quản trị viên" : "Yêu cầu đăng nhập Google SSO để chỉnh sửa"}
+            title={currentUser ? "Bạn đang đăng nhập quyền Quản trị viên" : "Yêu cầu đăng nhập Quản trị viên để chỉnh sửa"}
           >
             {currentUser ? (
               <>

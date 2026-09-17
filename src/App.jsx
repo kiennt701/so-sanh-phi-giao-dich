@@ -20,7 +20,7 @@ import { SECURITIES_COMPANIES } from './data/securitiesData';
 import { getCurrentUser, logoutAdmin } from './utils/auth';
 
 export default function App() {
-  // Authentication & Google SSO state (Authorized Admin: Kienhpw@gmail.com)
+  // Authentication & Admin Authorization state
   const [currentUser, setCurrentUser] = useState(() => getCurrentUser());
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
@@ -165,7 +165,7 @@ export default function App() {
     }
   };
 
-  // Google SSO Auth Handlers
+  // Admin Auth Handlers
   const handleOpenDataManager = () => {
     if (!currentUser) {
       setIsAuthModalOpen(true);

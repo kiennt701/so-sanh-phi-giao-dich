@@ -101,7 +101,7 @@ export default function DataManagementModal({
   const handleSaveQuickEdit = (e) => {
     e.preventDefault();
     if (!currentUser) {
-      setErrorMsg('Bạn cần đăng nhập bằng tài khoản Google có quyền quản trị để lưu thay đổi.');
+      setErrorMsg('Bạn cần đăng nhập bằng tài khoản Quản trị viên để lưu thay đổi.');
       onOpenLoginModal();
       return;
     }
@@ -140,7 +140,7 @@ export default function DataManagementModal({
   // Handle Save Raw JSON
   const handleSaveRawJson = () => {
     if (!currentUser) {
-      setErrorMsg('Bạn cần đăng nhập bằng tài khoản Google có quyền quản trị để áp dụng cấu hình JSON.');
+      setErrorMsg('Bạn cần đăng nhập bằng tài khoản Quản trị viên để áp dụng cấu hình JSON.');
       onOpenLoginModal();
       return;
     }
@@ -173,7 +173,7 @@ export default function DataManagementModal({
     const file = event.target.files?.[0];
     if (!file) return;
     if (!currentUser) {
-      setErrorMsg('Bạn cần đăng nhập bằng tài khoản Google có quyền quản trị để tải lên file cấu hình.');
+      setErrorMsg('Bạn cần đăng nhập bằng tài khoản Quản trị viên để tải lên file cấu hình.');
       event.target.value = '';
       onOpenLoginModal();
       return;
@@ -235,14 +235,14 @@ export default function DataManagementModal({
                 ) : (
                   <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2.5 py-0.5 text-[11px] font-bold text-amber-800 dark:bg-amber-950 dark:text-amber-300 border border-amber-300 dark:border-amber-800">
                     <Lock className="h-3 w-3" />
-                    Chỉ Đọc (Yêu cầu Google SSO)
+                    Chỉ Đọc (Yêu cầu Admin)
                   </span>
                 )}
               </div>
               <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                 {currentUser 
                   ? 'Bạn có toàn quyền quản trị, hiệu chỉnh phí & nạp file cho 30 CTCK.'
-                  : 'Chế độ xem công khai. Cần đăng nhập Google SSO để chỉnh sửa.'}
+                  : 'Chế độ xem công khai. Cần đăng nhập Quản trị viên để chỉnh sửa.'}
               </p>
             </div>
           </div>
@@ -255,7 +255,7 @@ export default function DataManagementModal({
                 className="hidden sm:inline-flex items-center gap-1.5 rounded-xl border border-blue-300 bg-blue-50 px-3 py-1.5 text-xs font-bold text-blue-700 hover:bg-blue-100 dark:border-blue-800 dark:bg-blue-950 dark:text-blue-300 transition-colors shadow-xs"
               >
                 <Lock className="h-3.5 w-3.5 text-blue-600" />
-                <span>Đăng nhập Google SSO</span>
+                <span>Đăng nhập Quản trị</span>
               </button>
             ) : (
               <button
@@ -342,7 +342,7 @@ export default function DataManagementModal({
                 <div className="flex items-center gap-2 min-w-0">
                   <Lock className="h-4 w-4 text-amber-600 shrink-0" />
                   <span>
-                    Chế độ xem công khai (Chỉ đọc). Tính năng chỉnh sửa bị khóa và chỉ dành riêng cho tài khoản Google có quyền quản trị.
+                    Chế độ xem công khai (Chỉ đọc). Tính năng chỉnh sửa bị khóa và chỉ dành riêng cho tài khoản Quản trị viên được ủy quyền.
                   </span>
                 </div>
                 <button
@@ -351,7 +351,7 @@ export default function DataManagementModal({
                   className="inline-flex items-center gap-1.5 rounded-xl bg-blue-600 px-3 py-1.5 text-xs font-bold text-white hover:bg-blue-700 shadow-xs transition-colors shrink-0"
                 >
                   <Lock className="h-3.5 w-3.5" />
-                  <span>Đăng nhập Google SSO</span>
+                  <span>Đăng nhập Quản trị</span>
                 </button>
               </div>
             )}
@@ -507,7 +507,7 @@ export default function DataManagementModal({
                 }`}
               >
                 {currentUser ? <Save className="h-4 w-4" /> : <Lock className="h-4 w-4" />}
-                <span>{currentUser ? 'Lưu & Áp Dụng Thay Đổi' : 'Đăng nhập Google SSO để lưu'}</span>
+                <span>{currentUser ? 'Lưu & Áp Dụng Thay Đổi' : 'Đăng nhập Quản trị để lưu'}</span>
               </button>
             </div>
           </form>
@@ -522,7 +522,7 @@ export default function DataManagementModal({
                 <div className="flex items-center gap-2 min-w-0">
                   <Lock className="h-4 w-4 text-amber-600 shrink-0" />
                   <span>
-                    Chế độ xem công khai (Chỉ đọc). Để tải lên file JSON ghi đè hệ thống, vui lòng đăng nhập tài khoản Google có quyền quản trị.
+                    Chế độ xem công khai (Chỉ đọc). Để tải lên file JSON ghi đè hệ thống, vui lòng đăng nhập tài khoản Quản trị viên.
                   </span>
                 </div>
                 <button
@@ -531,7 +531,7 @@ export default function DataManagementModal({
                   className="inline-flex items-center gap-1.5 rounded-xl bg-blue-600 px-3 py-1.5 text-xs font-bold text-white hover:bg-blue-700 shadow-xs transition-colors shrink-0"
                 >
                   <Lock className="h-3.5 w-3.5" />
-                  <span>Đăng nhập Google SSO</span>
+                  <span>Đăng nhập Quản trị</span>
                 </button>
               </div>
             )}
@@ -578,7 +578,7 @@ export default function DataManagementModal({
                     type="button"
                     onClick={onOpenLoginModal}
                     className="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 bg-slate-100 px-3 py-1.5 text-xs font-bold text-slate-500 hover:bg-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 transition-colors shadow-xs"
-                    title="Yêu cầu đăng nhập Google SSO để tải lên file JSON"
+                    title="Yêu cầu đăng nhập Quản trị viên để tải lên file JSON"
                   >
                     <Lock className="h-3.5 w-3.5" />
                     <span>Tải lên file JSON (Cần Admin)</span>
@@ -614,7 +614,7 @@ export default function DataManagementModal({
                   }`}
                 >
                   {currentUser ? <Save className="h-3.5 w-3.5" /> : <Lock className="h-3.5 w-3.5" />}
-                  <span>{currentUser ? 'Áp Dụng JSON' : 'Đăng nhập Google SSO'}</span>
+                  <span>{currentUser ? 'Áp Dụng JSON' : 'Đăng nhập Quản trị'}</span>
                 </button>
               </div>
             </div>
@@ -799,7 +799,7 @@ export default function DataManagementModal({
                               }
                             }}
                             className="inline-flex items-center gap-1 text-[11px] font-bold text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 hover:underline"
-                            title={currentUser ? "Hiệu chỉnh CTCK này" : "Đăng nhập Google SSO để hiệu chỉnh"}
+                            title={currentUser ? "Hiệu chỉnh CTCK này" : "Đăng nhập Quản trị viên để hiệu chỉnh"}
                           >
                             <span>Hiệu chỉnh</span>
                             <ArrowRight className="h-3 w-3" />

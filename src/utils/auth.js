@@ -21,6 +21,60 @@ export function verifyAdminCredentials(email, password) {
 }
 
 /**
+ * Đăng nhập quản trị viên bằng Email và Mật khẩu
+ * @param {string} email
+ * @param {string} password
+ * @returns {{ success: boolean, user?: object, error?: string }}
+ */
+export function loginAdmin(email, password) {
+  const cleanEmail = (email || '').trim();
+  const cleanPassword = (password || '').trim();
+
+  if (!cleanEmail) {
+    return {
+      success: false,
+      error: 'Vui lòng nhập địa chỉ email quản trị viên.'
+    };
+  }
+
+  if (!cleanPassword) {
+    return {
+      success: false,
+      error: 'Vui lòng nhập mật khẩu quản trị viên.'
+    };
+  }
+
+  if (!verifyAdminCredentials(cleanEmail, cleanPassword)) {
+    return {
+      success: false,
+      error: 'Email hoặc mật khẩu quản trị viên không chính xác. Quyền truy cập bị từ chối.'
+    };
+  }
+
+  const user = {
+    email: cleanEmail,
+    name: 'Quản Trị Viên',
+    avatar: null,
+    provider: 'admin_auth',
+    role: 'admin',
+    loggedInAt: new Date().toISOString()
+  };
+
+  if (typeof localStorage !== 'undefined') {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
+    } catch (err) {
+      console.warn('Không thể lưu session vào localStorage:', err);
+    }
+  }
+
+  return {
+    success: true,
+    user
+  };
+}
+
+/**
  * Lấy thông tin phiên làm việc hiện tại từ localStorage
  */
 export function getCurrentUser() {
