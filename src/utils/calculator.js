@@ -102,17 +102,20 @@ export function calculateCompanyCost(company, params) {
 
   // 2. Tính lãi vay Margin:
   // Phân biệt rõ lãi suất tiêu chuẩn (kỳ hạn 90 ngày) và gói lãi suất giao dịch ngắn hạn (T+ / Deal ngắn hạn)
-  let effectiveMarginRate = company.margin.standardRate90d || company.margin.medianRate || company.margin.baseRate;
+  const standard90dRate = company.margin.standardRate90d ?? company.margin.medianRate ?? company.margin.baseRate ?? 10.5;
+  const shortDealRate = company.margin.shortTermRate || company.margin.promoRate || company.margin.minRate || standard90dRate;
+
+  let effectiveMarginRate = standard90dRate;
   
   if (params.marginPackageType === 'short_term') {
-    effectiveMarginRate = company.margin.shortTermRate || company.margin.minRate || company.margin.promoRate;
+    effectiveMarginRate = shortDealRate;
   } else if (params.marginPackageType === 'standard_90d') {
-    effectiveMarginRate = company.margin.standardRate90d || company.margin.medianRate || company.margin.baseRate;
+    effectiveMarginRate = standard90dRate;
   } else if (isNewAccount && company.margin.promoRate) {
     effectiveMarginRate = company.margin.promoRate;
   } else {
     // Mặc định: ưu tiên lãi suất tiêu chuẩn 90 ngày, tiếp đến medianRate
-    effectiveMarginRate = company.margin.standardRate90d || company.margin.medianRate || company.margin.baseRate;
+    effectiveMarginRate = standard90dRate;
   }
 
   // Trừ số ngày miễn lãi nếu có (ví dụ DNSE miễn lãi T+0)
@@ -135,15 +138,17 @@ export function calculateCompanyCost(company, params) {
     effectiveFeeRate: feeRatePercent,
     effectiveMarginRate,
     marginPackageType: params.marginPackageType || 'standard_90d',
-    shortTermRate: company.margin.shortTermRate || company.margin.minRate || effectiveMarginRate,
+    shortTermRate: shortDealRate,
     shortTermTenor: company.margin.shortTermTenor || 'Gói ngắn hạn T+',
-    shortTermDisplay: company.margin.shortTermDisplay || `${company.margin.minRate || effectiveMarginRate}%/năm`,
-    standardRate90d: company.margin.standardRate90d || company.margin.medianRate || company.margin.baseRate,
-    standardRateDisplay: company.margin.standardRateDisplay || `${company.margin.standardRate90d || company.margin.medianRate}%/năm`,
+    shortTermDisplay: (company.margin.shortTermRate || company.margin.promoRate) 
+      ? `Từ ${company.margin.shortTermRate || company.margin.promoRate}%/năm` 
+      : `${standard90dRate}%/năm`,
+    standardRate90d: standard90dRate,
+    standardRateDisplay: company.margin.standardRateDisplay || `${standard90dRate}%/năm (Chuẩn 90 ngày)`,
     isShortTermDealOnly: Boolean(company.margin.isShortTermDealOnly),
     marginMinRate: company.margin.minRate || effectiveMarginRate,
     marginMaxRate: company.margin.maxRate || effectiveMarginRate,
-    marginMedianRate: company.margin.medianRate || effectiveMarginRate,
+    marginMedianRate: company.margin.medianRate ?? standard90dRate,
     marginNotes: company.margin.notes,
     monthlyTradingFee,
     monthlyMarginInterest,

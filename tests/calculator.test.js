@@ -549,5 +549,72 @@ describe('Calculator Utility Suite', () => {
       expect(sorted[0].companyId).toBe('bsc');
     });
   });
+
+  describe('Dynamic Admin Overrides & Custom Data Propagation Suite', () => {
+    it('should calculate cost accurately using custom/edited baseRate and onlineMin', () => {
+      const customCompany = {
+        id: 'dnse',
+        shortName: 'DNSE',
+        name: 'Chứng Khoán DNSE',
+        brandColor: '#00c389',
+        tradingFee: {
+          onlineMin: 0.05,
+          onlineMax: 0.05,
+          zeroFeeOffer: false
+        },
+        margin: {
+          baseRate: 11.0,
+          standardRate90d: 11.0,
+          promoRate: 6.0,
+          interestFreeDays: 0
+        }
+      };
+
+      const result = calculateCompanyCost(customCompany, {
+        monthlyTradingVolume: 100_000_000,
+        marginLoanAmount: 100_000_000,
+        marginBorrowDays: 30,
+        isNewAccount: false,
+        marginPackageType: 'standard_90d'
+      });
+
+      // Fee: 100tr * 0.05% = 50,000
+      expect(result.monthlyTradingFee).toBe(50000);
+      expect(result.effectiveFeeRate).toBe(0.05);
+
+      // Margin: 100tr * 11% / 365 * 30 = 904,109.589
+      expect(result.effectiveMarginRate).toBe(11.0);
+      expect(Math.round(result.monthlyMarginInterest)).toBe(Math.round(100_000_000 * 0.11 / 365 * 30));
+    });
+
+    it('should propagate overridden company list in rankCompaniesByCost', () => {
+      const customList = SECURITIES_COMPANIES.map(c => {
+        if (c.id === 'dnse') {
+          return {
+            ...c,
+            margin: {
+              ...c.margin,
+              baseRate: 8.0,
+              standardRate90d: 8.0
+            }
+          };
+        }
+        return c;
+      });
+
+      const ranked = rankCompaniesByCost(customList, {
+        monthlyTradingVolume: 200_000_000,
+        marginLoanAmount: 200_000_000,
+        marginBorrowDays: 30,
+        isNewAccount: false,
+        marginPackageType: 'standard_90d'
+      });
+
+      const dnseRanked = ranked.find(r => r.companyId === 'dnse');
+      expect(dnseRanked).toBeDefined();
+      expect(dnseRanked.effectiveMarginRate).toBe(8.0);
+      expect(dnseRanked.standardRate90d).toBe(8.0);
+    });
+  });
 });
 

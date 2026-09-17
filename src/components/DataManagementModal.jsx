@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   X, 
   Save, 
@@ -69,8 +69,8 @@ export default function DataManagementModal({
     onlineMin: currentCompany.tradingFee.onlineMin,
     onlineMax: currentCompany.tradingFee.onlineMax,
     zeroFeeOffer: currentCompany.tradingFee.zeroFeeOffer,
-    marginBaseRate: currentCompany.margin.baseRate,
-    marginPromoRate: currentCompany.margin.promoRate,
+    marginBaseRate: currentCompany.margin.baseRate ?? currentCompany.margin.standardRate90d ?? 10.5,
+    marginPromoRate: currentCompany.margin.promoRate ?? currentCompany.margin.shortTermRate ?? 7.5,
     maxLeverage: currentCompany.margin.maxLeverage,
     accountOpeningUrl: currentCompany.accountOpeningUrl
   });
@@ -84,8 +84,8 @@ export default function DataManagementModal({
         onlineMin: target.tradingFee.onlineMin,
         onlineMax: target.tradingFee.onlineMax,
         zeroFeeOffer: target.tradingFee.zeroFeeOffer,
-        marginBaseRate: target.margin.baseRate,
-        marginPromoRate: target.margin.promoRate,
+        marginBaseRate: target.margin.baseRate ?? target.margin.standardRate90d ?? 10.5,
+        marginPromoRate: target.margin.promoRate ?? target.margin.shortTermRate ?? 7.5,
         maxLeverage: target.margin.maxLeverage,
         accountOpeningUrl: target.accountOpeningUrl
       });
@@ -93,6 +93,23 @@ export default function DataManagementModal({
     setSuccessMsg('');
     setErrorMsg('');
   };
+
+  // Synchronize editForm & rawJson whenever companies or selectedCompanyId updates
+  useEffect(() => {
+    const target = companies.find(c => c.id === selectedCompanyId) || companies[0];
+    if (target) {
+      setEditForm({
+        onlineMin: target.tradingFee.onlineMin,
+        onlineMax: target.tradingFee.onlineMax,
+        zeroFeeOffer: target.tradingFee.zeroFeeOffer,
+        marginBaseRate: target.margin.baseRate ?? target.margin.standardRate90d ?? 10.5,
+        marginPromoRate: target.margin.promoRate ?? target.margin.shortTermRate ?? 7.5,
+        maxLeverage: target.margin.maxLeverage,
+        accountOpeningUrl: target.accountOpeningUrl
+      });
+    }
+    setRawJson(JSON.stringify(companies, null, 2));
+  }, [companies, selectedCompanyId]);
 
   // JSON editor state
   const [rawJson, setRawJson] = useState(() => JSON.stringify(companies, null, 2));
@@ -106,20 +123,36 @@ export default function DataManagementModal({
       return;
     }
     try {
+      const minFee = Number(editForm.onlineMin);
+      const maxFee = Number(editForm.onlineMax);
+      const zeroFee = Boolean(editForm.zeroFeeOffer);
+      const baseRateNum = Number(editForm.marginBaseRate);
+      const promoRateNum = Number(editForm.marginPromoRate);
+
+      const feeSummary = zeroFee 
+        ? '0.00% (Zero-Fee)' 
+        : (minFee === maxFee ? `${minFee}%` : `${minFee}% - ${maxFee}%`);
+
       const updatedCompanies = companies.map(c => {
         if (c.id === selectedCompanyId) {
           return {
             ...c,
             tradingFee: {
               ...c.tradingFee,
-              onlineMin: Number(editForm.onlineMin),
-              onlineMax: Number(editForm.onlineMax),
-              zeroFeeOffer: Boolean(editForm.zeroFeeOffer)
+              onlineMin: minFee,
+              onlineMax: maxFee,
+              zeroFeeOffer: zeroFee,
+              displaySummary: feeSummary
             },
             margin: {
               ...c.margin,
-              baseRate: Number(editForm.marginBaseRate),
-              promoRate: Number(editForm.marginPromoRate),
+              baseRate: baseRateNum,
+              standardRate90d: baseRateNum,
+              standardRateDisplay: `${baseRateNum}%/năm (Chuẩn 90 ngày)`,
+              medianRate: baseRateNum,
+              promoRate: promoRateNum,
+              shortTermRate: promoRateNum,
+              shortTermDisplay: promoRateNum > 0 ? `Từ ${promoRateNum}%/năm (Gói T+)` : c.margin.shortTermDisplay,
               maxLeverage: editForm.maxLeverage
             },
             accountOpeningUrl: editForm.accountOpeningUrl,
@@ -130,6 +163,7 @@ export default function DataManagementModal({
       });
 
       onApplyOverrides(updatedCompanies);
+      setRawJson(JSON.stringify(updatedCompanies, null, 2));
       setSuccessMsg(`Đã cập nhật dữ liệu thành công cho ${currentCompany.shortName}!`);
       setTimeout(() => setSuccessMsg(''), 3500);
     } catch (err) {

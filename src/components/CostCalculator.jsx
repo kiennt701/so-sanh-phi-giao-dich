@@ -30,7 +30,11 @@ const formatCostRatio = (cost, volume) => {
   return ratio.toLocaleString('vi-VN', { minimumFractionDigits: 2, maximumFractionDigits: 3 }) + '%';
 };
 
-export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
+export default function CostCalculator({ 
+  companies = SECURITIES_COMPANIES,
+  onSelectDetail, 
+  onSwitchToPromoTab 
+}) {
   // Simulator input state - Default to standard existing client rates
   const [tradingVolume, setTradingVolume] = useState(200_000_000); // 200 triệu
   const [marginLoan, setMarginLoan] = useState(100_000_000); // 100 triệu
@@ -116,14 +120,14 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
 
   // Calculate results based on user inputs
   const rankedResults = useMemo(() => {
-    return rankCompaniesByCost(SECURITIES_COMPANIES, {
+    return rankCompaniesByCost(companies, {
       monthlyTradingVolume: tradingVolume,
       marginLoanAmount: marginLoan,
       marginBorrowDays: borrowDays,
       isNewAccount: isNewAccount,
       marginPackageType: marginPackageType,
     });
-  }, [tradingVolume, marginLoan, borrowDays, isNewAccount, marginPackageType]);
+  }, [companies, tradingVolume, marginLoan, borrowDays, isNewAccount, marginPackageType]);
 
   // 1. Best overall (lowest total monthly cost)
   const bestOverall = rankedResults[0];
@@ -201,7 +205,7 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
   // Handle clicking company row/name to view detail
   const handleCompanyClick = (companyId) => {
     if (!onSelectDetail) return;
-    const fullCompany = SECURITIES_COMPANIES.find((c) => c.id === companyId);
+    const fullCompany = companies.find((c) => c.id === companyId);
     if (fullCompany) {
       onSelectDetail(fullCompany);
     }

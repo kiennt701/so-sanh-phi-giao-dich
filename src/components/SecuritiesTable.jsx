@@ -189,7 +189,7 @@ export default function SecuritiesTable({
                       {company.id === 'tcbs' ? (
                         <div>
                           <div className="text-emerald-600 dark:text-emerald-400 font-extrabold text-xs sm:text-sm">
-                            0.03% (Gồm phí Sở)
+                            {company.tradingFee.onlineMin}% (Gồm phí Sở)
                           </div>
                           <div className="text-[10px] text-slate-400 dark:text-slate-400 mt-0.5">
                             Miễn phí môi giới trọn đời
@@ -198,7 +198,7 @@ export default function SecuritiesTable({
                       ) : company.id === 'dnse' ? (
                         <div>
                           <div className="text-emerald-600 dark:text-emerald-400 font-extrabold text-xs sm:text-sm">
-                            0.045% (Gồm phí Sở)
+                            {company.tradingFee.onlineMin}% (Gồm phí Sở)
                           </div>
                           <div className="text-[10px] text-slate-400 dark:text-slate-400 mt-0.5">
                             Miễn phí môi giới
@@ -229,7 +229,7 @@ export default function SecuritiesTable({
                     {/* Column 4: Margin */}
                     <td className="py-2.5 px-3">
                       <div className="font-extrabold text-slate-900 dark:text-white text-xs sm:text-sm">
-                        {company.margin.baseRate}%/năm
+                        {company.margin.baseRate ?? company.margin.standardRate90d}%/năm
                         <span className="ml-1 text-[10px] font-normal text-slate-400 dark:text-slate-300">(90 ngày)</span>
                       </div>
                       {(company.margin.shortTermRate || company.margin.promoRate) && (

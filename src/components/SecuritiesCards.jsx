@@ -149,8 +149,8 @@ export default function SecuritiesCards({
                     Lãi Margin Chuẩn
                   </div>
                   <div className="text-xs sm:text-sm font-black text-slate-900 dark:text-white mt-0.5">
-                    <span className={company.margin.baseRate <= 11.5 ? 'text-amber-600 dark:text-amber-400' : ''}>
-                      {company.margin.baseRate}%
+                    <span className={(company.margin.baseRate ?? company.margin.standardRate90d) <= 11.5 ? 'text-amber-600 dark:text-amber-400' : ''}>
+                      {company.margin.baseRate ?? company.margin.standardRate90d}%
                     </span>
                     <span className="text-[10px] font-normal text-slate-400 dark:text-slate-300">/năm</span>
                   </div>
