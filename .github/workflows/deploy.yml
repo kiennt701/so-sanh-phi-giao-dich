@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: ['main']
+    branches: ['main', 'master']
   workflow_dispatch:
 
 permissions:
@@ -18,7 +18,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Setup Node.js
@@ -30,13 +30,13 @@ jobs:
       - name: Install dependencies
         run: npm ci || npm install
 
-      - name: Run test suite
+      - name: Run automated test suite
         run: npm test
 
-      - name: Build production
+      - name: Build production bundle
         run: npm run build
 
-      - name: Create 404.html
+      - name: Create 404.html for GitHub Pages SPA routing
         run: cp dist/index.html dist/404.html
 
       - name: Upload artifact

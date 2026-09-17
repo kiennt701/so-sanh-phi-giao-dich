@@ -86,12 +86,13 @@ const server = http.createServer((req, res) => {
   });
 });
 
-server.listen(PORT, '0.0.0.0', () => {
+server.listen(PORT, () => {
   console.log('====================================================');
   console.log('  VIETSEC FEE COMPARATOR - PRODUCTION SERVER GOLIVE');
   console.log('====================================================');
   console.log(`  > Local URL:    http://localhost:${PORT}/`);
-  console.log(`  > Network URL:  http://0.0.0.0:${PORT}/`);
-  console.log('  > Trạng thái:   Hoạt động 24/7 (Production Ready)');
+  console.log(`  > IPv4 Loopback:http://127.0.0.1:${PORT}/`);
+  console.log(`  > Network (LAN):http://10.21.184.240:${PORT}/`);
+  console.log('  > Trạng thái:   Hoạt động 24/7 (Dual-stack IPv4 + IPv6)');
   console.log('====================================================');
 });
