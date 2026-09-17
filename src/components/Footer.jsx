@@ -4,7 +4,7 @@ import { ShieldCheck, Github, Heart, Sparkles, ExternalLink, HelpCircle, Mail, M
 export default function Footer({ scrollToSection, onOpenFeedback }) {
   return (
     <footer className="mt-20 border-t border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900 transition-colors">
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl xl:max-w-[1440px] 2xl:max-w-[1580px] px-4 py-12 sm:px-6 lg:px-8 xl:px-10">
         {/* Top section: Disclaimer callout */}
         <div className="rounded-2xl border border-amber-200/80 bg-amber-50/60 p-5 dark:border-amber-900/40 dark:bg-amber-950/20 text-xs text-amber-900 dark:text-amber-200/90 leading-relaxed mb-10">
           <div className="flex items-center gap-2 font-bold mb-1.5 text-amber-800 dark:text-amber-300 text-sm">

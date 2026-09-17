@@ -40,50 +40,50 @@ export default function KeyPointSynthesis({ onSelectCompany }) {
       </div>
 
       {/* 4 Primary Highlight Pillars */}
-      <div className="mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
         {/* Pillar 1: Top Đề Xuất Toàn Diện (BSC) */}
-        <div className="relative rounded-2xl border-2 border-amber-400 bg-gradient-to-b from-amber-50/80 via-white to-orange-50/40 dark:from-amber-950/30 dark:via-slate-900 dark:to-slate-900 p-4 shadow-sm flex flex-col justify-between group hover:shadow-md transition-all">
+        <div className="relative rounded-2xl border-2 border-amber-400 bg-gradient-to-b from-amber-50/80 via-white to-orange-50/40 dark:from-amber-950/30 dark:via-slate-900 dark:to-slate-900 p-4 sm:p-5 shadow-sm flex flex-col justify-between group hover:shadow-md transition-all">
           <div className="absolute -top-3 right-4 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 px-2.5 py-0.5 text-[10px] font-black uppercase text-white shadow-xs tracking-wider">
             ⭐ Top 1 Khuyên Dùng
           </div>
 
           <div>
-            <div className="flex items-center gap-2 mb-2.5">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-700 text-white font-black text-xs shadow-xs">
+            <div className="flex items-center gap-2.5 mb-3.5">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-700 text-white font-black text-xs shadow-xs shrink-0">
                 BSC
               </div>
-              <div>
+              <div className="min-w-0">
                 <h3 className="text-base font-black text-slate-900 dark:text-white flex items-center gap-1">
                   <span>Chứng Khoán BIDV (BSC)</span>
                 </h3>
-                <span className="text-[11px] text-blue-700 dark:text-blue-400 font-bold block">
+                <span className="text-[11px] text-blue-700 dark:text-blue-400 font-bold block leading-normal">
                   Bảo chứng Big4 BIDV & Hana Securities
                 </span>
               </div>
             </div>
 
-            <ul className="space-y-1.5 text-xs text-slate-700 dark:text-slate-300">
-              <li className="flex items-start gap-1.5">
+            <ul className="space-y-3 text-xs sm:text-[13px] text-slate-700 dark:text-slate-300 leading-relaxed">
+              <li className="flex items-start gap-2">
                 <CheckCircle2 className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
-                <span><strong>Phí mở mới:</strong> Chỉ <strong>0.08%</strong> (hiện hữu 0.10% - 0.13%).</span>
+                <span><strong>Phí mở mới:</strong> Chỉ <strong>0.08%</strong> (hiện hữu từ 0.10% – 0.13%).</span>
               </li>
-              <li className="flex items-start gap-1.5">
+              <li className="flex items-start gap-2">
                 <CheckCircle2 className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
                 <span><strong>Lãi vay Margin T+:</strong> Cực rẻ từ <strong>7.5%/năm</strong> (trung vị 10%).</span>
               </li>
-              <li className="flex items-start gap-1.5">
+              <li className="flex items-start gap-2">
                 <CheckCircle2 className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
                 <span><strong>An toàn vốn:</strong> Top 7 thị phần HNX, nguồn vốn BIDV bền vững.</span>
               </li>
             </ul>
           </div>
 
-          <div className="mt-4 pt-3 border-t border-amber-200/60 dark:border-amber-900/50">
+          <div className="mt-5 pt-3.5 border-t border-amber-200/60 dark:border-amber-900/50">
             <a
               href={bscUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full inline-flex items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 px-3 py-2 text-xs font-black text-white shadow-xs hover:from-amber-600 hover:to-orange-600 transition-all"
+              className="w-full inline-flex items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 px-3.5 py-2.5 text-xs font-black text-white shadow-xs hover:from-amber-600 hover:to-orange-600 transition-all"
             >
               <span>Mở TK BSC Nhận Ưu Đãi 0.08%</span>
               <ArrowUpRight className="h-3.5 w-3.5" />
@@ -92,115 +92,115 @@ export default function KeyPointSynthesis({ onSelectCompany }) {
         </div>
 
         {/* Pillar 2: Top Phí Thấp Nhất (Zero-Fee) */}
-        <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 p-4 shadow-xs flex flex-col justify-between">
+        <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/80 p-4 sm:p-5 shadow-xs flex flex-col justify-between">
           <div>
-            <div className="flex items-center gap-2 mb-2.5">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 font-black text-xs">
+            <div className="flex items-center gap-2.5 mb-3.5">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 font-black text-xs shrink-0">
                 <Percent className="h-5 w-5" />
               </div>
-              <div>
+              <div className="min-w-0">
                 <h3 className="text-base font-black text-slate-900 dark:text-white">
                   Phí GD Thấp Nhất
                 </h3>
-                <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-bold block">
+                <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-bold block leading-normal">
                   Tiết kiệm chi phí khớp lệnh
                 </span>
               </div>
             </div>
 
-            <ul className="space-y-1.5 text-xs text-slate-700 dark:text-slate-300">
-              <li className="flex items-start gap-1.5">
-                <span className="text-emerald-500 font-bold">•</span>
-                <span><strong>Zero-Fee (0%):</strong> DNSE, TCBS, VPS, Kafi áp dụng chương trình miễn phí giao dịch trực tuyến.</span>
+            <ul className="space-y-3 text-xs sm:text-[13px] text-slate-700 dark:text-slate-300 leading-relaxed">
+              <li className="flex items-start gap-2">
+                <span className="text-emerald-500 font-bold shrink-0 mt-0.5">•</span>
+                <span><strong>Zero-Fee (0%):</strong> DNSE, TCBS, VPS, Kafi áp dụng chính sách miễn phí trực tuyến.</span>
               </li>
-              <li className="flex items-start gap-1.5">
-                <span className="text-emerald-500 font-bold">•</span>
-                <span><strong>Phí rẻ có tư vấn:</strong> BSC (0.08% - 0.10%), VNDirect (0.10% - 0.15%).</span>
+              <li className="flex items-start gap-2">
+                <span className="text-emerald-500 font-bold shrink-0 mt-0.5">•</span>
+                <span><strong>Phí rẻ có tư vấn:</strong> BSC (0.08% – 0.10%), VNDirect (0.10% – 0.15%).</span>
               </li>
-              <li className="flex items-start gap-1.5">
-                <span className="text-emerald-500 font-bold">•</span>
-                <span>Phù hợp với Trader giao dịch lướt sóng tần suất cao (Day-trading).</span>
+              <li className="flex items-start gap-2">
+                <span className="text-emerald-500 font-bold shrink-0 mt-0.5">•</span>
+                <span><strong>Đối tượng:</strong> Phù hợp Trader giao dịch lướt sóng tần suất cao (Day-trading).</span>
               </li>
             </ul>
           </div>
 
-          <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] text-slate-500 dark:text-slate-400">
+          <div className="mt-5 pt-3.5 border-t border-slate-100 dark:border-slate-800 text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
             💡 Lưu ý: Phí chưa bao gồm 0.027% nộp Sở và thuế TNCN khi bán.
           </div>
         </div>
 
         {/* Pillar 3: Top Lãi Suất Margin Rẻ Nhất */}
-        <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 p-4 shadow-xs flex flex-col justify-between">
+        <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/80 p-4 sm:p-5 shadow-xs flex flex-col justify-between">
           <div>
-            <div className="flex items-center gap-2 mb-2.5">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-100 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300 font-black text-xs">
+            <div className="flex items-center gap-2.5 mb-3.5">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-100 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300 font-black text-xs shrink-0">
                 <TrendingDown className="h-5 w-5" />
               </div>
-              <div>
+              <div className="min-w-0">
                 <h3 className="text-base font-black text-slate-900 dark:text-white">
                   Lãi Vay Margin Tốt Nhất
                 </h3>
-                <span className="text-[11px] text-indigo-600 dark:text-indigo-400 font-bold block">
+                <span className="text-[11px] text-indigo-600 dark:text-indigo-400 font-bold block leading-normal">
                   Tối ưu chi phí đòn bẩy
                 </span>
               </div>
             </div>
 
-            <ul className="space-y-1.5 text-xs text-slate-700 dark:text-slate-300">
-              <li className="flex items-start gap-1.5">
-                <span className="text-indigo-500 font-bold">•</span>
-                <span><strong>Chuẩn 90 ngày:</strong> BSC (10.0% - 12.0%, trung vị 10.5%) tối ưu và ổn định nhất thị trường; TCBS (10.5%), trong khi VPS (13.5% - 14.0%) và DNSE (11.5% - 12.5%) cao hơn.</span>
+            <ul className="space-y-3 text-xs sm:text-[13px] text-slate-700 dark:text-slate-300 leading-relaxed">
+              <li className="flex items-start gap-2">
+                <span className="text-indigo-500 font-bold shrink-0 mt-0.5">•</span>
+                <span><strong>Chuẩn 90 ngày:</strong> BSC (10.0% – 12.0%, trung vị 10.5%) tối ưu và an toàn nhất; TCBS (10.5%), VPS (13.5% – 14.0%), DNSE (11.5% – 12.5%).</span>
               </li>
-              <li className="flex items-start gap-1.5">
-                <span className="text-indigo-500 font-bold">•</span>
-                <span><strong>Gói deal ngắn hạn (T+):</strong> DNSE (từ 5.99% – chỉ 5 ngày), BSC (từ 7.5%), TCBS (từ 7.99%), VPS (từ 8.6% – chỉ T+5/T+10).</span>
+              <li className="flex items-start gap-2">
+                <span className="text-indigo-500 font-bold shrink-0 mt-0.5">•</span>
+                <span><strong>Deal ngắn hạn (T+):</strong> BSC (từ 7.5%), TCBS (từ 7.99%), VPS (từ 8.6%), DNSE (từ 5.99% – 5 ngày đầu).</span>
               </li>
-              <li className="flex items-start gap-1.5">
-                <span className="text-indigo-500 font-bold">•</span>
-                <span><strong>Lưu ý:</strong> Mức lãi thấp tại DNSE/VPS chỉ áp dụng khi lướt sóng ngắn ngày (5–10 ngày); giữ qua hạn sẽ chuyển về lãi suất chuẩn.</span>
+              <li className="flex items-start gap-2">
+                <span className="text-indigo-500 font-bold shrink-0 mt-0.5">•</span>
+                <span><strong>Lưu ý:</strong> Gói deal ngắn hạn áp dụng lướt sóng; giữ quá hạn sẽ chuyển về lãi suất chuẩn.</span>
               </li>
             </ul>
           </div>
 
-          <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] text-slate-500 dark:text-slate-400">
+          <div className="mt-5 pt-3.5 border-t border-slate-100 dark:border-slate-800 text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
             📊 Phân biệt rõ lãi suất tiêu chuẩn 90 ngày vs Gói Deal T+ ngắn ngày.
           </div>
         </div>
 
         {/* Pillar 4: Top Định Chế An Toàn Vốn (Big4 & Khối Ngoại) */}
-        <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 p-4 shadow-xs flex flex-col justify-between">
+        <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/80 p-4 sm:p-5 shadow-xs flex flex-col justify-between">
           <div>
-            <div className="flex items-center gap-2 mb-2.5">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300 font-black text-xs">
+            <div className="flex items-center gap-2.5 mb-3.5">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300 font-black text-xs shrink-0">
                 <Building2 className="h-5 w-5" />
               </div>
-              <div>
+              <div className="min-w-0">
                 <h3 className="text-base font-black text-slate-900 dark:text-white">
                   An Toàn Vốn & Room Lớn
                 </h3>
-                <span className="text-[11px] text-blue-600 dark:text-blue-400 font-bold block">
+                <span className="text-[11px] text-blue-600 dark:text-blue-400 font-bold block leading-normal">
                   Định chế Ngân hàng & Ngoại
                 </span>
               </div>
             </div>
 
-            <ul className="space-y-1.5 text-xs text-slate-700 dark:text-slate-300">
-              <li className="flex items-start gap-1.5">
-                <span className="text-blue-500 font-bold">•</span>
+            <ul className="space-y-3 text-xs sm:text-[13px] text-slate-700 dark:text-slate-300 leading-relaxed">
+              <li className="flex items-start gap-2">
+                <span className="text-blue-500 font-bold shrink-0 mt-0.5">•</span>
                 <span><strong>Khối Ngân Hàng Mẹ:</strong> BSC (BIDV), VCBS (Vietcombank), CTS (VietinBank), TCBS (Techcombank), VPBankS (VPBank).</span>
               </li>
-              <li className="flex items-start gap-1.5">
-                <span className="text-blue-500 font-bold">•</span>
+              <li className="flex items-start gap-2">
+                <span className="text-blue-500 font-bold shrink-0 mt-0.5">•</span>
                 <span><strong>Khối FDI Uy Tín:</strong> Mirae Asset, Yuanta, KIS, Shinhan Securities.</span>
               </li>
-              <li className="flex items-start gap-1.5">
-                <span className="text-blue-500 font-bold">•</span>
-                <span>Nguồn vốn dồi dào, hệ số an toàn tài chính vững vàng, không lo thiếu room giải ngân.</span>
+              <li className="flex items-start gap-2">
+                <span className="text-blue-500 font-bold shrink-0 mt-0.5">•</span>
+                <span><strong>Ưu thế:</strong> Nguồn vốn dồi dào, hệ số an toàn tài chính vững vàng, không lo thiếu room giải ngân.</span>
               </li>
             </ul>
           </div>
 
-          <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] text-slate-500 dark:text-slate-400">
+          <div className="mt-5 pt-3.5 border-t border-slate-100 dark:border-slate-800 text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
             🛡️ Khuyên dùng cho nhà đầu tư NAV lớn, tổ chức và dài hạn.
           </div>
         </div>

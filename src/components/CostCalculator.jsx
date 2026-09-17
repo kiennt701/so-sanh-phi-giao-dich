@@ -693,7 +693,7 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
                     </th>
 
                     {/* Fixed Company Header (Top-Left 2) */}
-                    <th className="sticky top-0 left-[48px] z-30 bg-slate-100 dark:bg-slate-800 min-w-[125px] sm:min-w-[145px] py-2.5 px-2.5 border-b border-slate-200 dark:border-slate-700 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.12)] dark:shadow-[2px_0_5px_-2px_rgba(0,0,0,0.5)]">
+                    <th className="sticky top-0 left-[48px] z-30 bg-slate-100 dark:bg-slate-800 min-w-[145px] sm:min-w-[180px] lg:min-w-[210px] py-2.5 px-2.5 border-b border-slate-200 dark:border-slate-700 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.12)] dark:shadow-[2px_0_5px_-2px_rgba(0,0,0,0.5)]">
                       CTCK
                     </th>
 
@@ -723,7 +723,7 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
 
                     {/* Cost Ratio Header: % Tổng chi phí / GTGD & Điểm hòa vốn */}
                     <th 
-                      className="sticky top-0 z-20 bg-slate-100/95 dark:bg-slate-800/95 backdrop-blur-sm py-2.5 px-2.5 border-b border-slate-200 dark:border-slate-700 min-w-[155px] sm:min-w-[175px]"
+                      className="sticky top-0 z-20 bg-slate-100/95 dark:bg-slate-800/95 backdrop-blur-sm py-2.5 px-2.5 border-b border-slate-200 dark:border-slate-700 min-w-[175px] sm:min-w-[205px]"
                       title="Tỷ lệ % tổng chi phí so với Giá trị giao dịch của bạn. Đây là mức sinh lời tối thiểu cần đạt để bù đắp chi phí."
                     >
                       <div className="flex items-center gap-1 font-black text-slate-900 dark:text-white">
@@ -814,7 +814,7 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
                         {/* Fixed Company Name Column */}
                         <td
                           onClick={() => handleCompanyClick(item.companyId)}
-                          className={`sticky left-[48px] z-10 min-w-[125px] sm:min-w-[145px] py-2 px-2.5 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] dark:shadow-[2px_0_5px_-2px_rgba(0,0,0,0.4)] cursor-pointer transition-colors ${
+                          className={`sticky left-[48px] z-10 min-w-[145px] sm:min-w-[180px] lg:min-w-[210px] py-2 px-2.5 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] dark:shadow-[2px_0_5px_-2px_rgba(0,0,0,0.4)] cursor-pointer transition-colors ${
                             isBsc
                               ? 'bg-blue-50/90 dark:bg-blue-950/90'
                               : 'bg-white dark:bg-slate-900 group-hover:bg-blue-50/50 dark:group-hover:bg-slate-850'
@@ -851,7 +851,7 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
                                   </span>
                                 )}
                               </div>
-                              <div className="text-[10px] text-slate-400 dark:text-slate-500 truncate max-w-[110px]">
+                              <div className="text-[10px] text-slate-400 dark:text-slate-500 truncate max-w-[140px] sm:max-w-[180px] lg:max-w-[220px]">
                                 {item.fullName}
                               </div>
                             </div>

@@ -171,14 +171,15 @@ export default function SecuritiesCards({
               )}
 
               {/* Highlights pill list */}
-              <div className="mt-2.5 flex flex-wrap gap-1">
+              <div className="mt-2.5 flex flex-col gap-1.5">
                 {(company.keyHighlights || company.pros || []).slice(0, 2).map((hl, idx) => (
-                  <span
+                  <div
                     key={idx}
-                    className="rounded-md bg-slate-100 px-1.5 py-0.5 text-[9px] font-semibold text-slate-600 dark:bg-slate-800 dark:text-slate-300 leading-tight"
+                    className="inline-flex items-start gap-1.5 rounded-lg bg-slate-50 dark:bg-slate-800/80 px-2 py-1 text-[11px] sm:text-xs font-medium text-slate-600 dark:text-slate-300 border border-slate-100 dark:border-slate-800/60 leading-snug"
                   >
-                    ✓ {hl}
-                  </span>
+                    <span className="text-emerald-500 font-bold shrink-0 mt-0.5">✓</span>
+                    <span>{hl}</span>
+                  </div>
                 ))}
               </div>
 

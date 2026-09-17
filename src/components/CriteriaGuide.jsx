@@ -79,11 +79,11 @@ export default function CriteriaGuide({ scrollToSection }) {
                   {persona.title}
                 </h3>
 
-                <ul className="space-y-2.5 text-xs text-slate-600 dark:text-slate-300">
+                <ul className="space-y-3.5 text-xs sm:text-[13px] text-slate-700 dark:text-slate-300 leading-relaxed">
                   {persona.criteria.map((c, idx) => (
-                    <li key={idx} className="flex items-start gap-2">
+                    <li key={idx} className="flex items-start gap-2.5">
                       <CheckCircle2 className="h-4 w-4 text-blue-500 mt-0.5 shrink-0" />
-                      <span>{c}</span>
+                      <span className="leading-relaxed">{c}</span>
                     </li>
                   ))}
                 </ul>
