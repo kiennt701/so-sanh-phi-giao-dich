@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import {
   formatCurrency,
   formatCompactNumber,
+  formatVietnameseNumberWords,
   calculateCompanyCost,
   rankCompaniesByCost,
   getLowestFeeCompany,
@@ -66,6 +67,40 @@ describe('Calculator Utility Suite', () => {
 
       const zeroResult = formatCompactNumber(0);
       expect(zeroResult).toMatch(/0[\s\u00a0]*(₫|đ)/);
+    });
+
+    it('should format amounts >= 1.000 tỷ cleanly with dot separators', () => {
+      expect(formatCompactNumber(1_000_000_000_000)).toBe('1.000 tỷ');
+      expect(formatCompactNumber(10_000_000_000_000)).toBe('10.000 tỷ');
+    });
+  });
+
+  describe('formatVietnameseNumberWords()', () => {
+    it('should format zero or invalid amounts as "0 đồng"', () => {
+      expect(formatVietnameseNumberWords(0)).toBe('0 đồng');
+      expect(formatVietnameseNumberWords(-100)).toBe('0 đồng');
+      expect(formatVietnameseNumberWords(null)).toBe('0 đồng');
+      expect(formatVietnameseNumberWords(undefined)).toBe('0 đồng');
+      expect(formatVietnameseNumberWords(NaN)).toBe('0 đồng');
+    });
+
+    it('should format millions correctly', () => {
+      expect(formatVietnameseNumberWords(50_000_000)).toBe('50 triệu đồng');
+      expect(formatVietnameseNumberWords(200_000_000)).toBe('200 triệu đồng');
+      expect(formatVietnameseNumberWords(500_000_000)).toBe('500 triệu đồng');
+    });
+
+    it('should format billions and mixed amounts correctly', () => {
+      expect(formatVietnameseNumberWords(1_000_000_000)).toBe('1 tỷ đồng');
+      expect(formatVietnameseNumberWords(1_500_000_000)).toBe('1 tỷ 500 triệu đồng');
+      expect(formatVietnameseNumberWords(10_000_000_000)).toBe('10 tỷ đồng');
+      expect(formatVietnameseNumberWords(100_000_000_000)).toBe('100 tỷ đồng');
+    });
+
+    it('should format thousands of billions and cap at 10.000 tỷ đồng (Tối đa)', () => {
+      expect(formatVietnameseNumberWords(1_000_000_000_000)).toBe('1.000 tỷ đồng');
+      expect(formatVietnameseNumberWords(10_000_000_000_000)).toBe('10.000 tỷ đồng (Tối đa)');
+      expect(formatVietnameseNumberWords(15_000_000_000_000)).toBe('10.000 tỷ đồng (Tối đa)');
     });
   });
 
@@ -261,6 +296,24 @@ describe('Calculator Utility Suite', () => {
       });
       const expectedInterest = (100_000_000 * 0.115 / 365) * 60;
       expect(res.monthlyMarginInterest).toBeCloseTo(expectedInterest, 4);
+    });
+
+    it('should accurately calculate costs for ultra-high volumes up to 10.000 tỷ VNĐ without precision loss', () => {
+      const megaVolume = 10_000_000_000_000; // 10.000 tỷ
+      const megaLoan = 5_000_000_000_000;   // 5.000 tỷ
+      const res = calculateCompanyCost(mockCompanyWithoutZeroFee, {
+        monthlyTradingVolume: megaVolume,
+        marginLoanAmount: megaLoan,
+        marginBorrowDays: 20,
+        isNewAccount: false
+      });
+
+      // Fee: 10,000,000,000,000 * 0.15% = 15,000,000,000
+      expect(res.monthlyTradingFee).toBe(15_000_000_000);
+      // Margin: (5,000,000,000,000 * 0.115 / 365) * 20
+      const expectedInterest = (5_000_000_000_000 * 0.115 / 365) * 20;
+      expect(res.monthlyMarginInterest).toBeCloseTo(expectedInterest, 0);
+      expect(res.totalMonthlyCost).toBeCloseTo(15_000_000_000 + expectedInterest, 0);
     });
 
     it('should handle high volume and large loans (tens of billions VND)', () => {

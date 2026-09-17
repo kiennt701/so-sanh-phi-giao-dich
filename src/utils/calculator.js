@@ -22,6 +22,10 @@ export function formatCurrency(amount) {
  * @returns {string}
  */
 export function formatCompactNumber(amount) {
+  if (amount >= 1_000_000_000_000) {
+    const ty = amount / 1_000_000_000;
+    return `${ty.toLocaleString('vi-VN')} tỷ`;
+  }
   if (amount >= 1_000_000_000) {
     return `${(amount / 1_000_000_000).toFixed(1)} tỷ`;
   }
@@ -29,6 +33,38 @@ export function formatCompactNumber(amount) {
     return `${(amount / 1_000_000).toFixed(0)} triệu`;
   }
   return formatCurrency(amount);
+}
+
+/**
+ * Chuyển đổi số tiền thành chữ đọc tiếng Việt (VD: "200 triệu đồng", "1 tỷ 500 triệu đồng", "10.000 tỷ đồng (Tối đa)")
+ * Hỗ trợ người dùng kiểm tra trực quan số tiền khi gõ trực tiếp lên tới 10.000 tỷ VNĐ.
+ * @param {number} amount 
+ * @returns {string}
+ */
+export function formatVietnameseNumberWords(amount) {
+  if (amount === undefined || amount === null || isNaN(amount) || amount <= 0) return '0 đồng';
+  if (amount >= 10_000_000_000_000) return '10.000 tỷ đồng (Tối đa)';
+
+  const ty = Math.floor(amount / 1_000_000_000);
+  const trieu = Math.floor((amount % 1_000_000_000) / 1_000_000);
+  const ngan = Math.floor((amount % 1_000_000) / 1_000);
+  const dong = Math.floor(amount % 1_000);
+
+  const parts = [];
+  if (ty > 0) {
+    parts.push(`${ty.toLocaleString('vi-VN')} tỷ`);
+  }
+  if (trieu > 0) {
+    parts.push(`${trieu} triệu`);
+  }
+  if (ngan > 0 && ty === 0) {
+    parts.push(`${ngan} nghìn`);
+  }
+  if (dong > 0 && ty === 0 && trieu === 0) {
+    parts.push(`${dong}`);
+  }
+
+  return parts.length > 0 ? `${parts.join(' ')} đồng` : '0 đồng';
 }
 
 /**

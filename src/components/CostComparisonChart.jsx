@@ -17,15 +17,19 @@ export default function CostComparisonChart({
 
   // Find max cost for scaling the Y-axis
   const maxCost = Math.max(...chartData.map(c => c.totalMonthlyCost || 1), 100_000);
-  // Round up max to nice step
-  const yAxisMax = Math.ceil(maxCost / 200_000) * 200_000 || 800_000;
+  // Round up max to nice step (supports up to 10,000 tỷ)
+  const yAxisMax = maxCost >= 1_000_000_000_000
+    ? Math.ceil(maxCost / 100_000_000_000) * 100_000_000_000
+    : maxCost >= 1_000_000_000
+    ? Math.ceil(maxCost / 500_000_000) * 500_000_000
+    : Math.ceil(maxCost / 200_000) * 200_000 || 800_000;
   const gridSteps = [yAxisMax, yAxisMax * 0.75, yAxisMax * 0.5, yAxisMax * 0.25, 0];
 
   // SVG dimensions
   const chartHeight = 220;
-  const chartWidth = 560; // viewBox width
+  const chartWidth = 570; // viewBox width
   const barWidth = 44;
-  const leftPadding = 70;
+  const leftPadding = 75;
   const rightPadding = 20;
   const topPadding = 25;
   const bottomPadding = 45;
@@ -118,7 +122,15 @@ export default function CostComparisonChart({
                   textAnchor="end"
                   className="text-[10px] font-semibold fill-slate-400 dark:fill-slate-400"
                 >
-                  {val === 0 ? '0 đ' : val >= 1_000_000 ? `${(val / 1_000_000).toFixed(1)} tr` : `${Math.round(val / 1_000)} k`}
+                  {val === 0
+                    ? '0 đ'
+                    : val >= 1_000_000_000_000
+                    ? `${(val / 1_000_000_000).toLocaleString('vi-VN')} tỷ`
+                    : val >= 1_000_000_000
+                    ? `${(val / 1_000_000_000).toFixed(1)} tỷ`
+                    : val >= 1_000_000
+                    ? `${(val / 1_000_000).toFixed(1)} tr`
+                    : `${Math.round(val / 1_000)} k`}
                 </text>
               </g>
             );

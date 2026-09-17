@@ -3,6 +3,8 @@ import { SECURITIES_COMPANIES } from '../data/securitiesData';
 import { 
   rankCompaniesByCost, 
   formatCurrency, 
+  formatCompactNumber,
+  formatVietnameseNumberWords,
   getLowestFeeCompany, 
   getLowestInterestCompany, 
   sortCompaniesByCriterion 
@@ -36,23 +38,75 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
   const [isNewAccount, setIsNewAccount] = useState(false); // Default to false (Khách hàng hiện hữu)
   const [displayCount, setDisplayCount] = useState(10); // Hiển thị 10 công ty mặc định
 
-  // Quick preset buttons for trading volume
+  const MAX_SIMULATION_AMOUNT = 10_000_000_000_000; // Tối đa 10.000 tỷ VNĐ
+
+  // Quick preset buttons for trading volume (mở rộng lên tới 10.000 tỷ)
   const volumePresets = [
     { label: '50 tr', value: 50_000_000 },
     { label: '200 tr', value: 200_000_000 },
-    { label: '500 tr', value: 500_000_000 },
     { label: '1 tỷ', value: 1_000_000_000 },
-    { label: '3 tỷ', value: 3_000_000_000 },
+    { label: '10 tỷ', value: 10_000_000_000 },
+    { label: '100 tỷ', value: 100_000_000_000 },
+    { label: '1.000 tỷ', value: 1_000_000_000_000 },
+    { label: '10.000 tỷ', value: 10_000_000_000_000 },
   ];
 
-  // Quick presets for margin loan
+  // Quick presets for margin loan (mở rộng lên tới 10.000 tỷ)
   const marginPresets = [
-    { label: '0 đ (Không vay)', value: 0 },
+    { label: '0 đ', value: 0 },
     { label: '50 tr', value: 50_000_000 },
     { label: '200 tr', value: 200_000_000 },
-    { label: '500 tr', value: 500_000_000 },
     { label: '1 tỷ', value: 1_000_000_000 },
+    { label: '10 tỷ', value: 10_000_000_000 },
+    { label: '100 tỷ', value: 100_000_000_000 },
+    { label: '1.000 tỷ', value: 1_000_000_000_000 },
+    { label: '10.000 tỷ', value: 10_000_000_000_000 },
   ];
+
+  // Cấu hình linh hoạt cho thanh trượt (slider) theo quy mô số tiền hiện tại
+  const getSliderConfig = (currentVal, isLoan = false) => {
+    if (currentVal >= 1_000_000_000_000) {
+      return {
+        min: isLoan ? 0 : 10_000_000,
+        max: 10_000_000_000_000,
+        step: 50_000_000_000,
+        labelMax: '10.000 tỷ'
+      };
+    }
+    if (currentVal >= 100_000_000_000) {
+      return {
+        min: isLoan ? 0 : 10_000_000,
+        max: 1_000_000_000_000,
+        step: 10_000_000_000,
+        labelMax: '1.000 tỷ'
+      };
+    }
+    if (currentVal >= 10_000_000_000) {
+      return {
+        min: isLoan ? 0 : 10_000_000,
+        max: 100_000_000_000,
+        step: 1_000_000_000,
+        labelMax: '100 tỷ'
+      };
+    }
+    if (currentVal >= 2_000_000_000) {
+      return {
+        min: isLoan ? 0 : 10_000_000,
+        max: 10_000_000_000,
+        step: 100_000_000,
+        labelMax: '10 tỷ'
+      };
+    }
+    return {
+      min: isLoan ? 0 : 10_000_000,
+      max: isLoan ? 2_000_000_000 : 3_000_000_000,
+      step: 10_000_000,
+      labelMax: isLoan ? '2 tỷ' : '3 tỷ'
+    };
+  };
+
+  const volumeSliderConfig = useMemo(() => getSliderConfig(tradingVolume, false), [tradingVolume]);
+  const marginSliderConfig = useMemo(() => getSliderConfig(marginLoan, true), [marginLoan]);
 
   // Active banner tab: 'lowest_total' (Tiết kiệm nhất) | 'lowest_fee' (Phí thấp nhất) | 'lowest_interest' (Lãi thấp nhất)
   const [activeCriterion, setActiveCriterion] = useState('lowest_total');
@@ -214,30 +268,80 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
           {/* Input 1: Monthly Trading Volume */}
           <div className="space-y-2 bg-slate-50/90 dark:bg-slate-800/90 p-3.5 sm:p-4 rounded-2xl border border-slate-100 dark:border-slate-700/80 shadow-xs">
             <div className="flex items-center justify-between gap-2">
-              <label className="text-[11px] font-bold uppercase tracking-wider text-slate-700 dark:text-slate-200">
-                Giá trị giao dịch cổ phiếu / tháng
+              <label htmlFor="trading-volume-input" className="text-[11px] font-bold uppercase tracking-wider text-slate-700 dark:text-slate-200 flex items-center gap-1.5">
+                <span>Giá trị giao dịch / tháng</span>
+                <span className="text-[10px] font-normal text-slate-400 dark:text-slate-500 hidden sm:inline">(Tự gõ hoặc kéo)</span>
               </label>
-              <div className="rounded-xl bg-white dark:bg-slate-900 px-3 py-1 border border-slate-200/80 dark:border-slate-700 shadow-xs">
-                <span className="text-xs sm:text-sm font-black text-blue-600 dark:text-blue-400">
-                  {formatCurrency(tradingVolume)}
-                </span>
-              </div>
+              <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400">
+                Tối đa: 10.000 tỷ
+              </span>
             </div>
 
-            <input
-              type="range"
-              min={10_000_000}
-              max={5_000_000_000}
-              step={10_000_000}
-              value={tradingVolume}
-              onChange={(e) => setTradingVolume(Number(e.target.value))}
-              className="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600 dark:bg-slate-700"
-            />
+            {/* Direct Editable Input */}
+            <div className="relative flex items-center">
+              <input
+                id="trading-volume-input"
+                type="text"
+                inputMode="numeric"
+                value={tradingVolume > 0 ? tradingVolume.toLocaleString('vi-VN') : ''}
+                onChange={(e) => {
+                  const digits = e.target.value.replace(/\D/g, '');
+                  if (!digits) {
+                    setTradingVolume(0);
+                    return;
+                  }
+                  let val = parseInt(digits, 10);
+                  if (isNaN(val)) val = 0;
+                  if (val > MAX_SIMULATION_AMOUNT) val = MAX_SIMULATION_AMOUNT;
+                  setTradingVolume(val);
+                }}
+                className="w-full rounded-xl bg-white dark:bg-slate-900 px-3.5 py-2 pr-14 text-sm sm:text-base font-black text-blue-600 dark:text-blue-400 border border-slate-200/90 dark:border-slate-700 shadow-xs focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500 outline-none transition-all"
+                placeholder="Nhập giá trị giao dịch..."
+              />
+              <span className="absolute right-3.5 text-xs font-bold text-slate-400 dark:text-slate-500 pointer-events-none select-none">
+                VNĐ
+              </span>
+            </div>
 
+            {/* Reading in words */}
+            <div className="flex items-center justify-between text-[11px] px-0.5 min-h-[20px]">
+              <span className="text-slate-500 dark:text-slate-400 flex items-center gap-1 flex-wrap">
+                <span className="font-semibold text-slate-600 dark:text-slate-300">Bằng chữ:</span>
+                <span className="font-bold text-blue-700 dark:text-blue-300">
+                  {formatVietnameseNumberWords(tradingVolume)}
+                </span>
+              </span>
+              {tradingVolume >= MAX_SIMULATION_AMOUNT && (
+                <span className="text-[10px] font-black text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/60 px-2 py-0.5 rounded-md border border-amber-200 dark:border-amber-800/80">
+                  Tối đa 10.000 tỷ
+                </span>
+              )}
+            </div>
+
+            {/* Range Slider with dynamic scale */}
+            <div className="pt-0.5">
+              <div className="flex items-center justify-between text-[10px] font-semibold text-slate-400 dark:text-slate-500 mb-1">
+                <span>{volumeSliderConfig.min === 0 ? '0 đ' : formatCompactNumber(volumeSliderConfig.min)}</span>
+                <span className="text-slate-400 dark:text-slate-500">Thanh trượt mức {volumeSliderConfig.labelMax}</span>
+                <span>{volumeSliderConfig.labelMax}</span>
+              </div>
+              <input
+                type="range"
+                min={volumeSliderConfig.min}
+                max={volumeSliderConfig.max}
+                step={volumeSliderConfig.step}
+                value={Math.min(tradingVolume, volumeSliderConfig.max)}
+                onChange={(e) => setTradingVolume(Number(e.target.value))}
+                className="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600 dark:bg-slate-700"
+              />
+            </div>
+
+            {/* Quick Presets */}
             <div className="flex flex-wrap gap-1 pt-0.5">
               {volumePresets.map((preset) => (
                 <button
                   key={preset.label}
+                  type="button"
                   onClick={() => setTradingVolume(preset.value)}
                   className={`rounded-lg px-2 py-0.5 text-[11px] font-semibold transition-colors ${
                     tradingVolume === preset.value
@@ -254,30 +358,80 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
           {/* Input 2: Margin Loan Balance */}
           <div className="space-y-2 bg-slate-50/90 dark:bg-slate-800/90 p-3.5 sm:p-4 rounded-2xl border border-slate-100 dark:border-slate-700/80 shadow-xs">
             <div className="flex items-center justify-between gap-2">
-              <label className="text-[11px] font-bold uppercase tracking-wider text-slate-700 dark:text-slate-200">
-                Dư nợ vay Margin bình quân
+              <label htmlFor="margin-loan-input" className="text-[11px] font-bold uppercase tracking-wider text-slate-700 dark:text-slate-200 flex items-center gap-1.5">
+                <span>Dư nợ vay Margin bình quân</span>
+                <span className="text-[10px] font-normal text-slate-400 dark:text-slate-500 hidden sm:inline">(Tự gõ hoặc kéo)</span>
               </label>
-              <div className="rounded-xl bg-white dark:bg-slate-900 px-3 py-1 border border-slate-200/80 dark:border-slate-700 shadow-xs">
-                <span className="text-xs sm:text-sm font-black text-emerald-600 dark:text-emerald-400">
-                  {formatCurrency(marginLoan)}
-                </span>
-              </div>
+              <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400">
+                Tối đa: 10.000 tỷ
+              </span>
             </div>
 
-            <input
-              type="range"
-              min={0}
-              max={2_000_000_000}
-              step={10_000_000}
-              value={marginLoan}
-              onChange={(e) => setMarginLoan(Number(e.target.value))}
-              className="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-emerald-600 dark:bg-slate-700"
-            />
+            {/* Direct Editable Input */}
+            <div className="relative flex items-center">
+              <input
+                id="margin-loan-input"
+                type="text"
+                inputMode="numeric"
+                value={marginLoan > 0 ? marginLoan.toLocaleString('vi-VN') : (marginLoan === 0 ? '0' : '')}
+                onChange={(e) => {
+                  const digits = e.target.value.replace(/\D/g, '');
+                  if (!digits) {
+                    setMarginLoan(0);
+                    return;
+                  }
+                  let val = parseInt(digits, 10);
+                  if (isNaN(val)) val = 0;
+                  if (val > MAX_SIMULATION_AMOUNT) val = MAX_SIMULATION_AMOUNT;
+                  setMarginLoan(val);
+                }}
+                className="w-full rounded-xl bg-white dark:bg-slate-900 px-3.5 py-2 pr-14 text-sm sm:text-base font-black text-emerald-600 dark:text-emerald-400 border border-slate-200/90 dark:border-slate-700 shadow-xs focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 outline-none transition-all"
+                placeholder="Nhập dư nợ Margin..."
+              />
+              <span className="absolute right-3.5 text-xs font-bold text-slate-400 dark:text-slate-500 pointer-events-none select-none">
+                VNĐ
+              </span>
+            </div>
 
+            {/* Reading in words */}
+            <div className="flex items-center justify-between text-[11px] px-0.5 min-h-[20px]">
+              <span className="text-slate-500 dark:text-slate-400 flex items-center gap-1 flex-wrap">
+                <span className="font-semibold text-slate-600 dark:text-slate-300">Bằng chữ:</span>
+                <span className="font-bold text-emerald-700 dark:text-emerald-300">
+                  {marginLoan === 0 ? '0 đồng (Không vay margin)' : formatVietnameseNumberWords(marginLoan)}
+                </span>
+              </span>
+              {marginLoan >= MAX_SIMULATION_AMOUNT && (
+                <span className="text-[10px] font-black text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/60 px-2 py-0.5 rounded-md border border-amber-200 dark:border-amber-800/80">
+                  Tối đa 10.000 tỷ
+                </span>
+              )}
+            </div>
+
+            {/* Range Slider with dynamic scale */}
+            <div className="pt-0.5">
+              <div className="flex items-center justify-between text-[10px] font-semibold text-slate-400 dark:text-slate-500 mb-1">
+                <span>0 đ</span>
+                <span className="text-slate-400 dark:text-slate-500">Thanh trượt mức {marginSliderConfig.labelMax}</span>
+                <span>{marginSliderConfig.labelMax}</span>
+              </div>
+              <input
+                type="range"
+                min={marginSliderConfig.min}
+                max={marginSliderConfig.max}
+                step={marginSliderConfig.step}
+                value={Math.min(marginLoan, marginSliderConfig.max)}
+                onChange={(e) => setMarginLoan(Number(e.target.value))}
+                className="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-emerald-600 dark:bg-slate-700"
+              />
+            </div>
+
+            {/* Quick Presets */}
             <div className="flex flex-wrap gap-1 pt-0.5">
               {marginPresets.map((preset) => (
                 <button
                   key={preset.label}
+                  type="button"
                   onClick={() => setMarginLoan(preset.value)}
                   className={`rounded-lg px-2 py-0.5 text-[11px] font-semibold transition-colors ${
                     marginLoan === preset.value
@@ -330,7 +484,7 @@ export default function CostCalculator({ onSelectDetail, onSwitchToPromoTab }) {
             </div>
             <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
               {marginPackageType === 'standard_90d' 
-                ? 'ℹ️ Gói tiêu chuẩn 90 ngày phản ánh chi phí duy trì thực tế: BSC (10.0% - 12.0%), DNSE (11.5% - 12.5%), VPS (13.5% - 14.0%).' 
+                ? 'ℹ️ Gói tiêu chuẩn 90 ngày phản ánh chi phí duy trì thực tế: BSC (10.0% - 12.0%), DNSE (12.5%), VPS (13.5% - 14.0%).' 
                 : '⚡ Lãi thấp tại DNSE (5.99%), VPS (8.6%) chỉ áp dụng cho Deal nắm giữ ngắn (5–10 ngày). Quá hạn sẽ chuyển về lãi chuẩn.'}
             </p>
           </div>

@@ -174,13 +174,13 @@
         "notes": "Miễn phí 100% phí giao dịch cổ phiếu trọn đời trên nền tảng số Entrade X."
       },
       "margin": {
-        "standardRate90d": 11.5,
-        "standardRateDisplay": "11.5% - 12.5%/năm (Chuẩn 90 ngày)",
+        "standardRate90d": 12.5,
+        "standardRateDisplay": "12.5%/năm (Chuẩn 90 ngày)",
         "shortTermRate": 5.99,
-        "baseRate": 8.75,
+        "baseRate": 12.5,
         "promoRate": 5.99,
         "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK) / Margin Deal linh hoạt",
-        "notes": "LƯU Ý ĐẶC BIỆT: Mức lãi 5.99% tại DNSE là sản phẩm Margin Deal chỉ áp dụng cho thời gian nắm giữ siêu ngắn (5 ngày). Gói 10 ngày áp dụng 8.99%/năm. Dư nợ tiêu chuẩn kỳ hạn 90 ngày áp dụng lãi suất 11.5% - 12.5%/năm."
+        "notes": "LƯU Ý ĐẶC BIỆT: Mức lãi 5.99% tại DNSE là sản phẩm Margin Deal chỉ áp dụng cho thời gian nắm giữ siêu ngắn (5 ngày). Gói 10 ngày áp dụng 8.99%/năm. Dư nợ tiêu chuẩn kỳ hạn 90 ngày áp dụng lãi suất 12.5%/năm."
       },
       "listingInfo": {
         "stockCode": "DSE",
@@ -1060,13 +1060,13 @@
           "notes": "Miễn phí 100% phí giao dịch cổ phiếu trọn đời trên nền tảng số Entrade X."
         },
         "margin": {
-          "standardRate90d": 11.5,
-          "standardRateDisplay": "11.5% - 12.5%/năm (Chuẩn 90 ngày)",
+          "standardRate90d": 12.5,
+          "standardRateDisplay": "12.5%/năm (Chuẩn 90 ngày)",
           "shortTermRate": 5.99,
-          "baseRate": 8.75,
+          "baseRate": 12.5,
           "promoRate": 5.99,
           "maxLeverage": "1:1 (Ký quỹ 50% chuẩn UBCK) / Margin Deal linh hoạt",
-          "notes": "LƯU Ý ĐẶC BIỆT: Mức lãi 5.99% tại DNSE là sản phẩm Margin Deal chỉ áp dụng cho thời gian nắm giữ siêu ngắn (5 ngày). Gói 10 ngày áp dụng 8.99%/năm. Dư nợ tiêu chuẩn kỳ hạn 90 ngày áp dụng lãi suất 11.5% - 12.5%/năm."
+          "notes": "LƯU Ý ĐẶC BIỆT: Mức lãi 5.99% tại DNSE là sản phẩm Margin Deal chỉ áp dụng cho thời gian nắm giữ siêu ngắn (5 ngày). Gói 10 ngày áp dụng 8.99%/năm. Dư nợ tiêu chuẩn kỳ hạn 90 ngày áp dụng lãi suất 12.5%/năm."
         },
         "listingInfo": {
           "stockCode": "DSE",

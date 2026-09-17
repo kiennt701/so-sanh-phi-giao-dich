@@ -149,7 +149,7 @@ export default function KeyPointSynthesis({ onSelectCompany }) {
             <ul className="space-y-3 text-xs sm:text-[13px] text-slate-700 dark:text-slate-300 leading-relaxed">
               <li className="flex items-start gap-2">
                 <span className="text-indigo-500 font-bold shrink-0 mt-0.5">•</span>
-                <span><strong>Chuẩn 90 ngày:</strong> BSC (10.0% – 12.0%, trung vị 10.5%) tối ưu và an toàn nhất; TCBS (10.5%), VPS (13.5% – 14.0%), DNSE (11.5% – 12.5%).</span>
+                <span><strong>Chuẩn 90 ngày:</strong> BSC (10.0% – 12.0%, trung vị 10.5%) tối ưu và an toàn nhất; TCBS (10.5%), VPS (13.5% – 14.0%), DNSE (12.5%).</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-indigo-500 font-bold shrink-0 mt-0.5">•</span>

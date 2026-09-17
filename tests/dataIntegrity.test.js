@@ -124,7 +124,7 @@ describe('Securities Data Integrity & Anti-Hallucination Suite', () => {
     // Special validation for DNSE and VPS holding constraints
     const dnse = SECURITIES_COMPANIES.find(c => c.id === 'dnse');
     expect(dnse.margin.shortTermRate).toBe(5.99);
-    expect(dnse.margin.standardRate90d).toBe(11.5);
+    expect(dnse.margin.standardRate90d).toBe(12.5);
     expect(dnse.margin.isShortTermDealOnly).toBe(true);
     expect(dnse.margin.notes).toContain('5 ngày');
 
