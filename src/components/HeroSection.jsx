@@ -8,7 +8,7 @@ export default function HeroSection({ searchQuery, setSearchQuery, scrollToSecti
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-400/10 dark:bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
       <div className="absolute top-1/3 right-10 w-72 h-72 bg-emerald-400/10 dark:bg-emerald-600/10 rounded-full blur-3xl pointer-events-none"></div>
 
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto max-w-7xl xl:max-w-[1440px] 2xl:max-w-[1580px] px-4 sm:px-6 lg:px-8 xl:px-10">
         <div className="text-center max-w-3xl mx-auto">
           {/* Badge */}
           <div className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50/80 px-3 py-1 text-xs font-medium text-blue-700 dark:border-blue-900/60 dark:bg-blue-950/50 dark:text-blue-300 mb-3 shadow-xs backdrop-blur-sm">
@@ -112,7 +112,7 @@ export default function HeroSection({ searchQuery, setSearchQuery, scrollToSecti
               onClick={() => scrollToSection('calculator-section')}
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-xs sm:text-sm font-bold text-white shadow hover:bg-emerald-700 transition-all"
             >
-              <span>Tính toán số tiền tiết kiệm của bạn</span>
+              <span>Dự tính chi phí giao dịch của bạn</span>
               <ArrowRight className="h-4 w-4" />
             </button>
             <button

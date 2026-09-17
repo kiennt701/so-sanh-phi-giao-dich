@@ -76,31 +76,31 @@ export default function SecuritiesTable({
             <thead>
               <tr className="border-b border-slate-200 text-[10px] sm:text-[11px] font-black text-slate-700 dark:border-slate-800 dark:text-slate-200 uppercase tracking-wider">
                 {/* 1. Công Ty Chứng Khoán (Sticky Left) */}
-                <th className="sticky left-0 top-0 z-30 bg-slate-100 dark:bg-slate-800 py-2.5 px-2.5 sm:px-3 min-w-[140px] sm:min-w-[185px] shadow-[2px_0_6px_-2px_rgba(0,0,0,0.1)] dark:shadow-[2px_0_6px_-2px_rgba(0,0,0,0.5)]">
+                <th className="sticky left-0 top-0 z-30 bg-slate-100 dark:bg-slate-800 py-3 px-3 sm:px-4 w-[24%] min-w-[200px] lg:min-w-[250px] shadow-[2px_0_6px_-2px_rgba(0,0,0,0.1)] dark:shadow-[2px_0_6px_-2px_rgba(0,0,0,0.5)]">
                   Công Ty Chứng Khoán
                 </th>
 
                 {/* 2. Cột Hành Động */}
-                <th className="sticky top-0 z-20 bg-slate-100/95 dark:bg-slate-800/95 backdrop-blur-sm py-2.5 px-2 sm:px-2.5 min-w-[115px] sm:min-w-[140px] text-center border-r border-slate-200 dark:border-slate-700">
+                <th className="sticky top-0 z-20 bg-slate-100/95 dark:bg-slate-800/95 backdrop-blur-sm py-3 px-2 sm:px-2.5 w-[125px] min-w-[125px] text-center border-r border-slate-200 dark:border-slate-700">
                   Hành Động
                 </th>
 
                 {/* 3. Phí GD Cơ Sở (Online) */}
-                <th className="sticky top-0 z-20 bg-slate-50/95 dark:bg-slate-900/95 backdrop-blur-sm py-2.5 px-2.5 sm:px-3 min-w-[120px] sm:min-w-[150px]">
+                <th className="sticky top-0 z-20 bg-slate-50/95 dark:bg-slate-900/95 backdrop-blur-sm py-3 px-3 w-[145px] min-w-[145px]">
                   <div>Phí GD Online</div>
                   <div className="text-[9px] font-semibold text-slate-400 normal-case">Đã gồm sở, chưa thuế</div>
                 </th>
 
                 {/* 4. Lãi Margin */}
-                <th className="sticky top-0 z-20 bg-slate-50/95 dark:bg-slate-900/95 backdrop-blur-sm py-2.5 px-2.5 sm:px-3 min-w-[150px] sm:min-w-[185px]">
+                <th className="sticky top-0 z-20 bg-slate-50/95 dark:bg-slate-900/95 backdrop-blur-sm py-3 px-3 w-[185px] min-w-[185px]">
                   <div>Lãi Ký Quỹ Margin</div>
                   <div className="text-[9px] font-semibold text-slate-400 normal-case">Chuẩn 90 ngày vs Gói Deal</div>
                 </th>
 
                 {/* 5. Key Points */}
-                <th className="sticky top-0 z-20 bg-slate-50/95 dark:bg-slate-900/95 backdrop-blur-sm py-2.5 px-2.5 sm:px-3 min-w-[150px] sm:min-w-[170px]">
+                <th className="sticky top-0 z-20 bg-slate-50/95 dark:bg-slate-900/95 backdrop-blur-sm py-3 px-4 min-w-[340px] lg:min-w-[420px] w-full">
                   <div>Key Points Nổi Bật</div>
-                  <div className="text-[9px] font-semibold text-slate-400 normal-case">Huy hiệu điểm mạnh</div>
+                  <div className="text-[9px] font-semibold text-slate-400 normal-case">Lợi thế cạnh tranh & dịch vụ</div>
                 </th>
               </tr>
             </thead>
@@ -118,28 +118,28 @@ export default function SecuritiesTable({
                     }`}
                   >
                     {/* Sticky Column 1: Company Logo & Name */}
-                    <td className={`sticky left-0 z-10 py-2 sm:py-2.5 px-2.5 sm:px-3 shadow-[2px_0_6px_-2px_rgba(0,0,0,0.08)] dark:shadow-[2px_0_6px_-2px_rgba(0,0,0,0.4)] ${
+                    <td className={`sticky left-0 z-10 py-2.5 sm:py-3 px-3 sm:px-4 shadow-[2px_0_6px_-2px_rgba(0,0,0,0.08)] dark:shadow-[2px_0_6px_-2px_rgba(0,0,0,0.4)] ${
                       isBsc ? 'bg-blue-50/95 dark:bg-slate-900/95' : 'bg-white/95 dark:bg-slate-900/95'
                     }`}>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2.5">
                         <div
-                          className="flex h-8 w-8 sm:h-9 sm:w-9 shrink-0 items-center justify-center rounded-xl text-white font-extrabold text-xs shadow-xs"
+                          className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-xl text-white font-extrabold text-xs shadow-xs"
                           style={{ backgroundColor: company.brandColor }}
                         >
                           {(company.shortName || '').slice(0, 3)}
                         </div>
                         <div className="min-w-0">
-                          <div className="flex items-center gap-1 flex-wrap">
+                          <div className="flex items-center gap-1.5 flex-wrap">
                             <span className="font-extrabold text-slate-900 dark:text-white text-xs sm:text-sm">
                               <HighlightText text={company.shortName} query={searchQuery} />
                             </span>
                             {company.isListed && company.stockCode ? (
-                              <span className="rounded bg-blue-100 dark:bg-blue-950 px-1 py-0.2 text-[9px] font-black text-blue-800 dark:text-blue-300">
+                              <span className="rounded bg-blue-100 dark:bg-blue-950 px-1.5 py-0.5 text-[9px] font-black text-blue-800 dark:text-blue-300">
                                 {company.stockCode}
                               </span>
                             ) : null}
                           </div>
-                          <p className="text-[10px] text-slate-400 truncate max-w-[95px] sm:max-w-[130px]">
+                          <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate max-w-[150px] sm:max-w-[200px] lg:max-w-[250px] mt-0.5">
                             {company.name}
                           </p>
                         </div>
@@ -147,7 +147,7 @@ export default function SecuritiesTable({
                     </td>
 
                     {/* Column 2: Actions */}
-                    <td className="py-2 px-1.5 sm:px-2 text-center border-r border-slate-100 dark:border-slate-800">
+                    <td className="py-2.5 px-2 sm:px-2.5 text-center border-r border-slate-100 dark:border-slate-800">
                       <div className="flex items-center justify-center gap-1">
                         <button
                           type="button"
@@ -185,46 +185,47 @@ export default function SecuritiesTable({
                     </td>
 
                     {/* Column 3: Trading Fee */}
-                    <td className="py-2 px-2.5 sm:px-3">
+                    <td className="py-2.5 px-3">
                       {isZeroFee ? (
-                        <div className="text-emerald-600 dark:text-emerald-400 font-extrabold text-xs">
+                        <div className="text-emerald-600 dark:text-emerald-400 font-extrabold text-xs sm:text-sm">
                           0.00% (Zero-Fee)
                         </div>
                       ) : (
-                        <div className="font-extrabold text-slate-900 dark:text-white text-xs">
+                        <div className="font-extrabold text-slate-900 dark:text-white text-xs sm:text-sm">
                           {company.tradingFee.onlineMin}%
                           {company.tradingFee.onlineMin !== company.tradingFee.onlineMax && ` - ${company.tradingFee.onlineMax}%`}
                         </div>
                       )}
-                      <div className="text-[10px] text-slate-400">
+                      <div className="text-[10px] text-slate-400 mt-0.5">
                         Phí sở: ~0.027%
                       </div>
                     </td>
 
                     {/* Column 4: Margin */}
-                    <td className="py-2 px-2.5 sm:px-3">
-                      <div className="font-extrabold text-slate-900 dark:text-white text-xs">
+                    <td className="py-2.5 px-3">
+                      <div className="font-extrabold text-slate-900 dark:text-white text-xs sm:text-sm">
                         {company.margin.baseRate}%/năm
                         <span className="ml-1 text-[10px] font-normal text-slate-400">(90 ngày)</span>
                       </div>
                       {(company.margin.shortTermRate || company.margin.promoRate) && (
-                        <div className="text-[10px] text-indigo-600 dark:text-indigo-400 font-bold flex items-center gap-0.5">
-                          <TrendingDown className="h-2.5 w-2.5" />
+                        <div className="text-[10px] text-indigo-600 dark:text-indigo-400 font-bold flex items-center gap-1 mt-0.5">
+                          <TrendingDown className="h-3 w-3 shrink-0" />
                           <span>Gói Deal từ {company.margin.shortTermRate || company.margin.promoRate}%</span>
                         </div>
                       )}
                     </td>
 
                     {/* Column 5: Key Points */}
-                    <td className="py-2 px-2.5 sm:px-3">
-                      <div className="flex flex-wrap gap-1">
+                    <td className="py-2.5 px-3 sm:px-4">
+                      <div className="flex flex-col gap-1.5">
                         {(company.keyHighlights || company.pros || []).slice(0, 2).map((hl, idx) => (
-                          <span
+                          <div
                             key={idx}
-                            className="rounded-md bg-slate-100 px-1.5 py-0.5 text-[9px] font-semibold text-slate-600 dark:bg-slate-800 dark:text-slate-300"
+                            className="inline-flex items-start gap-1.5 rounded-lg bg-slate-50 dark:bg-slate-800/80 px-2 py-1 text-[11px] sm:text-xs font-medium text-slate-700 dark:text-slate-300 border border-slate-100 dark:border-slate-800/60 leading-snug"
                           >
-                            ✓ {hl}
-                          </span>
+                            <span className="text-emerald-500 font-bold shrink-0 mt-0.5">✓</span>
+                            <span>{hl}</span>
+                          </div>
                         ))}
                       </div>
                     </td>

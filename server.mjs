@@ -29,7 +29,12 @@ const server = http.createServer((req, res) => {
   const parsedUrl = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
   let reqPath = decodeURIComponent(parsedUrl.pathname);
 
-  if (reqPath === '/') {
+  // Support GitHub Pages base path prefix locally
+  if (reqPath.startsWith('/so-sanh-phi-giao-dich')) {
+    reqPath = reqPath.slice('/so-sanh-phi-giao-dich'.length);
+  }
+
+  if (!reqPath || reqPath === '/') {
     reqPath = '/index.html';
   }
 

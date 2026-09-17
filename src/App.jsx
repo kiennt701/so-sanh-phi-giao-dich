@@ -206,8 +206,8 @@ export default function App() {
         scrollToSection={scrollToSection}
       />
 
-      {/* Main Content Body with Strict Width Containment & Optimized Spacing */}
-      <main className="mx-auto w-full max-w-7xl min-w-0 flex-1 px-3 sm:px-6 lg:px-8 py-5 sm:py-8 space-y-6 sm:space-y-10 pb-24 md:pb-8">
+      {/* Main Content Body with Optimized Desktop Width & Spacious Columns */}
+      <main className="mx-auto w-full max-w-7xl xl:max-w-[1440px] 2xl:max-w-[1580px] min-w-0 flex-1 px-3 sm:px-6 lg:px-8 xl:px-10 py-5 sm:py-8 space-y-6 sm:space-y-10 pb-24 md:pb-8">
         {/* Section: AI Advisor & Smart Recommendations */}
         <section id="ai-advisor-section" className="scroll-mt-24">
           <AIAdvisor

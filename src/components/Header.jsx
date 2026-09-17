@@ -29,7 +29,7 @@ export default function Header({
 }) {
   return (
     <header className="sticky top-0 z-40 w-full border-b border-slate-200 bg-white/95 backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/95 transition-colors">
-      <div className="mx-auto flex h-14 sm:h-16 max-w-7xl items-center justify-between px-3 sm:px-6 lg:px-8 gap-2">
+      <div className="mx-auto flex h-14 sm:h-16 max-w-7xl xl:max-w-[1440px] 2xl:max-w-[1580px] items-center justify-between px-3 sm:px-6 lg:px-8 xl:px-10 gap-2">
         {/* Logo & Brand */}
         <div 
           className="flex items-center gap-2 sm:gap-2.5 cursor-pointer shrink-0" 
