@@ -30,11 +30,21 @@ export function getShortTermMarginDetails(company) {
   const standardRate = Number(m.standardRate90d || m.baseRate || m.medianRate || 12.0);
   const spread = Math.max(0, Number((standardRate - shortRate).toFixed(2)));
   
-  // Xác định tên gói và thời hạn đặc thù
+  // Xác định tên gói và thời hạn đặc thù (Ưu tiên giá trị Admin tùy biến)
   let productName = m.shortTermTenor || 'Gói Margin Ngắn Ngày';
   let tenorCategory = 't10'; // 't5' | 't10' | 't30'
 
-  if (company.id === 'dnse') {
+  if (m.shortTermTenor && m.shortTermTenor !== 'Gói Margin Ngắn Ngày') {
+    productName = m.shortTermTenor;
+    const lower = m.shortTermTenor.toLowerCase();
+    if (lower.includes('t+5') || lower.includes('5 ngày') || lower.includes('t5') || lower.includes('deal')) {
+      tenorCategory = 't5';
+    } else if (lower.includes('30 ngày') || lower.includes('t30') || lower.includes('tháng')) {
+      tenorCategory = 't30';
+    } else {
+      tenorCategory = 't10';
+    }
+  } else if (company.id === 'dnse') {
     productName = 'Margin Deal Theo Lệnh (T+5 / T+10)';
     tenorCategory = 't5';
   } else if (company.id === 'vps') {

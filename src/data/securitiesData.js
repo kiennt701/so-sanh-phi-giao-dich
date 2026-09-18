@@ -41,8 +41,8 @@ export const SECURITIES_COMPANIES = [
       "interestFreeDays": 0,
       "notes": "Lãi suất margin thấp nhất là 10.5%/năm cho kỳ hạn tiêu chuẩn 90 ngày (phổ thông 10.5% - 12.0%/năm, không yêu cầu điều kiện dư nợ tối thiểu), nguồn vốn Big4 BIDV & Hana Securities dồi dào, an toàn vốn tuyệt đối qua mọi chu kỳ. Gói deal ngắn hạn T+ chỉ từ 7.5%/năm.",
       "shortTermRate": 7.5,
-      "shortTermTenor": "Gói T+ ngắn hạn (từ 7.5%)",
-      "shortTermDisplay": "7.5% - 8.5%/năm (Gói T+ ngắn hạn)",
+      "shortTermTenor": "Gói Margin T+ BSC (Big4 BIDV)",
+      "shortTermDisplay": "7.5% - 8.5%/năm (Gói Margin T+ BSC)",
       "standardRate90d": 10.5,
       "standardRateDisplay": "10.5% - 12.0%/năm (Chuẩn 90 ngày)",
       "isShortTermDealOnly": false

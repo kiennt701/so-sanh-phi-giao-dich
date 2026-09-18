@@ -24,7 +24,15 @@ import {
   Mail,
   Trash2,
   FileSpreadsheet,
-  Reply
+  Reply,
+  Building2,
+  Percent,
+  TrendingDown,
+  Gift,
+  Link2,
+  Coins,
+  Briefcase,
+  Award
 } from 'lucide-react';
 import scanReport from '../../scan-report.json';
 import manualOverridesTemplate from '../data/manualOverrides.json';
@@ -221,34 +229,73 @@ export default function DataManagementModal({
     setTimeout(() => setSuccessMsg(''), 3000);
   };
 
+  // Helper to extract full editable form state from a company object
+  const buildEditFormData = (target) => {
+    if (!target) return {};
+    const tf = target.tradingFee || {};
+    const m = target.margin || {};
+    const df = target.derivativesFee || {};
+    const wp = target.welcomePromo || {};
+
+    return {
+      // 1. Phí giao dịch cổ phiếu
+      onlineMin: tf.onlineMin ?? 0.1,
+      onlineMax: tf.onlineMax ?? 0.15,
+      brokerMin: tf.brokerMin ?? tf.onlineMin ?? 0.15,
+      brokerMax: tf.brokerMax ?? tf.onlineMax ?? 0.2,
+      zeroFeeOffer: Boolean(tf.zeroFeeOffer),
+      tradingFeeNotes: tf.notes || '',
+
+      // 2. Lãi suất Margin chuẩn 90 ngày
+      marginBaseRate: m.standardRate90d ?? m.baseRate ?? m.medianRate ?? 10.5,
+      marginMinRate: m.minRate ?? 7.5,
+      marginMaxRate: m.maxRate ?? 14.0,
+      maxLeverage: m.maxLeverage || '1:1 (Ký quỹ 50% chuẩn UBCK)',
+      interestFreeDays: m.interestFreeDays ?? 0,
+      marginNotes: m.notes || '',
+
+      // 3. Margin ngắn ngày (T+, Quick, Deal)
+      shortTermRate: m.shortTermRate ?? m.promoRate ?? 7.5,
+      shortTermTenor: m.shortTermTenor || 'Gói Margin Ngắn Ngày',
+      isShortTermDealOnly: Boolean(m.isShortTermDealOnly),
+
+      // 4. Phí giao dịch phái sinh
+      derivativesFeePerContract: df.feePerContract ?? 1000,
+      derivativesNotes: df.notes || '',
+
+      // 5. Ưu đãi mở mới (eKYC Deals)
+      hasPromo: Boolean(wp.hasPromo),
+      promoBadge: wp.badge || '',
+      promoFeeOffer: wp.feeOffer || '',
+      promoMarginOffer: wp.marginOffer || '',
+      promoDuration: wp.duration || '',
+      promoGiftBonus: wp.giftBonus || '',
+
+      // 6. Định danh, Liên kết & Nguồn
+      accountOpeningUrl: target.accountOpeningUrl || '',
+      referralCode: target.referralCode || '',
+      sourceUrl: target.sourceUrl || '',
+      marketShareRank: target.marketShareRank || '',
+      bankBacked: target.bankBacked || '',
+      suitableFor: target.suitableFor || '',
+      prosText: (target.pros || []).join('\n'),
+      consText: (target.cons || []).join('\n'),
+      lastUpdated: target.lastUpdated || new Date().toISOString().split('T')[0]
+    };
+  };
+
   // Find currently selected company
   const currentCompany = companies.find(c => c.id === selectedCompanyId) || companies[0];
 
   // Quick edit form state
-  const [editForm, setEditForm] = useState({
-    onlineMin: currentCompany.tradingFee.onlineMin,
-    onlineMax: currentCompany.tradingFee.onlineMax,
-    zeroFeeOffer: currentCompany.tradingFee.zeroFeeOffer,
-    marginBaseRate: currentCompany.margin.baseRate ?? currentCompany.margin.standardRate90d ?? 10.5,
-    marginPromoRate: currentCompany.margin.promoRate ?? currentCompany.margin.shortTermRate ?? 7.5,
-    maxLeverage: currentCompany.margin.maxLeverage,
-    accountOpeningUrl: currentCompany.accountOpeningUrl
-  });
+  const [editForm, setEditForm] = useState(() => buildEditFormData(currentCompany));
 
   // When switching company in dropdown
   const handleSelectCompany = (id) => {
     setSelectedCompanyId(id);
     const target = companies.find(c => c.id === id);
     if (target) {
-      setEditForm({
-        onlineMin: target.tradingFee.onlineMin,
-        onlineMax: target.tradingFee.onlineMax,
-        zeroFeeOffer: target.tradingFee.zeroFeeOffer,
-        marginBaseRate: target.margin.baseRate ?? target.margin.standardRate90d ?? 10.5,
-        marginPromoRate: target.margin.promoRate ?? target.margin.shortTermRate ?? 7.5,
-        maxLeverage: target.margin.maxLeverage,
-        accountOpeningUrl: target.accountOpeningUrl
-      });
+      setEditForm(buildEditFormData(target));
     }
     setSuccessMsg('');
     setErrorMsg('');
@@ -258,15 +305,7 @@ export default function DataManagementModal({
   useEffect(() => {
     const target = companies.find(c => c.id === selectedCompanyId) || companies[0];
     if (target) {
-      setEditForm({
-        onlineMin: target.tradingFee.onlineMin,
-        onlineMax: target.tradingFee.onlineMax,
-        zeroFeeOffer: target.tradingFee.zeroFeeOffer,
-        marginBaseRate: target.margin.baseRate ?? target.margin.standardRate90d ?? 10.5,
-        marginPromoRate: target.margin.promoRate ?? target.margin.shortTermRate ?? 7.5,
-        maxLeverage: target.margin.maxLeverage,
-        accountOpeningUrl: target.accountOpeningUrl
-      });
+      setEditForm(buildEditFormData(target));
     }
     setRawJson(JSON.stringify(companies, null, 2));
   }, [companies, selectedCompanyId]);
@@ -285,38 +324,92 @@ export default function DataManagementModal({
     try {
       const minFee = Number(editForm.onlineMin);
       const maxFee = Number(editForm.onlineMax);
+      const brokerMin = Number(editForm.brokerMin);
+      const brokerMax = Number(editForm.brokerMax);
       const zeroFee = Boolean(editForm.zeroFeeOffer);
+      
       const baseRateNum = Number(editForm.marginBaseRate);
-      const promoRateNum = Number(editForm.marginPromoRate);
+      const marginMinNum = Number(editForm.marginMinRate);
+      const marginMaxNum = Number(editForm.marginMaxRate);
+      const shortRateNum = Number(editForm.shortTermRate);
+      const freeDaysNum = Number(editForm.interestFreeDays);
+      const derivFeeNum = Number(editForm.derivativesFeePerContract);
 
       const feeSummary = zeroFee 
         ? '0.00% (Zero-Fee)' 
         : (minFee === maxFee ? `${minFee}%` : `${minFee}% - ${maxFee}%`);
 
+      const standardRateDisplay = `${baseRateNum}%/năm (Chuẩn 90 ngày)`;
+      const shortTermDisplay = shortRateNum > 0 
+        ? `${shortRateNum}%/năm (${editForm.shortTermTenor || 'Gói T+'})`
+        : 'Theo biểu lãi chuẩn';
+
+      // Parse pros and cons from newline-separated text
+      const pros = (editForm.prosText || '')
+        .split('\n')
+        .map(line => line.trim())
+        .filter(line => line.length > 0);
+
+      const cons = (editForm.consText || '')
+        .split('\n')
+        .map(line => line.trim())
+        .filter(line => line.length > 0);
+
       const updatedCompanies = companies.map(c => {
         if (c.id === selectedCompanyId) {
           return {
             ...c,
+            marketShareRank: editForm.marketShareRank || c.marketShareRank,
+            bankBacked: editForm.bankBacked || c.bankBacked,
+            suitableFor: editForm.suitableFor || c.suitableFor,
+            accountOpeningUrl: editForm.accountOpeningUrl || c.accountOpeningUrl,
+            referralCode: editForm.referralCode || c.referralCode,
+            sourceUrl: editForm.sourceUrl || c.sourceUrl,
+            pros: pros.length > 0 ? pros : c.pros,
+            cons: cons.length > 0 ? cons : c.cons,
+            keyHighlights: pros.length > 0 ? pros.slice(0, 3) : c.keyHighlights,
+            lastUpdated: editForm.lastUpdated || new Date().toISOString().split('T')[0],
             tradingFee: {
               ...c.tradingFee,
               onlineMin: minFee,
               onlineMax: maxFee,
+              brokerMin: brokerMin,
+              brokerMax: brokerMax,
               zeroFeeOffer: zeroFee,
-              displaySummary: feeSummary
+              displaySummary: feeSummary,
+              notes: editForm.tradingFeeNotes || c.tradingFee?.notes || ''
             },
             margin: {
               ...c.margin,
               baseRate: baseRateNum,
               standardRate90d: baseRateNum,
-              standardRateDisplay: `${baseRateNum}%/năm (Chuẩn 90 ngày)`,
+              standardRateDisplay: standardRateDisplay,
               medianRate: baseRateNum,
-              promoRate: promoRateNum,
-              shortTermRate: promoRateNum,
-              shortTermDisplay: promoRateNum > 0 ? `Từ ${promoRateNum}%/năm (Gói T+)` : c.margin.shortTermDisplay,
-              maxLeverage: editForm.maxLeverage
+              minRate: marginMinNum,
+              maxRate: marginMaxNum,
+              promoRate: shortRateNum,
+              shortTermRate: shortRateNum,
+              shortTermTenor: editForm.shortTermTenor || c.margin?.shortTermTenor || 'Gói Margin Ngắn Ngày',
+              shortTermDisplay: shortTermDisplay,
+              isShortTermDealOnly: Boolean(editForm.isShortTermDealOnly),
+              maxLeverage: editForm.maxLeverage || c.margin?.maxLeverage,
+              interestFreeDays: freeDaysNum,
+              notes: editForm.marginNotes || c.margin?.notes || ''
             },
-            accountOpeningUrl: editForm.accountOpeningUrl,
-            lastUpdated: new Date().toISOString().split('T')[0]
+            derivativesFee: {
+              ...c.derivativesFee,
+              feePerContract: derivFeeNum,
+              notes: editForm.derivativesNotes || c.derivativesFee?.notes || ''
+            },
+            welcomePromo: {
+              ...c.welcomePromo,
+              hasPromo: Boolean(editForm.hasPromo),
+              badge: editForm.promoBadge || c.welcomePromo?.badge || '',
+              feeOffer: editForm.promoFeeOffer || c.welcomePromo?.feeOffer || '',
+              marginOffer: editForm.promoMarginOffer || c.welcomePromo?.marginOffer || '',
+              duration: editForm.promoDuration || c.welcomePromo?.duration || '',
+              giftBonus: editForm.promoGiftBonus || c.welcomePromo?.giftBonus || ''
+            }
           };
         }
         return c;
@@ -390,6 +483,8 @@ export default function DataManagementModal({
               ...over,
               tradingFee: over.tradingFee ? { ...c.tradingFee, ...over.tradingFee } : c.tradingFee,
               margin: over.margin ? { ...c.margin, ...over.margin } : c.margin,
+              derivativesFee: over.derivativesFee ? { ...c.derivativesFee, ...over.derivativesFee } : c.derivativesFee,
+              welcomePromo: over.welcomePromo ? { ...c.welcomePromo, ...over.welcomePromo } : c.welcomePromo,
             };
           });
           onApplyOverrides(updated);
@@ -557,7 +652,7 @@ export default function DataManagementModal({
 
         {/* Content: Quick Edit Mode */}
         {activeTab === 'quick_edit' && (
-          <form onSubmit={handleSaveQuickEdit} className="mt-5 space-y-4">
+          <form onSubmit={handleSaveQuickEdit} className="mt-5 space-y-5">
             {/* Permission warning banner if not admin */}
             {!currentUser && (
               <div className="rounded-2xl border border-amber-200/90 bg-amber-50/80 p-3.5 text-xs text-amber-900 dark:border-amber-900/60 dark:bg-amber-950/40 dark:text-amber-200 flex items-center justify-between gap-3 flex-wrap shadow-xs">
@@ -578,158 +673,636 @@ export default function DataManagementModal({
               </div>
             )}
 
-            {/* Select company */}
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5">
-                Chọn Công Ty Chứng Khoán để hiệu chỉnh:
-              </label>
+            {/* Select company with live snapshot */}
+            <div className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900 shadow-xs space-y-3">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                  Chọn Công Ty Chứng Khoán để hiệu chỉnh:
+                </label>
+                <span className="text-[11px] text-slate-500 dark:text-slate-400">
+                  Tổng số: <strong>{companies.length}</strong> công ty trong cơ sở dữ liệu
+                </span>
+              </div>
               <select
                 value={selectedCompanyId}
                 onChange={(e) => handleSelectCompany(e.target.value)}
-                className="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm font-semibold text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                className="w-full rounded-xl border border-slate-300 bg-slate-50 px-3.5 py-2.5 text-sm font-bold text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-white focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 {companies.map(c => (
                   <option key={c.id} value={c.id}>
-                    {c.shortName} — {c.name}
+                    {c.shortName} — {c.name} {c.stockCode ? `(${c.stockCode})` : ''}
                   </option>
                 ))}
               </select>
-            </div>
 
-            {/* Trading fee fields */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-              <div>
-                <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
-                  Phí GD Online Tối thiểu (%)
-                </label>
-                <input
-                  type="number"
-                  step="0.01"
-                  min="0"
-                  max="1"
-                  disabled={!currentUser}
-                  value={editForm.onlineMin}
-                  onChange={(e) => setEditForm({ ...editForm, onlineMin: e.target.value })}
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-xs font-bold dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed disabled:text-slate-500"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
-                  Phí GD Online Tối đa (%)
-                </label>
-                <input
-                  type="number"
-                  step="0.01"
-                  min="0"
-                  max="1"
-                  disabled={!currentUser}
-                  value={editForm.onlineMax}
-                  onChange={(e) => setEditForm({ ...editForm, onlineMax: e.target.value })}
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-xs font-bold dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed disabled:text-slate-500"
-                />
+              {/* Current Summary Pills */}
+              <div className="flex flex-wrap items-center gap-2 pt-1 text-[11px]">
+                <span className="inline-flex items-center gap-1 rounded-lg bg-blue-50 dark:bg-blue-950/60 px-2.5 py-1 font-bold text-blue-700 dark:text-blue-300">
+                  <Percent className="h-3 w-3" />
+                  Phí Online: {currentCompany.tradingFee?.onlineMin}% {currentCompany.tradingFee?.zeroFeeOffer ? '(Zero-Fee)' : ''}
+                </span>
+                <span className="inline-flex items-center gap-1 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 px-2.5 py-1 font-bold text-emerald-700 dark:text-emerald-300">
+                  <Coins className="h-3 w-3" />
+                  Lãi 90 ngày: {currentCompany.margin?.standardRate90d ?? currentCompany.margin?.baseRate}%
+                </span>
+                <span className="inline-flex items-center gap-1 rounded-lg bg-indigo-50 dark:bg-indigo-950/60 px-2.5 py-1 font-bold text-indigo-700 dark:text-indigo-300">
+                  <Zap className="h-3 w-3" />
+                  Lãi T+: {currentCompany.margin?.shortTermRate ?? currentCompany.margin?.promoRate}%
+                </span>
+                {currentCompany.marketShareRank && (
+                  <span className="inline-flex items-center gap-1 rounded-lg bg-amber-50 dark:bg-amber-950/60 px-2.5 py-1 font-bold text-amber-700 dark:text-amber-300">
+                    <Award className="h-3 w-3" />
+                    {currentCompany.marketShareRank}
+                  </span>
+                )}
               </div>
             </div>
 
-            {/* Zero fee checkbox */}
-            <div className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                id="zeroFeeOffer"
-                disabled={!currentUser}
-                checked={editForm.zeroFeeOffer}
-                onChange={(e) => setEditForm({ ...editForm, zeroFeeOffer: e.target.checked })}
-                className="h-4 w-4 rounded text-blue-600 focus:ring-blue-500 disabled:cursor-not-allowed"
-              />
-              <label htmlFor="zeroFeeOffer" className="text-xs font-bold text-slate-700 dark:text-slate-300 cursor-pointer">
-                Đang có chính sách / ưu đãi miễn phí giao dịch (Zero-Fee)
-              </label>
-            </div>
+            {/* Section 1: Phí Giao Dịch Cổ Phiếu (Trading Fee) */}
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-xs space-y-3">
+              <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-2">
+                <Percent className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
+                  1. Biểu Phí Giao Dịch Cổ Phiếu Cơ Sở
+                </h4>
+              </div>
 
-            {/* Margin fields */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-              <div>
-                <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
-                  Lãi Margin Chuẩn (%/năm)
-                </label>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+                <div>
+                  <label className="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">
+                    Phí Online Tối thiểu (%)
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    max="1"
+                    disabled={!currentUser}
+                    value={editForm.onlineMin}
+                    onChange={(e) => setEditForm({ ...editForm, onlineMin: e.target.value })}
+                    className="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs font-bold dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">
+                    Phí Online Tối đa (%)
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    max="1"
+                    disabled={!currentUser}
+                    value={editForm.onlineMax}
+                    onChange={(e) => setEditForm({ ...editForm, onlineMax: e.target.value })}
+                    className="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs font-bold dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">
+                    Phí Có Môi giới Min (%)
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    max="1"
+                    disabled={!currentUser}
+                    value={editForm.brokerMin}
+                    onChange={(e) => setEditForm({ ...editForm, brokerMin: e.target.value })}
+                    className="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs font-bold dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">
+                    Phí Có Môi giới Max (%)
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    max="1"
+                    disabled={!currentUser}
+                    value={editForm.brokerMax}
+                    onChange={(e) => setEditForm({ ...editForm, brokerMax: e.target.value })}
+                    className="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs font-bold dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed"
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 pt-1">
                 <input
-                  type="number"
-                  step="0.1"
-                  min="1"
-                  max="25"
+                  type="checkbox"
+                  id="zeroFeeOffer"
                   disabled={!currentUser}
-                  value={editForm.marginBaseRate}
-                  onChange={(e) => setEditForm({ ...editForm, marginBaseRate: e.target.value })}
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-xs font-bold dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed disabled:text-slate-500"
+                  checked={editForm.zeroFeeOffer}
+                  onChange={(e) => setEditForm({ ...editForm, zeroFeeOffer: e.target.checked })}
+                  className="h-4 w-4 rounded text-blue-600 focus:ring-blue-500 disabled:cursor-not-allowed"
                 />
+                <label htmlFor="zeroFeeOffer" className="text-xs font-bold text-slate-700 dark:text-slate-300 cursor-pointer">
+                  Đang có chính sách / ưu đãi miễn 100% phí môi giới giao dịch (Zero-Fee)
+                </label>
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
-                  Lãi Margin Ưu đãi (%/năm)
-                </label>
-                <input
-                  type="number"
-                  step="0.01"
-                  min="0"
-                  max="25"
-                  disabled={!currentUser}
-                  value={editForm.marginPromoRate}
-                  onChange={(e) => setEditForm({ ...editForm, marginPromoRate: e.target.value })}
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-xs font-bold text-blue-600 dark:border-slate-700 dark:bg-slate-800 dark:text-blue-400 disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed disabled:text-slate-500"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
-                  Đòn bẩy tối đa
+                <label className="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">
+                  Ghi chú điều kiện biểu phí giao dịch
                 </label>
                 <input
                   type="text"
                   disabled={!currentUser}
-                  value={editForm.maxLeverage}
-                  onChange={(e) => setEditForm({ ...editForm, maxLeverage: e.target.value })}
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-xs font-bold dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed disabled:text-slate-500"
+                  value={editForm.tradingFeeNotes}
+                  onChange={(e) => setEditForm({ ...editForm, tradingFeeNotes: e.target.value })}
+                  placeholder="Ví dụ: Áp dụng cho tài khoản giao dịch chủ động qua app/web..."
+                  className="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed"
                 />
               </div>
             </div>
 
-            {/* URL field */}
-            <div>
-              <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
-                Đường dẫn mở tài khoản eKYC
-              </label>
-              <input
-                type="url"
-                disabled={!currentUser}
-                value={editForm.accountOpeningUrl}
-                onChange={(e) => setEditForm({ ...editForm, accountOpeningUrl: e.target.value })}
-                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-xs font-mono dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed disabled:text-slate-500"
-              />
+            {/* Section 2: Lãi Suất Margin Tiêu Chuẩn 90 Ngày */}
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-xs space-y-3">
+              <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-2">
+                <Coins className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
+                  2. Lãi Suất Ký Quỹ Margin Tiêu Chuẩn (90 Ngày)
+                </h4>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3">
+                <div>
+                  <label className="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">
+                    Lãi Chuẩn 90d (%/năm)
+                  </label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    min="1"
+                    max="25"
+                    disabled={!currentUser}
+                    value={editForm.marginBaseRate}
+                    onChange={(e) => setEditForm({ ...editForm, marginBaseRate: e.target.value })}
+                    className="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs font-bold text-emerald-600 dark:text-emerald-400 dark:border-slate-700 dark:bg-slate-800 disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">
+                    Lãi Sàn Min (%/năm)
+                  </label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    min="1"
+                    max="25"
+                    disabled={!currentUser}
+                    value={editForm.marginMinRate}
+                    onChange={(e) => setEditForm({ ...editForm, marginMinRate: e.target.value })}
+                    className="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs font-bold dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">
+                    Lãi Trần Max (%/năm)
+                  </label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    min="1"
+                    max="25"
+                    disabled={!currentUser}
+                    value={editForm.marginMaxRate}
+                    onChange={(e) => setEditForm({ ...editForm, marginMaxRate: e.target.value })}
+                    className="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs font-bold dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">
+                    Miễn Lãi Đầu (Ngày)
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    max="30"
+                    disabled={!currentUser}
+                    value={editForm.interestFreeDays}
+                    onChange={(e) => setEditForm({ ...editForm, interestFreeDays: e.target.value })}
+                    className="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs font-bold dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">
+                    Đòn Bẩy Tối Đa
+                  </label>
+                  <input
+                    type="text"
+                    disabled={!currentUser}
+                    value={editForm.maxLeverage}
+                    onChange={(e) => setEditForm({ ...editForm, maxLeverage: e.target.value })}
+                    className="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs font-bold dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">
+                  Ghi chú chính sách margin & nguồn vốn
+                </label>
+                <input
+                  type="text"
+                  disabled={!currentUser}
+                  value={editForm.marginNotes}
+                  onChange={(e) => setEditForm({ ...editForm, marginNotes: e.target.value })}
+                  placeholder="Ví dụ: Nguồn vốn Big4 dồi dào, an toàn vốn tuyệt đối qua mọi chu kỳ..."
+                  className="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed"
+                />
+              </div>
             </div>
 
-            {/* Save Button */}
-            <div className="pt-4 flex items-center justify-between border-t border-slate-100 dark:border-slate-800">
+            {/* Section 3: Gói Margin Ngắn Ngày (Quick, T+, Deal) */}
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-xs space-y-3">
+              <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-2">
+                <Zap className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
+                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
+                  3. Sản Phẩm Margin Ngắn Ngày (Quick, T+, Margin Deal)
+                </h4>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                <div>
+                  <label className="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">
+                    Lãi Margin Ngắn Ngày T+ (%/năm)
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    max="25"
+                    disabled={!currentUser}
+                    value={editForm.shortTermRate}
+                    onChange={(e) => setEditForm({ ...editForm, shortTermRate: e.target.value })}
+                    className="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs font-bold text-indigo-600 dark:text-indigo-400 dark:border-slate-700 dark:bg-slate-800 disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed"
+                  />
+                </div>
+
+                <div className="sm:col-span-2">
+                  <label className="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">
+                    Tên Gói / Thời Hạn Áp Dụng (Hiển thị tại Tab Margin Ngắn Ngày)
+                  </label>
+                  <input
+                    type="text"
+                    disabled={!currentUser}
+                    value={editForm.shortTermTenor}
+                    onChange={(e) => setEditForm({ ...editForm, shortTermTenor: e.target.value })}
+                    placeholder="Ví dụ: Gói T+5 / T+10, Margin Deal Theo Lệnh, Gói SOL Margin 30 Ngày..."
+                    className="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs font-semibold dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed"
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 pt-1">
+                <input
+                  type="checkbox"
+                  id="isShortTermDealOnly"
+                  disabled={!currentUser}
+                  checked={editForm.isShortTermDealOnly}
+                  onChange={(e) => setEditForm({ ...editForm, isShortTermDealOnly: e.target.checked })}
+                  className="h-4 w-4 rounded text-indigo-600 focus:ring-indigo-500 disabled:cursor-not-allowed"
+                />
+                <label htmlFor="isShortTermDealOnly" className="text-xs font-semibold text-slate-700 dark:text-slate-300 cursor-pointer">
+                  Chỉ áp dụng theo danh mục Deal / mã cổ phiếu được phê duyệt riêng (Deal Only)
+                </label>
+              </div>
+            </div>
+
+            {/* Section 4: Phí Giao Dịch Chứng Khoán Phái Sinh */}
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-xs space-y-3">
+              <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-2">
+                <TrendingDown className="h-4 w-4 text-purple-600 dark:text-purple-400" />
+                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
+                  4. Phí Giao Dịch Chứng Khoán Phái Sinh
+                </h4>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div>
+                  <label className="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">
+                    Phí Khớp Lệnh (VNĐ / Hợp Đồng)
+                  </label>
+                  <input
+                    type="number"
+                    step="100"
+                    min="0"
+                    max="10000"
+                    disabled={!currentUser}
+                    value={editForm.derivativesFeePerContract}
+                    onChange={(e) => setEditForm({ ...editForm, derivativesFeePerContract: e.target.value })}
+                    className="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs font-bold dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed"
+                  />
+                </div>
+
+                <div className="sm:col-span-2">
+                  <label className="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">
+                    Ghi chú biểu phí phái sinh
+                  </label>
+                  <input
+                    type="text"
+                    disabled={!currentUser}
+                    value={editForm.derivativesNotes}
+                    onChange={(e) => setEditForm({ ...editForm, derivativesNotes: e.target.value })}
+                    placeholder="Ví dụ: 0đ/HĐ phái sinh hoặc 500đ - 3.000đ/HĐ tùy sản lượng (chưa gồm phí Sở)..."
+                    className="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Section 5: Chính Sách Ưu Đãi Mở Mới (Welcome Promo) */}
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-xs space-y-3">
+              <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-2">
+                <Gift className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
+                  5. Chính Sách Ưu Đãi Mở Tài Khoản Mới (eKYC Deals)
+                </h4>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id="hasPromo"
+                  disabled={!currentUser}
+                  checked={editForm.hasPromo}
+                  onChange={(e) => setEditForm({ ...editForm, hasPromo: e.target.checked })}
+                  className="h-4 w-4 rounded text-amber-600 focus:ring-amber-500 disabled:cursor-not-allowed"
+                />
+                <label htmlFor="hasPromo" className="text-xs font-bold text-slate-700 dark:text-slate-300 cursor-pointer">
+                  Đang có chương trình ưu đãi mở mới (Hiển thị tại Tab Ưu Đãi Mở Mới)
+                </label>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+                <div>
+                  <label className="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">
+                    Huy hiệu nhãn (Badge)
+                  </label>
+                  <input
+                    type="text"
+                    disabled={!currentUser}
+                    value={editForm.promoBadge}
+                    onChange={(e) => setEditForm({ ...editForm, promoBadge: e.target.value })}
+                    placeholder="Ví dụ: Phí Ưu Đãi 0.08%, Zero-Fee..."
+                    className="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs font-bold text-amber-700 dark:text-amber-400 dark:border-slate-700 dark:bg-slate-800 disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">
+                    Thời hạn ưu đãi
+                  </label>
+                  <input
+                    type="text"
+                    disabled={!currentUser}
+                    value={editForm.promoDuration}
+                    onChange={(e) => setEditForm({ ...editForm, promoDuration: e.target.value })}
+                    placeholder="Ví dụ: 3 - 6 tháng, Trọn đời..."
+                    className="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed"
+                  />
+                </div>
+
+                <div className="sm:col-span-2">
+                  <label className="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">
+                    Quà tặng / Tiện ích kèm theo
+                  </label>
+                  <input
+                    type="text"
+                    disabled={!currentUser}
+                    value={editForm.promoGiftBonus}
+                    onChange={(e) => setEditForm({ ...editForm, promoGiftBonus: e.target.value })}
+                    placeholder="Ví dụ: Báo cáo SmartX AI & BIDV Research..."
+                    className="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">
+                    Nội dung ưu đãi phí giao dịch
+                  </label>
+                  <input
+                    type="text"
+                    disabled={!currentUser}
+                    value={editForm.promoFeeOffer}
+                    onChange={(e) => setEditForm({ ...editForm, promoFeeOffer: e.target.value })}
+                    placeholder="Ví dụ: 0.08% phí giao dịch cổ phiếu mở mới & Inactive..."
+                    className="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">
+                    Nội dung ưu đãi lãi suất margin
+                  </label>
+                  <input
+                    type="text"
+                    disabled={!currentUser}
+                    value={editForm.promoMarginOffer}
+                    onChange={(e) => setEditForm({ ...editForm, promoMarginOffer: e.target.value })}
+                    placeholder="Ví dụ: Gói Margin T+ siêu cạnh tranh lãi suất từ 7.5%/năm..."
+                    className="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Section 6: Liên Kết, Mã Giới Thiệu & Nguồn Biểu Phí */}
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-xs space-y-3">
+              <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-2">
+                <Link2 className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
+                  6. Đường Dẫn Mở Tài Khoản, Mã Giới Thiệu & Nguồn Minh Bạch
+                </h4>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div className="sm:col-span-2">
+                  <label className="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">
+                    Đường dẫn mở tài khoản trực tuyến (eKYC)
+                  </label>
+                  <input
+                    type="url"
+                    disabled={!currentUser}
+                    value={editForm.accountOpeningUrl}
+                    onChange={(e) => setEditForm({ ...editForm, accountOpeningUrl: e.target.value })}
+                    placeholder="https://dangky.bsc.com.vn/moi-gioi?online=false&cif=4768"
+                    className="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs font-mono dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">
+                    Mã Giới Thiệu / CIF CTV
+                  </label>
+                  <input
+                    type="text"
+                    disabled={!currentUser}
+                    value={editForm.referralCode}
+                    onChange={(e) => setEditForm({ ...editForm, referralCode: e.target.value })}
+                    placeholder="Ví dụ: 4768"
+                    className="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs font-mono font-bold dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">
+                  Website công bố biểu phí chính thức (Link nguồn minh bạch)
+                </label>
+                <input
+                  type="url"
+                  disabled={!currentUser}
+                  value={editForm.sourceUrl}
+                  onChange={(e) => setEditForm({ ...editForm, sourceUrl: e.target.value })}
+                  placeholder="https://www.bsc.com.vn/phi-giao-dich-qua-san/"
+                  className="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs font-mono dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed"
+                />
+              </div>
+            </div>
+
+            {/* Section 7: Định Danh, Thị Phần & Đối Tượng Phù Hợp */}
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-xs space-y-3">
+              <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-2">
+                <Building2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
+                  7. Định Danh Doanh Nghiệp, Thị Phần & Đối Tượng Phù Hợp
+                </h4>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div>
+                  <label className="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">
+                    Thứ hạng thị phần
+                  </label>
+                  <input
+                    type="text"
+                    disabled={!currentUser}
+                    value={editForm.marketShareRank}
+                    onChange={(e) => setEditForm({ ...editForm, marketShareRank: e.target.value })}
+                    placeholder="Ví dụ: Top 7 HNX (3.58%)"
+                    className="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs font-semibold dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">
+                    Ngân hàng mẹ / Bảo trợ
+                  </label>
+                  <input
+                    type="text"
+                    disabled={!currentUser}
+                    value={editForm.bankBacked}
+                    onChange={(e) => setEditForm({ ...editForm, bankBacked: e.target.value })}
+                    placeholder="Ví dụ: BIDV, Techcombank, VPBank..."
+                    className="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs font-semibold dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">
+                    Ngày cập nhật dữ liệu
+                  </label>
+                  <input
+                    type="date"
+                    disabled={!currentUser}
+                    value={editForm.lastUpdated}
+                    onChange={(e) => setEditForm({ ...editForm, lastUpdated: e.target.value })}
+                    className="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs font-mono dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">
+                  Nhóm nhà đầu tư phù hợp nhất (suitableFor)
+                </label>
+                <textarea
+                  rows={2}
+                  disabled={!currentUser}
+                  value={editForm.suitableFor}
+                  onChange={(e) => setEditForm({ ...editForm, suitableFor: e.target.value })}
+                  placeholder="Ví dụ: Nhà đầu tư chú trọng sự an toàn, bảo chứng uy tín từ ngân hàng quốc doanh lớn..."
+                  className="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed"
+                />
+              </div>
+            </div>
+
+            {/* Section 8: Ưu Điểm & Nhược Điểm */}
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-xs space-y-3">
+              <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-2">
+                <Briefcase className="h-4 w-4 text-slate-600 dark:text-slate-400" />
+                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
+                  8. Đánh Giá Điểm Mạnh & Hạn Chế (Mỗi dòng một ý)
+                </h4>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[11px] font-medium text-emerald-700 dark:text-emerald-400 mb-1">
+                    ✓ Điểm mạnh nổi bật (Pros)
+                  </label>
+                  <textarea
+                    rows={4}
+                    disabled={!currentUser}
+                    value={editForm.prosText}
+                    onChange={(e) => setEditForm({ ...editForm, prosText: e.target.value })}
+                    placeholder="Mỗi dòng là một ưu điểm..."
+                    className="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed leading-relaxed"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-medium text-rose-700 dark:text-rose-400 mb-1">
+                    ✗ Điểm hạn chế (Cons)
+                  </label>
+                  <textarea
+                    rows={4}
+                    disabled={!currentUser}
+                    value={editForm.consText}
+                    onChange={(e) => setEditForm({ ...editForm, consText: e.target.value })}
+                    placeholder="Mỗi dòng là một điểm hạn chế..."
+                    className="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs dark:border-slate-700 dark:bg-slate-800 dark:text-white disabled:bg-slate-100 dark:disabled:bg-slate-900 disabled:cursor-not-allowed leading-relaxed"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Save & Reset Actions Bar */}
+            <div className="pt-4 flex items-center justify-between border-t border-slate-200 dark:border-slate-800 sticky bottom-0 bg-white/95 dark:bg-slate-900/95 py-3 backdrop-blur-xs z-10">
               <button
                 type="button"
                 onClick={currentUser ? onResetToDefault : onOpenLoginModal}
-                className="inline-flex items-center gap-1 text-xs text-rose-600 hover:text-rose-700 font-semibold"
+                className="inline-flex items-center gap-1.5 text-xs text-rose-600 hover:text-rose-700 font-bold transition-colors"
               >
-                <RotateCcw className="h-3.5 w-3.5" />
+                <RotateCcw className="h-4 w-4" />
                 <span>Khôi phục dữ liệu gốc</span>
               </button>
 
               <button
                 type={currentUser ? "submit" : "button"}
                 onClick={!currentUser ? onOpenLoginModal : undefined}
-                className={`inline-flex items-center gap-1.5 rounded-xl px-5 py-2.5 text-xs font-bold text-white shadow-md transition-colors ${
+                className={`inline-flex items-center gap-2 rounded-xl px-6 py-2.5 text-xs font-black text-white shadow-md transition-all ${
                   currentUser 
-                    ? 'bg-blue-600 hover:bg-blue-700' 
+                    ? 'bg-blue-600 hover:bg-blue-700 active:scale-95' 
                     : 'bg-slate-800 hover:bg-slate-900'
                 }`}
               >
                 {currentUser ? <Save className="h-4 w-4" /> : <Lock className="h-4 w-4" />}
-                <span>{currentUser ? 'Lưu & Áp Dụng Thay Đổi' : 'Đăng nhập Quản trị để lưu'}</span>
+                <span>{currentUser ? `Lưu & Áp Dụng Thay Đổi Cho ${currentCompany.shortName}` : 'Đăng nhập Quản trị để lưu'}</span>
               </button>
             </div>
           </form>

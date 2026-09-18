@@ -204,7 +204,7 @@ export default function SecuritiesTable({
                             Miễn phí môi giới
                           </div>
                         </div>
-                      ) : company.tradingFee.onlineMin === 0 ? (
+                      ) : company.tradingFee.onlineMin === 0 || company.tradingFee.zeroFeeOffer ? (
                         <div>
                           <div className="text-emerald-600 dark:text-emerald-400 font-extrabold text-xs sm:text-sm">
                             0.00% (Zero-Fee)
@@ -224,6 +224,11 @@ export default function SecuritiesTable({
                           </div>
                         </div>
                       )}
+                      {company.tradingFee?.brokerMin > 0 && company.tradingFee.brokerMin !== company.tradingFee.onlineMin && (
+                        <div className="text-[9.5px] text-slate-500 dark:text-slate-400 mt-0.5">
+                          Môi giới: {company.tradingFee.brokerMin}%{company.tradingFee.brokerMax !== company.tradingFee.brokerMin ? ` - ${company.tradingFee.brokerMax}%` : ''}
+                        </div>
+                      )}
                     </td>
 
                     {/* Column 4: Margin */}
@@ -236,6 +241,11 @@ export default function SecuritiesTable({
                         <div className="text-[10px] text-indigo-600 dark:text-indigo-300 font-bold flex items-center gap-1 mt-0.5">
                           <TrendingDown className="h-3 w-3 shrink-0" />
                           <span>Gói Deal từ {company.margin.shortTermRate || company.margin.promoRate}%</span>
+                        </div>
+                      )}
+                      {company.margin?.maxLeverage && (
+                        <div className="text-[9.5px] text-slate-400 dark:text-slate-400 mt-0.5 truncate max-w-[170px]" title={company.margin.maxLeverage}>
+                          Đòn bẩy: {company.margin.maxLeverage.split(' ')[0]}
                         </div>
                       )}
                     </td>
