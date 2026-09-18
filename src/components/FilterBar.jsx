@@ -24,36 +24,54 @@ export default function FilterBar({
 }) {
   return (
     <div className="space-y-2.5 sm:space-y-3">
-      {/* Primary Mode Switcher: Existing Client Standard Rates vs Welcome Promo Comparator */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 bg-slate-100 dark:bg-slate-800/90 p-1.5 rounded-2xl border border-slate-200/80 dark:border-slate-700">
-        <div className="grid grid-cols-2 sm:flex items-center gap-1 sm:gap-1.5 flex-1">
+      {/* Primary Mode Switcher: Existing Client Standard Rates vs Short-term Margin vs Welcome Promo */}
+      <div className="flex flex-col xl:flex-row items-stretch xl:items-center justify-between gap-2 bg-slate-100 dark:bg-slate-800/90 p-1.5 rounded-2xl border border-slate-200/80 dark:border-slate-700">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-1 sm:gap-1.5 flex-1">
           {/* Tab 1: Existing Clients */}
           <button
             type="button"
             onClick={() => setComparisonTab && setComparisonTab('existing')}
-            className={`inline-flex items-center justify-center gap-1.5 sm:gap-2 rounded-xl px-2.5 sm:px-3.5 py-2 text-xs sm:text-sm font-extrabold transition-all text-center ${
+            className={`inline-flex items-center justify-center gap-1.5 sm:gap-2 rounded-xl px-2.5 sm:px-3 py-2 text-xs sm:text-sm font-extrabold transition-all text-center ${
               comparisonTab === 'existing'
                 ? 'bg-white text-blue-700 shadow-sm ring-1 ring-slate-200/80 dark:bg-slate-900 dark:text-blue-300 dark:ring-slate-700'
                 : 'text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white'
             }`}
           >
             <Table className="h-4 w-4 text-blue-600 dark:text-blue-400 shrink-0" />
-            <span className="hidden sm:inline">Khách Hàng Hiện Hữu (Biểu Phí Chuẩn)</span>
-            <span className="sm:hidden text-xs">Khách Hiện Hữu</span>
+            <span className="hidden sm:inline">Khách Hiện Hữu (Phí Chuẩn)</span>
+            <span className="sm:hidden text-xs">Phí Chuẩn 90 Ngày</span>
           </button>
 
-          {/* Tab 2: Welcome Promos */}
+          {/* Tab 2: Short-Term Margin (T+, Quick, Deal) */}
+          <button
+            type="button"
+            onClick={() => setComparisonTab && setComparisonTab('short_term_margin')}
+            className={`inline-flex items-center justify-center gap-1.5 sm:gap-2 rounded-xl px-2.5 sm:px-3 py-2 text-xs sm:text-sm font-extrabold transition-all text-center ${
+              comparisonTab === 'short_term_margin'
+                ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-sm shadow-blue-500/25'
+                : 'text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white'
+            }`}
+          >
+            <Zap className={`h-4 w-4 shrink-0 ${comparisonTab === 'short_term_margin' ? 'text-amber-300 fill-amber-300' : 'text-amber-500'}`} />
+            <span className="hidden sm:inline">Margin Ngắn Ngày (T+, Quick, Deal)</span>
+            <span className="sm:hidden text-xs">Margin T+ / Quick</span>
+            <span className="rounded-full bg-amber-400 text-amber-950 text-[9px] sm:text-[10px] font-black px-1.5 py-0.2 shrink-0">
+              ⚡ T+
+            </span>
+          </button>
+
+          {/* Tab 3: Welcome Promos */}
           <button
             type="button"
             onClick={() => setComparisonTab && setComparisonTab('welcome_promo')}
-            className={`inline-flex items-center justify-center gap-1.5 sm:gap-2 rounded-xl px-2.5 sm:px-3.5 py-2 text-xs sm:text-sm font-extrabold transition-all text-center ${
+            className={`inline-flex items-center justify-center gap-1.5 sm:gap-2 rounded-xl px-2.5 sm:px-3 py-2 text-xs sm:text-sm font-extrabold transition-all text-center ${
               comparisonTab === 'welcome_promo'
                 ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-sm shadow-orange-500/25'
                 : 'text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white'
             }`}
           >
             <Gift className="h-4 w-4 text-amber-300 shrink-0" />
-            <span className="hidden sm:inline">Ưu Đãi Mở Tài Khoản Mới (eKYC)</span>
+            <span className="hidden sm:inline">Ưu Đãi Mở Mới (eKYC)</span>
             <span className="sm:hidden text-xs">Ưu Đãi Mở Mới</span>
             <span className="rounded-full bg-red-500 text-white text-[9px] sm:text-[10px] font-black px-1.5 py-0.2 shrink-0">
               HOT
@@ -61,9 +79,11 @@ export default function FilterBar({
           </button>
         </div>
 
-        <div className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-300 px-2 text-center sm:text-right font-medium">
+        <div className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-300 px-2 text-center xl:text-right font-medium shrink-0">
           {comparisonTab === 'existing' ? (
             <span>Biểu phí & margin chuẩn <strong className="text-slate-700 dark:text-white font-bold">dài hạn 90 ngày</strong></span>
+          ) : comparisonTab === 'short_term_margin' ? (
+            <span>Các gói lướt sóng <strong className="text-blue-600 dark:text-blue-400 font-bold">T+3, T+5, T+10 chỉ từ 5.99%</strong></span>
           ) : (
             <span>Tổng hợp các gói <strong className="text-slate-700 dark:text-white font-bold">miễn phí & quà tặng eKYC</strong></span>
           )}

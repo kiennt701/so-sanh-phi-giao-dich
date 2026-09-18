@@ -5,6 +5,7 @@ import FilterBar from './components/FilterBar';
 import SecuritiesTable from './components/SecuritiesTable';
 import SecuritiesCards from './components/SecuritiesCards';
 import WelcomePromoComparator from './components/WelcomePromoComparator';
+import ShortTermMarginComparator from './components/ShortTermMarginComparator';
 import CostCalculator from './components/CostCalculator';
 import HeadToHeadModal from './components/HeadToHeadModal';
 import CompanyDetailModal from './components/CompanyDetailModal';
@@ -272,7 +273,9 @@ export default function App() {
                 Ma trận so sánh
               </span>
               <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white">
-                {comparisonTab === 'welcome_promo'
+                {comparisonTab === 'short_term_margin'
+                  ? 'So Sánh Các Gói Margin Ngắn Ngày (Quick, T+, Margin Deal)'
+                  : comparisonTab === 'welcome_promo'
                   ? 'So Sánh Ưu Đãi Mở Tài Khoản Mới (eKYC Deals)'
                   : 'Biểu Phí & Lãi Margin Khách Hàng Hiện Hữu (Chuẩn)'}
               </h2>
@@ -296,9 +299,14 @@ export default function App() {
             filteredCount={filteredCompanies.length}
           />
 
-          {/* Table / Cards Display or Dedicated Welcome Promo Comparator */}
+          {/* Table / Cards Display or Dedicated Welcome Promo / Short-Term Margin Comparator */}
           {comparisonTab === 'welcome_promo' ? (
             <WelcomePromoComparator
+              companies={companiesData}
+              onSelectDetail={(company) => setActiveCompanyDetail(company)}
+            />
+          ) : comparisonTab === 'short_term_margin' ? (
+            <ShortTermMarginComparator
               companies={companiesData}
               onSelectDetail={(company) => setActiveCompanyDetail(company)}
             />
