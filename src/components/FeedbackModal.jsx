@@ -17,6 +17,7 @@ import {
   buildFeedbackMailtoUrl, 
   buildFeedbackGmailUrl, 
   formatFeedbackEmailBody,
+  sendFeedbackToEmailApi,
   ADMIN_FEEDBACK_EMAIL,
   CATEGORY_LABELS
 } from '../utils/feedbackStorage';
@@ -28,6 +29,7 @@ export default function FeedbackModal({ isOpen, onClose, companies = SECURITIES_
   const [sourceUrl, setSourceUrl] = useState('');
   const [senderContact, setSenderContact] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [copied, setCopied] = useState(false);
   const [savedItem, setSavedItem] = useState(null);
 
@@ -72,8 +74,11 @@ export default function FeedbackModal({ isOpen, onClose, companies = SECURITIES_
     senderContact
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!content.trim()) return;
+
+    setIsSubmitting(true);
 
     // 1. Lưu phản hồi vào Hộp Thư Quản Trị Viên (localStorage)
     const item = saveFeedbackToInbox({
@@ -91,14 +96,20 @@ export default function FeedbackModal({ isOpen, onClose, companies = SECURITIES_
       onFeedbackSubmitted(item);
     }
 
-    // 2. Chuyển sang trạng thái đã gửi
-    setIsSubmitted(true);
-
-    // 3. Tự động kích hoạt mailto mở trình gửi thư của người dùng
+    // 2. Gửi tự động bản sao tới email ban quản trị qua FormSubmit API
     try {
-      window.location.href = mailtoUrl;
-    } catch {
-      // Fallback nếu trình duyệt chặn
+      await sendFeedbackToEmailApi({
+        companyName,
+        categoryLabel,
+        content,
+        sourceUrl,
+        senderContact
+      });
+    } catch (err) {
+      console.warn('Gửi ngầm qua FormSubmit thất bại:', err);
+    } finally {
+      setIsSubmitting(false);
+      setIsSubmitted(true);
     }
   };
 
@@ -177,17 +188,17 @@ export default function FeedbackModal({ isOpen, onClose, companies = SECURITIES_
             </div>
             <div>
               <h4 className="text-base font-extrabold text-slate-900 dark:text-white">
-                Đã Lưu Vào Hộp Thư Quản Trị Viên!
+                Đã Ghi Nhận Phản Hồi Thành Công!
               </h4>
               <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 max-w-md mx-auto leading-relaxed">
-                Ý kiến đóng góp của bạn đã được ghi nhận vào hệ thống. Bạn cũng có thể bấm nút dưới đây để gửi trực tiếp bản sao qua Email tới Ban Quản Trị.
+                Ý kiến của bạn đã được <strong>lưu vào Hộp Thư Quản Trị Viên</strong> trên hệ thống và chuyển tiếp tự động tới email ban quản trị: <strong className="text-blue-600 dark:text-blue-400">{ADMIN_FEEDBACK_EMAIL}</strong>.
               </p>
             </div>
 
             {/* Email Actions Panel */}
             <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/50 p-3.5 text-left space-y-2.5">
               <div className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                Gửi bản sao qua Email tới {ADMIN_FEEDBACK_EMAIL}
+                Gửi thêm bản sao trực tiếp từ hòm thư của bạn tới {ADMIN_FEEDBACK_EMAIL}
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -350,10 +361,20 @@ export default function FeedbackModal({ isOpen, onClose, companies = SECURITIES_
 
               <button
                 type="submit"
-                className="inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 py-2 px-5 text-xs font-extrabold text-white shadow-md hover:from-blue-700 hover:to-indigo-700 transition-all"
+                disabled={isSubmitting}
+                className="inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 py-2 px-5 text-xs font-extrabold text-white shadow-md hover:from-blue-700 hover:to-indigo-700 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                <Send className="h-3.5 w-3.5" />
-                <span>Gửi Vào Hộp Thư Admin</span>
+                {isSubmitting ? (
+                  <>
+                    <span className="h-3.5 w-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    <span>Đang Gửi...</span>
+                  </>
+                ) : (
+                  <>
+                    <Send className="h-3.5 w-3.5" />
+                    <span>Gửi Vào Hộp Thư Admin</span>
+                  </>
+                )}
               </button>
             </div>
           </form>

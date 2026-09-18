@@ -28,7 +28,8 @@ export default function MobileBottomNav({
   currentUser,
   onLogoutAdmin,
   selectedForCompare = [],
-  openCompareModal
+  openCompareModal,
+  unreadFeedbackCount = 0
 }) {
   return (
     <>
@@ -108,9 +109,16 @@ export default function MobileBottomNav({
               <span>{currentUser ? 'Quản Trị Dữ Liệu 30 CTCK (Admin)' : 'Đăng Nhập Quản Trị Dữ Liệu'}</span>
             </div>
             {currentUser && (
-              <span className="rounded-md bg-emerald-200/60 px-1.5 py-0.5 text-[10px] font-black text-emerald-900 dark:bg-emerald-900 dark:text-emerald-200">
-                Đã Đăng Nhập
-              </span>
+              <div className="flex items-center gap-1.5">
+                {unreadFeedbackCount > 0 && (
+                  <span className="rounded-full bg-rose-500 text-white px-2 py-0.5 text-[10px] font-black animate-pulse">
+                    {unreadFeedbackCount} ý kiến
+                  </span>
+                )}
+                <span className="rounded-md bg-emerald-200/60 px-1.5 py-0.5 text-[10px] font-black text-emerald-900 dark:bg-emerald-900 dark:text-emerald-200">
+                  Đã Đăng Nhập
+                </span>
+              </div>
             )}
           </button>
 

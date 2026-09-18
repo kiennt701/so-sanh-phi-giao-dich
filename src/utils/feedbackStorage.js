@@ -177,3 +177,86 @@ export function buildFeedbackGmailUrl({ companyName, categoryLabel, content, sou
   const bodyText = formatFeedbackEmailBody({ companyName, categoryLabel, content, sourceUrl, senderContact });
   return `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(ADMIN_FEEDBACK_EMAIL)}&su=${subject}&body=${encodeURIComponent(bodyText)}`;
 }
+
+/**
+ * Gửi tự động bản sao ý kiến đóng góp tới email quản trị viên thông qua FormSubmit
+ * @param {Object} feedback
+ * @returns {Promise<{success: boolean, message?: string}>}
+ */
+export async function sendFeedbackToEmailApi(feedback) {
+  try {
+    const res = await fetch(`https://formsubmit.co/ajax/${ADMIN_FEEDBACK_EMAIL}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        _subject: `[VietSec Đóng Góp] CTCK ${feedback.companyName || 'Chung'} - ${feedback.categoryLabel || 'Góp ý'}`,
+        _captcha: 'false',
+        ctck: feedback.companyName || 'Chung',
+        chuyen_muc: feedback.categoryLabel || 'Góp ý',
+        noi_dung: feedback.content,
+        link_nguon: feedback.sourceUrl || 'Không có',
+        nguoi_gui: feedback.senderContact || 'Khách vãng lai / Chưa để lại email',
+        thoi_gian: new Date().toLocaleString('vi-VN')
+      })
+    });
+    const data = await res.json();
+    return { 
+      success: data.success === 'true' || data.success === true, 
+      message: data.message || 'Đã gửi thành công'
+    };
+  } catch (err) {
+    console.warn('Lỗi khi gửi qua FormSubmit:', err);
+    return { success: false, error: err.message };
+  }
+}
+
+/**
+ * Nạp dữ liệu góp ý mẫu để quản trị viên kiểm thử nhanh giao diện hộp thư
+ */
+export function seedSampleFeedbacks() {
+  const samples = [
+    {
+      id: `fb_demo_1`,
+      createdAt: new Date(Date.now() - 3600000).toISOString(),
+      companyId: 'bsc',
+      companyName: 'BSC',
+      category: 'trading_fee',
+      categoryLabel: 'Phí Giao Dịch',
+      content: 'BSC vừa cập nhật chương trình ưu đãi phí giao dịch tiểu khoản phái sinh về 0.05% trong 3 tháng đầu.',
+      sourceUrl: 'https://bsc.com.vn/bieu-phi-moi',
+      senderContact: 'nha-dau-tu-hn@gmail.com',
+      status: 'new',
+      adminNotes: ''
+    },
+    {
+      id: `fb_demo_2`,
+      createdAt: new Date(Date.now() - 86400000).toISOString(),
+      companyId: 'tcbs',
+      companyName: 'TCBS',
+      category: 'margin',
+      categoryLabel: 'Lãi Suất Margin',
+      content: 'TCBS áp dụng gói Margin ưu đãi 9.9%/năm cho danh mục Top 50 cổ phiếu thanh khoản cao.',
+      sourceUrl: 'https://tcbs.com.vn/goi-margin-99',
+      senderContact: '0988123456',
+      status: 'new',
+      adminNotes: ''
+    }
+  ];
+
+  try {
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(samples));
+    }
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('vietsec_feedback_updated', { detail: samples }));
+    }
+  } catch (err) {
+    console.error('Lỗi khi nạp dữ liệu mẫu feedback:', err);
+  }
+  return samples;
+}
+
+

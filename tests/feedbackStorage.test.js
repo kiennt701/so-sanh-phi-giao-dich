@@ -12,7 +12,9 @@ import {
   getNewFeedbackCount,
   formatFeedbackEmailBody,
   buildFeedbackMailtoUrl,
-  buildFeedbackGmailUrl
+  buildFeedbackGmailUrl,
+  seedSampleFeedbacks,
+  sendFeedbackToEmailApi
 } from '../src/utils/feedbackStorage.js';
 
 describe('Feedback Storage & Admin Inbox Utility Suite', () => {
@@ -177,4 +179,58 @@ describe('Feedback Storage & Admin Inbox Utility Suite', () => {
       expect(gmailUrl).toContain('DNSE');
     });
   });
+
+  describe('seedSampleFeedbacks()', () => {
+    it('should seed demo feedbacks into localStorage and return them', () => {
+      const demo = seedSampleFeedbacks();
+      expect(Array.isArray(demo)).toBe(true);
+      expect(demo.length).toBe(2);
+      expect(demo[0].companyName).toBe('BSC');
+      expect(demo[1].companyName).toBe('TCBS');
+
+      const inStore = getStoredFeedbacks();
+      expect(inStore.length).toBe(2);
+    });
+  });
+
+  describe('sendFeedbackToEmailApi()', () => {
+    it('should send feedback via FormSubmit endpoint and return success', async () => {
+      globalThis.fetch = async (url, options) => {
+        expect(url).toContain(ADMIN_FEEDBACK_EMAIL);
+        expect(options.method).toBe('POST');
+        const parsedBody = JSON.parse(options.body);
+        expect(parsedBody.ctck).toBe('BSC');
+        expect(parsedBody.noi_dung).toBe('Nội dung thử nghiệm');
+        return {
+          json: async () => ({ success: 'true', message: 'OK' })
+        };
+      };
+
+      const res = await sendFeedbackToEmailApi({
+        companyName: 'BSC',
+        categoryLabel: 'Phí Giao Dịch',
+        content: 'Nội dung thử nghiệm',
+        sourceUrl: '',
+        senderContact: 'tester@test.com'
+      });
+
+      expect(res.success).toBe(true);
+      expect(res.message).toBe('OK');
+    });
+
+    it('should catch and gracefully handle fetch network failure', async () => {
+      globalThis.fetch = async () => {
+        throw new Error('Network error');
+      };
+
+      const res = await sendFeedbackToEmailApi({
+        companyName: 'Chung',
+        content: 'Test fail'
+      });
+
+      expect(res.success).toBe(false);
+      expect(res.error).toBe('Network error');
+    });
+  });
 });
+

@@ -25,7 +25,8 @@ export default function Header({
   currentUser,
   onLogoutAdmin,
   isMobileMenuOpen,
-  setIsMobileMenuOpen
+  setIsMobileMenuOpen,
+  unreadFeedbackCount = 0
 }) {
   return (
     <header className="sticky top-0 z-40 w-full border-b border-slate-200 bg-white/95 backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/95 transition-colors">
@@ -101,6 +102,11 @@ export default function Header({
               <>
                 <Database className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
                 <span>Dữ Liệu (Admin)</span>
+                {unreadFeedbackCount > 0 && (
+                  <span className="ml-1 rounded-full bg-rose-500 text-white px-1.5 py-0.2 text-[9px] font-black leading-none animate-pulse">
+                    {unreadFeedbackCount}
+                  </span>
+                )}
               </>
             ) : (
               <>

@@ -36,7 +36,8 @@ import {
   clearAllFeedbacks,
   getNewFeedbackCount,
   ADMIN_FEEDBACK_EMAIL,
-  buildFeedbackMailtoUrl
+  buildFeedbackMailtoUrl,
+  seedSampleFeedbacks
 } from '../utils/feedbackStorage';
 
 export default function DataManagementModal({
@@ -47,10 +48,10 @@ export default function DataManagementModal({
   onResetToDefault,
   currentUser,
   onOpenLoginModal,
-  onLogoutAdmin
+  onLogoutAdmin,
+  feedbacks: externalFeedbacks = [],
+  onFeedbacksChange
 }) {
-  if (!isOpen) return null;
-
   const [activeTab, setActiveTab] = useState('quick_edit'); // 'quick_edit' | 'json_mode' | 'scan_status'
   const [selectedCompanyId, setSelectedCompanyId] = useState(companies[0]?.id || 'bsc');
   const [successMsg, setSuccessMsg] = useState('');
@@ -82,20 +83,33 @@ export default function DataManagementModal({
   const [feedbackCategoryFilter, setFeedbackCategoryFilter] = useState('all');
   const [feedbackStatusFilter, setFeedbackStatusFilter] = useState('all');
 
-  // Listen to custom feedback events
+  // Reload and sync feedbacks whenever modal opens or tab changes
+  useEffect(() => {
+    if (isOpen) {
+      const fresh = getStoredFeedbacks();
+      setFeedbacks(fresh);
+      if (onFeedbacksChange) onFeedbacksChange(fresh);
+    }
+  }, [isOpen, activeTab]);
+
+  // Listen to custom feedback events and cross-tab storage changes
   useEffect(() => {
     const handleFeedbackUpdate = () => {
-      setFeedbacks(getStoredFeedbacks());
+      const fresh = getStoredFeedbacks();
+      setFeedbacks(fresh);
+      if (onFeedbacksChange) onFeedbacksChange(fresh);
     };
     if (typeof window !== 'undefined') {
       window.addEventListener('vietsec_feedback_updated', handleFeedbackUpdate);
+      window.addEventListener('storage', handleFeedbackUpdate);
     }
     return () => {
       if (typeof window !== 'undefined') {
         window.removeEventListener('vietsec_feedback_updated', handleFeedbackUpdate);
+        window.removeEventListener('storage', handleFeedbackUpdate);
       }
     };
-  }, []);
+  }, [onFeedbacksChange]);
 
   const unreadFeedbackCount = feedbacks.filter(f => f.status === 'new').length;
 
@@ -125,6 +139,7 @@ export default function DataManagementModal({
     const newStatus = target.status === 'resolved' ? 'new' : 'resolved';
     const updated = updateFeedbackItem(id, { status: newStatus });
     setFeedbacks(updated);
+    if (onFeedbacksChange) onFeedbacksChange(updated);
     setSuccessMsg(`Đã chuyển trạng thái ý kiến thành: ${newStatus === 'resolved' ? 'Đã xử lý' : 'Mới (Chưa xử lý)'}`);
     setTimeout(() => setSuccessMsg(''), 2500);
   };
@@ -134,6 +149,7 @@ export default function DataManagementModal({
     if (window.confirm('Bạn có chắc chắn muốn xóa ý kiến đóng góp này khỏi hộp thư?')) {
       const updated = deleteFeedbackItem(id);
       setFeedbacks(updated);
+      if (onFeedbacksChange) onFeedbacksChange(updated);
       setSuccessMsg('Đã xóa ý kiến đóng góp khỏi hộp thư.');
       setTimeout(() => setSuccessMsg(''), 2500);
     }
@@ -143,6 +159,7 @@ export default function DataManagementModal({
   const handleMarkAllFeedbackRead = () => {
     const updated = markAllFeedbacksRead();
     setFeedbacks(updated);
+    if (onFeedbacksChange) onFeedbacksChange(updated);
     setSuccessMsg('Đã đánh dấu toàn bộ ý kiến trong hộp thư là Đã xử lý.');
     setTimeout(() => setSuccessMsg(''), 2500);
   };
@@ -152,9 +169,19 @@ export default function DataManagementModal({
     if (window.confirm('Bạn có chắc chắn muốn xóa toàn bộ tất cả ý kiến trong hộp thư không? Hành động này không thể hoàn tác.')) {
       clearAllFeedbacks();
       setFeedbacks([]);
+      if (onFeedbacksChange) onFeedbacksChange([]);
       setSuccessMsg('Đã xóa sạch toàn bộ ý kiến trong hộp thư.');
       setTimeout(() => setSuccessMsg(''), 2500);
     }
+  };
+
+  // Handle Seed Demo Feedbacks
+  const handleSeedDemoFeedbacks = () => {
+    const demo = seedSampleFeedbacks();
+    setFeedbacks(demo);
+    if (onFeedbacksChange) onFeedbacksChange(demo);
+    setSuccessMsg('Đã nạp 2 ý kiến góp ý mẫu thành công để kiểm thử giao diện!');
+    setTimeout(() => setSuccessMsg(''), 3000);
   };
 
   // Export Feedbacks as JSON
@@ -380,6 +407,8 @@ export default function DataManagementModal({
     event.target.value = '';
   };
 
+  if (!isOpen) return null;
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm overflow-y-auto animate-fade-in">
       <div className="relative w-full max-w-3xl rounded-3xl bg-white p-6 sm:p-8 shadow-2xl dark:bg-slate-900 dark:border dark:border-slate-800 max-h-[90vh] overflow-y-auto">
@@ -488,7 +517,12 @@ export default function DataManagementModal({
           </button>
 
           <button
-            onClick={() => setActiveTab('feedback_inbox')}
+            onClick={() => {
+              setActiveTab('feedback_inbox');
+              const fresh = getStoredFeedbacks();
+              setFeedbacks(fresh);
+              if (onFeedbacksChange) onFeedbacksChange(fresh);
+            }}
             className={`pb-2.5 transition-colors border-b-2 flex items-center gap-1.5 ${
               activeTab === 'feedback_inbox'
                 ? 'border-blue-600 text-blue-600 dark:text-blue-400'
@@ -1147,16 +1181,28 @@ export default function DataManagementModal({
 
             {/* Feedbacks list */}
             {filteredFeedbacks.length === 0 ? (
-              <div className="rounded-2xl border border-dashed border-slate-300 dark:border-slate-700 p-8 text-center space-y-2">
+              <div className="rounded-2xl border border-dashed border-slate-300 dark:border-slate-700 p-8 text-center space-y-3">
                 <Inbox className="h-10 w-10 text-slate-300 dark:text-slate-600 mx-auto" />
                 <h5 className="text-sm font-bold text-slate-700 dark:text-slate-300">
                   {feedbacks.length === 0 ? 'Hộp thư hiện đang trống' : 'Không tìm thấy ý kiến phù hợp với bộ lọc'}
                 </h5>
-                <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm mx-auto">
+                <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto leading-relaxed">
                   {feedbacks.length === 0 
-                    ? 'Khi người dùng hoặc chính bạn gửi ý kiến từ popup "Góp Ý & Phản Hồi", toàn bộ dữ liệu sẽ tự động lưu và tổng hợp tại đây.'
+                    ? 'Khi người dùng hoặc chính bạn gửi ý kiến từ popup "Góp Ý & Phản Hồi", dữ liệu sẽ được lưu tự động tại trình duyệt này và đồng thời chuyển tiếp trực tiếp về email quản trị viên: kienhpw@gmail.com.'
                     : 'Thử xóa từ khóa tìm kiếm hoặc đổi tiêu chí lọc để xem các ý kiến khác.'}
                 </p>
+                {feedbacks.length === 0 && (
+                  <div className="pt-2">
+                    <button
+                      type="button"
+                      onClick={handleSeedDemoFeedbacks}
+                      className="inline-flex items-center gap-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 dark:bg-blue-950/80 dark:hover:bg-blue-900 dark:text-blue-300 border border-blue-200 dark:border-blue-800 px-3.5 py-2 text-xs font-bold transition-colors shadow-xs"
+                    >
+                      <Zap className="h-4 w-4 text-amber-500 shrink-0" />
+                      <span>Nạp 2 ý kiến góp ý mẫu để kiểm tra tính năng</span>
+                    </button>
+                  </div>
+                )}
               </div>
             ) : (
               <div className="space-y-3 max-h-[50vh] overflow-y-auto pr-1">

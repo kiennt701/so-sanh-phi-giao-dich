@@ -18,6 +18,7 @@ import MobileBottomNav from './components/MobileBottomNav';
 import Footer from './components/Footer';
 import { SECURITIES_COMPANIES } from './data/securitiesData';
 import { getCurrentUser, logoutAdmin } from './utils/auth';
+import { getStoredFeedbacks } from './utils/feedbackStorage';
 
 export default function App() {
   // Authentication & Admin Authorization state
@@ -85,6 +86,28 @@ export default function App() {
   const [activeCompanyDetail, setActiveCompanyDetail] = useState(null);
   const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
   const [isDataManagerOpen, setIsDataManagerOpen] = useState(false);
+
+  // Feedback Inbox state (quản lý tập trung & đồng bộ thời gian thực)
+  const [feedbacks, setFeedbacks] = useState(() => getStoredFeedbacks());
+
+  useEffect(() => {
+    const handleSyncFeedbacks = () => {
+      setFeedbacks(getStoredFeedbacks());
+    };
+    if (typeof window !== 'undefined') {
+      window.addEventListener('vietsec_feedback_updated', handleSyncFeedbacks);
+      window.addEventListener('storage', handleSyncFeedbacks);
+    }
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('vietsec_feedback_updated', handleSyncFeedbacks);
+        window.removeEventListener('storage', handleSyncFeedbacks);
+      }
+    };
+  }, []);
+
+  // Đếm số lượng góp ý mới chưa xử lý
+  const unreadFeedbackCount = useMemo(() => feedbacks.filter(f => f.status === 'new').length, [feedbacks]);
 
   // Filtered companies calculation for existing clients standard rates
   const filteredCompanies = useMemo(() => {
@@ -208,6 +231,7 @@ export default function App() {
         onLogoutAdmin={handleLogoutAdmin}
         isMobileMenuOpen={isMobileMenuOpen}
         setIsMobileMenuOpen={setIsMobileMenuOpen}
+        unreadFeedbackCount={unreadFeedbackCount}
       />
 
       {/* Hero Section */}
@@ -347,6 +371,9 @@ export default function App() {
         isOpen={isFeedbackModalOpen}
         onClose={() => setIsFeedbackModalOpen(false)}
         companies={companiesData}
+        onFeedbackSubmitted={(item) => {
+          setFeedbacks(getStoredFeedbacks());
+        }}
       />
 
       <DataManagementModal
@@ -358,6 +385,8 @@ export default function App() {
         currentUser={currentUser}
         onOpenLoginModal={() => setIsAuthModalOpen(true)}
         onLogoutAdmin={handleLogoutAdmin}
+        feedbacks={feedbacks}
+        onFeedbacksChange={setFeedbacks}
       />
 
       <GoogleAuthModal
@@ -385,6 +414,7 @@ export default function App() {
         onLogoutAdmin={handleLogoutAdmin}
         selectedForCompare={selectedForCompare}
         openCompareModal={handleOpenCompareModal}
+        unreadFeedbackCount={unreadFeedbackCount}
       />
     </div>
   );
