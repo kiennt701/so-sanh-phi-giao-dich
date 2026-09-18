@@ -56,7 +56,7 @@ export default function SecuritiesTable({
           rel="noopener noreferrer"
           className="shrink-0 inline-flex items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-amber-400 to-orange-400 px-3.5 py-1.5 sm:px-4 sm:py-2 text-xs font-black text-slate-950 shadow-md hover:from-amber-300 hover:to-orange-300 transition-all self-start sm:self-auto touch-manipulation"
         >
-          <span>Mở Tài Khoản BSC (CIF 4768)</span>
+          <span>Mở Tài Khoản BSC</span>
           <ArrowUpRight className="h-4 w-4" />
         </a>
       </div>

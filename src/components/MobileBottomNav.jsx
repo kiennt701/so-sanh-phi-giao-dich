@@ -186,7 +186,7 @@ export default function MobileBottomNav({
               ⭐ Đề Xuất Số 1: BSC BIDV
             </span>
             <span className="rounded bg-amber-400/20 px-1.5 py-0.5 text-[9px] font-bold text-amber-300">
-              CIF 4768
+              Ưu Đãi Đặc Biệt
             </span>
           </div>
           <p className="mt-1 text-xs text-slate-200 leading-tight">

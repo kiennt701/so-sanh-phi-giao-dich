@@ -19,10 +19,25 @@ import {
   Filter,
   ArrowRight,
   Lock,
-  UserCheck
+  UserCheck,
+  Inbox,
+  Mail,
+  Trash2,
+  FileSpreadsheet,
+  Reply
 } from 'lucide-react';
 import scanReport from '../../scan-report.json';
 import manualOverridesTemplate from '../data/manualOverrides.json';
+import {
+  getStoredFeedbacks,
+  updateFeedbackItem,
+  deleteFeedbackItem,
+  markAllFeedbacksRead,
+  clearAllFeedbacks,
+  getNewFeedbackCount,
+  ADMIN_FEEDBACK_EMAIL,
+  buildFeedbackMailtoUrl
+} from '../utils/feedbackStorage';
 
 export default function DataManagementModal({
   isOpen,
@@ -59,6 +74,124 @@ export default function DataManagementModal({
     downloadAnchor.remove();
     setSuccessMsg('Đã tải xuống file mẫu hiệu chỉnh 30 CTCK (vietsec-manualOverrides-30-brokers.json)!');
     setTimeout(() => setSuccessMsg(''), 4000);
+  };
+
+  // Feedback inbox states
+  const [feedbacks, setFeedbacks] = useState(() => getStoredFeedbacks());
+  const [feedbackSearch, setFeedbackSearch] = useState('');
+  const [feedbackCategoryFilter, setFeedbackCategoryFilter] = useState('all');
+  const [feedbackStatusFilter, setFeedbackStatusFilter] = useState('all');
+
+  // Listen to custom feedback events
+  useEffect(() => {
+    const handleFeedbackUpdate = () => {
+      setFeedbacks(getStoredFeedbacks());
+    };
+    if (typeof window !== 'undefined') {
+      window.addEventListener('vietsec_feedback_updated', handleFeedbackUpdate);
+    }
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('vietsec_feedback_updated', handleFeedbackUpdate);
+      }
+    };
+  }, []);
+
+  const unreadFeedbackCount = feedbacks.filter(f => f.status === 'new').length;
+
+  // Filtered feedbacks
+  const filteredFeedbacks = feedbacks.filter(f => {
+    if (feedbackSearch) {
+      const q = feedbackSearch.toLowerCase();
+      const matchComp = (f.companyName || '').toLowerCase().includes(q);
+      const matchContent = (f.content || '').toLowerCase().includes(q);
+      const matchSender = (f.senderContact || '').toLowerCase().includes(q);
+      const matchCat = (f.categoryLabel || '').toLowerCase().includes(q);
+      if (!matchComp && !matchContent && !matchSender && !matchCat) return false;
+    }
+    if (feedbackCategoryFilter !== 'all' && f.category !== feedbackCategoryFilter) {
+      return false;
+    }
+    if (feedbackStatusFilter !== 'all' && f.status !== feedbackStatusFilter) {
+      return false;
+    }
+    return true;
+  });
+
+  // Handle Toggle Feedback Status
+  const handleToggleFeedbackStatus = (id) => {
+    const target = feedbacks.find(f => f.id === id);
+    if (!target) return;
+    const newStatus = target.status === 'resolved' ? 'new' : 'resolved';
+    const updated = updateFeedbackItem(id, { status: newStatus });
+    setFeedbacks(updated);
+    setSuccessMsg(`Đã chuyển trạng thái ý kiến thành: ${newStatus === 'resolved' ? 'Đã xử lý' : 'Mới (Chưa xử lý)'}`);
+    setTimeout(() => setSuccessMsg(''), 2500);
+  };
+
+  // Handle Delete Single Feedback
+  const handleDeleteFeedback = (id) => {
+    if (window.confirm('Bạn có chắc chắn muốn xóa ý kiến đóng góp này khỏi hộp thư?')) {
+      const updated = deleteFeedbackItem(id);
+      setFeedbacks(updated);
+      setSuccessMsg('Đã xóa ý kiến đóng góp khỏi hộp thư.');
+      setTimeout(() => setSuccessMsg(''), 2500);
+    }
+  };
+
+  // Handle Mark All Read
+  const handleMarkAllFeedbackRead = () => {
+    const updated = markAllFeedbacksRead();
+    setFeedbacks(updated);
+    setSuccessMsg('Đã đánh dấu toàn bộ ý kiến trong hộp thư là Đã xử lý.');
+    setTimeout(() => setSuccessMsg(''), 2500);
+  };
+
+  // Handle Clear All Feedbacks
+  const handleClearAllFeedbacksInbox = () => {
+    if (window.confirm('Bạn có chắc chắn muốn xóa toàn bộ tất cả ý kiến trong hộp thư không? Hành động này không thể hoàn tác.')) {
+      clearAllFeedbacks();
+      setFeedbacks([]);
+      setSuccessMsg('Đã xóa sạch toàn bộ ý kiến trong hộp thư.');
+      setTimeout(() => setSuccessMsg(''), 2500);
+    }
+  };
+
+  // Export Feedbacks as JSON
+  const handleExportFeedbacksJson = () => {
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(feedbacks, null, 2));
+    const downloadAnchor = document.createElement('a');
+    downloadAnchor.setAttribute("href", dataStr);
+    downloadAnchor.setAttribute("download", `vietsec-feedback-inbox-${new Date().toISOString().split('T')[0]}.json`);
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
+    setSuccessMsg('Đã tải xuống file tổng hợp ý kiến (JSON)!');
+    setTimeout(() => setSuccessMsg(''), 3000);
+  };
+
+  // Export Feedbacks as CSV
+  const handleExportFeedbacksCsv = () => {
+    const headers = ['Thời gian', 'CTCK', 'Chuyên mục', 'Nội dung', 'Link nguồn', 'Người gửi', 'Trạng thái'];
+    const rows = feedbacks.map(f => [
+      `"${f.createdAt || ''}"`,
+      `"${(f.companyName || '').replace(/"/g, '""')}"`,
+      `"${(f.categoryLabel || '').replace(/"/g, '""')}"`,
+      `"${(f.content || '').replace(/"/g, '""')}"`,
+      `"${(f.sourceUrl || '').replace(/"/g, '""')}"`,
+      `"${(f.senderContact || '').replace(/"/g, '""')}"`,
+      `"${f.status === 'resolved' ? 'Đã xử lý' : 'Mới'}"`
+    ]);
+    const csvContent = "data:text/csv;charset=utf-8,\uFEFF" + [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', `vietsec-feedback-inbox-${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setSuccessMsg('Đã xuất file CSV tổng hợp ý kiến thành công!');
+    setTimeout(() => setSuccessMsg(''), 3000);
   };
 
   // Find currently selected company
@@ -352,6 +485,27 @@ export default function DataManagementModal({
           >
             <FileText className="h-4 w-4" />
             <span>Tải File / JSON Thủ Công</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('feedback_inbox')}
+            className={`pb-2.5 transition-colors border-b-2 flex items-center gap-1.5 ${
+              activeTab === 'feedback_inbox'
+                ? 'border-blue-600 text-blue-600 dark:text-blue-400'
+                : 'border-transparent text-slate-500 hover:text-slate-800 dark:text-slate-400'
+            }`}
+          >
+            <Inbox className="h-4 w-4" />
+            <span>Hộp Thư Góp Ý</span>
+            {unreadFeedbackCount > 0 ? (
+              <span className="rounded-full bg-rose-500 text-white px-1.5 py-0.5 text-[10px] font-black leading-none">
+                {unreadFeedbackCount}
+              </span>
+            ) : (
+              <span className="rounded-full bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 px-1.5 py-0.5 text-[10px] font-bold leading-none">
+                {feedbacks.length}
+              </span>
+            )}
           </button>
 
           <button
@@ -860,6 +1014,290 @@ export default function DataManagementModal({
                 <Download className="h-3 w-3" />
               </button>
             </div>
+          </div>
+        )}
+
+        {/* Content: Feedback Inbox Mode */}
+        {activeTab === 'feedback_inbox' && (
+          <div className="mt-5 space-y-4">
+            {/* Top overview banner */}
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 p-4 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-3">
+              <div>
+                <div className="flex items-center gap-2">
+                  <Inbox className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                  <h4 className="text-sm font-extrabold text-slate-900 dark:text-white">
+                    Hộp Thư Ý Kiến Đóng Góp & Phản Hồi Từ Người Dùng
+                  </h4>
+                  {unreadFeedbackCount > 0 && (
+                    <span className="rounded-full bg-rose-500 text-white text-[10px] font-bold px-2 py-0.5">
+                      {unreadFeedbackCount} ý kiến mới
+                    </span>
+                  )}
+                </div>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                  Tổng hợp mọi phản hồi về biểu phí, lãi Margin và ưu đãi gửi về hệ thống & email: <strong className="text-blue-600 dark:text-blue-400">{ADMIN_FEEDBACK_EMAIL}</strong>
+                </p>
+              </div>
+
+              {/* Action buttons */}
+              <div className="flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  onClick={handleExportFeedbacksJson}
+                  disabled={feedbacks.length === 0}
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed shadow-xs"
+                  title="Tải toàn bộ ý kiến về dạng JSON"
+                >
+                  <Download className="h-3.5 w-3.5" />
+                  <span>Xuất JSON</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleExportFeedbacksCsv}
+                  disabled={feedbacks.length === 0}
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed shadow-xs"
+                  title="Xuất bảng tính Excel / CSV"
+                >
+                  <FileSpreadsheet className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+                  <span>Xuất CSV</span>
+                </button>
+
+                <a
+                  href={`mailto:${ADMIN_FEEDBACK_EMAIL}?subject=${encodeURIComponent('[VietSec] Xem hộp thư phản hồi')}`}
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-blue-600 px-3 py-1.5 text-xs font-bold text-white hover:bg-blue-700 transition-colors shadow-xs"
+                >
+                  <Mail className="h-3.5 w-3.5" />
+                  <span>Mở Hộp Thư Email</span>
+                </a>
+
+                {feedbacks.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={handleMarkAllFeedbackRead}
+                    className="inline-flex items-center gap-1 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-2.5 py-1.5 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+                    title="Đánh dấu tất cả là đã xử lý"
+                  >
+                    <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
+                    <span>Đã xử lý tất cả</span>
+                  </button>
+                )}
+
+                {feedbacks.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={handleClearAllFeedbacksInbox}
+                    className="inline-flex items-center gap-1 rounded-xl border border-rose-200 dark:border-rose-900/60 bg-rose-50 dark:bg-rose-950/40 px-2.5 py-1.5 text-xs font-bold text-rose-700 dark:text-rose-300 hover:bg-rose-100 dark:hover:bg-rose-900/60 transition-colors"
+                    title="Xóa toàn bộ hộp thư"
+                  >
+                    <Trash2 className="h-3.5 w-3.5" />
+                    <span>Dọn sạch</span>
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Filter and Search Bar */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5">
+              <div className="relative flex-1">
+                <input
+                  type="text"
+                  value={feedbackSearch}
+                  onChange={(e) => setFeedbackSearch(e.target.value)}
+                  placeholder="Tìm theo CTCK, nội dung góp ý, thông tin người gửi..."
+                  className="w-full rounded-xl border border-slate-200 bg-white py-2 pl-3 pr-8 text-xs text-slate-900 focus:border-blue-500 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white placeholder:text-slate-400"
+                />
+                {feedbackSearch && (
+                  <button
+                    type="button"
+                    onClick={() => setFeedbackSearch('')}
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs font-bold"
+                  >
+                    ×
+                  </button>
+                )}
+              </div>
+
+              <div className="flex items-center gap-2 flex-wrap">
+                {/* Category filter */}
+                <select
+                  value={feedbackCategoryFilter}
+                  onChange={(e) => setFeedbackCategoryFilter(e.target.value)}
+                  className="rounded-xl border border-slate-200 bg-white py-2 px-2.5 text-xs text-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 focus:outline-none"
+                >
+                  <option value="all">Tất cả mục góp ý</option>
+                  <option value="trading_fee">Phí Giao Dịch</option>
+                  <option value="margin">Lãi Suất Margin</option>
+                  <option value="promo">Ưu Đãi Mở Mới</option>
+                  <option value="other">Góp Ý Khác</option>
+                </select>
+
+                {/* Status filter */}
+                <select
+                  value={feedbackStatusFilter}
+                  onChange={(e) => setFeedbackStatusFilter(e.target.value)}
+                  className="rounded-xl border border-slate-200 bg-white py-2 px-2.5 text-xs text-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 focus:outline-none"
+                >
+                  <option value="all">Tất cả trạng thái ({feedbacks.length})</option>
+                  <option value="new">Chưa xử lý ({unreadFeedbackCount})</option>
+                  <option value="resolved">Đã xử lý ({feedbacks.length - unreadFeedbackCount})</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Feedbacks list */}
+            {filteredFeedbacks.length === 0 ? (
+              <div className="rounded-2xl border border-dashed border-slate-300 dark:border-slate-700 p-8 text-center space-y-2">
+                <Inbox className="h-10 w-10 text-slate-300 dark:text-slate-600 mx-auto" />
+                <h5 className="text-sm font-bold text-slate-700 dark:text-slate-300">
+                  {feedbacks.length === 0 ? 'Hộp thư hiện đang trống' : 'Không tìm thấy ý kiến phù hợp với bộ lọc'}
+                </h5>
+                <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm mx-auto">
+                  {feedbacks.length === 0 
+                    ? 'Khi người dùng hoặc chính bạn gửi ý kiến từ popup "Góp Ý & Phản Hồi", toàn bộ dữ liệu sẽ tự động lưu và tổng hợp tại đây.'
+                    : 'Thử xóa từ khóa tìm kiếm hoặc đổi tiêu chí lọc để xem các ý kiến khác.'}
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-3 max-h-[50vh] overflow-y-auto pr-1">
+                {filteredFeedbacks.map((item) => (
+                  <div
+                    key={item.id}
+                    className={`rounded-2xl border p-4 transition-all ${
+                      item.status === 'new'
+                        ? 'border-amber-300 bg-amber-50/40 dark:border-amber-900/60 dark:bg-amber-950/20 shadow-xs'
+                        : 'border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900'
+                    }`}
+                  >
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800/80 pb-2.5">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        {/* Company Badge */}
+                        <span className="rounded-lg bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 font-extrabold px-2.5 py-0.5 text-xs">
+                          {item.companyName || 'Góp Ý Chung'}
+                        </span>
+
+                        {/* Category Badge */}
+                        <span className="rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold px-2 py-0.5 text-[11px]">
+                          {item.categoryLabel || item.category}
+                        </span>
+
+                        {/* Status Badge */}
+                        {item.status === 'new' ? (
+                          <span className="rounded-full bg-amber-500 text-white font-bold px-2 py-0.5 text-[10px] flex items-center gap-1">
+                            <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
+                            <span>Chưa xử lý</span>
+                          </span>
+                        ) : (
+                          <span className="rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 font-bold px-2 py-0.5 text-[10px] flex items-center gap-1">
+                            <CheckCircle2 className="h-3 w-3" />
+                            <span>Đã xử lý</span>
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Timestamp */}
+                      <div className="text-[11px] text-slate-400 dark:text-slate-500 flex items-center gap-1">
+                        <Clock className="h-3.5 w-3.5" />
+                        <span>
+                          {item.createdAt 
+                            ? new Date(item.createdAt).toLocaleString('vi-VN', { 
+                                day: '2-digit', 
+                                month: '2-digit', 
+                                year: 'numeric', 
+                                hour: '2-digit', 
+                                minute: '2-digit' 
+                              })
+                            : 'Vừa gửi'}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Feedback Content */}
+                    <div className="mt-3 text-xs text-slate-800 dark:text-slate-200 leading-relaxed font-medium bg-white/70 dark:bg-slate-800/60 p-3 rounded-xl border border-slate-100 dark:border-slate-800 whitespace-pre-line">
+                      {item.content}
+                    </div>
+
+                    {/* Metadata: Source URL & Sender */}
+                    {(item.sourceUrl || item.senderContact) && (
+                      <div className="mt-2.5 flex flex-wrap items-center gap-3 text-[11px] text-slate-500 dark:text-slate-400">
+                        {item.senderContact && (
+                          <div className="flex items-center gap-1">
+                            <span className="font-semibold text-slate-600 dark:text-slate-300">Người gửi:</span>
+                            <span className="text-slate-800 dark:text-slate-200 font-medium">{item.senderContact}</span>
+                          </div>
+                        )}
+
+                        {item.sourceUrl && (
+                          <div className="flex items-center gap-1">
+                            <span className="font-semibold text-slate-600 dark:text-slate-300">Dẫn chứng:</span>
+                            <a
+                              href={item.sourceUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-0.5 font-medium truncate max-w-[240px]"
+                            >
+                              <span>{item.sourceUrl}</span>
+                              <ExternalLink className="h-3 w-3 shrink-0" />
+                            </a>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Action buttons row */}
+                    <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between gap-2 flex-wrap">
+                      <div className="flex items-center gap-2">
+                        {/* Toggle status */}
+                        <button
+                          type="button"
+                          onClick={() => handleToggleFeedbackStatus(item.id)}
+                          className={`inline-flex items-center gap-1 rounded-lg px-2.5 py-1 text-[11px] font-bold transition-colors ${
+                            item.status === 'resolved'
+                              ? 'bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300'
+                              : 'bg-emerald-600 text-white hover:bg-emerald-700'
+                          }`}
+                        >
+                          <CheckCircle2 className="h-3 w-3" />
+                          <span>{item.status === 'resolved' ? 'Đánh dấu Chưa xử lý' : 'Đánh dấu Đã xử lý'}</span>
+                        </button>
+
+                        {/* Quick reply if sender has contact */}
+                        {item.senderContact && item.senderContact.includes('@') && (
+                          <a
+                            href={`mailto:${item.senderContact}?subject=${encodeURIComponent(`[VietSec] Phản hồi ý kiến đóng góp CTCK ${item.companyName}`)}`}
+                            className="inline-flex items-center gap-1 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-2.5 py-1 text-[11px] font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+                          >
+                            <Reply className="h-3 w-3" />
+                            <span>Trả lời người gửi</span>
+                          </a>
+                        )}
+
+                        {/* Forward to admin email */}
+                        <a
+                          href={buildFeedbackMailtoUrl(item)}
+                          className="inline-flex items-center gap-1 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-2.5 py-1 text-[11px] font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+                          title={`Chuyển tiếp ý kiến này tới ${ADMIN_FEEDBACK_EMAIL}`}
+                        >
+                          <Mail className="h-3 w-3" />
+                          <span>Gửi tới email Admin</span>
+                        </a>
+                      </div>
+
+                      {/* Delete item */}
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteFeedback(item.id)}
+                        className="inline-flex items-center gap-1 rounded-lg text-[11px] font-bold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 px-2 py-1 transition-colors"
+                        title="Xóa ý kiến này"
+                      >
+                        <Trash2 className="h-3 w-3" />
+                        <span>Xóa</span>
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
       </div>

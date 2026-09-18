@@ -512,7 +512,7 @@ export default function CompanyDetailModal({ company, onClose }) {
                 : 'bg-blue-600 text-white'
             }`}
           >
-            <span>{isBsc ? 'Mở TK BSC (CIF 4768)' : 'Mở Tài Khoản'}</span>
+            <span>{isBsc ? 'Mở Tài Khoản BSC' : 'Mở Tài Khoản'}</span>
             <ArrowUpRight className="h-3.5 w-3.5" />
           </a>
         </div>

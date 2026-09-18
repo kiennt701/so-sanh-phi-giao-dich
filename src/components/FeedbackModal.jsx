@@ -4,17 +4,32 @@ import {
   Send, 
   ShieldCheck, 
   MessageSquarePlus, 
-  CheckCircle2
+  CheckCircle2,
+  Mail,
+  ExternalLink,
+  Copy,
+  Check,
+  Inbox
 } from 'lucide-react';
 import { SECURITIES_COMPANIES } from '../data/securitiesData';
+import { 
+  saveFeedbackToInbox, 
+  buildFeedbackMailtoUrl, 
+  buildFeedbackGmailUrl, 
+  formatFeedbackEmailBody,
+  ADMIN_FEEDBACK_EMAIL,
+  CATEGORY_LABELS
+} from '../utils/feedbackStorage';
 
-export default function FeedbackModal({ isOpen, onClose, companies = SECURITIES_COMPANIES }) {
+export default function FeedbackModal({ isOpen, onClose, companies = SECURITIES_COMPANIES, onFeedbackSubmitted }) {
   const [selectedCompany, setSelectedCompany] = useState('');
   const [category, setCategory] = useState('trading_fee');
   const [content, setContent] = useState('');
   const [sourceUrl, setSourceUrl] = useState('');
   const [senderContact, setSenderContact] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [savedItem, setSavedItem] = useState(null);
 
   // Close on Escape key
   useEffect(() => {
@@ -35,40 +50,71 @@ export default function FeedbackModal({ isOpen, onClose, companies = SECURITIES_
 
   if (!isOpen) return null;
 
-  const contactEmail = 'kienhpw@gmail.com';
+  const targetCompany = companies.find(c => c.id === selectedCompany);
+  const companyName = selectedCompany 
+    ? (targetCompany?.shortName || selectedCompany) 
+    : 'Chung';
+  const categoryLabel = CATEGORY_LABELS[category] || 'Góp Ý Khác';
+
+  const mailtoUrl = buildFeedbackMailtoUrl({
+    companyName,
+    categoryLabel,
+    content,
+    sourceUrl,
+    senderContact
+  });
+
+  const gmailUrl = buildFeedbackGmailUrl({
+    companyName,
+    categoryLabel,
+    content,
+    sourceUrl,
+    senderContact
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Prepare mailto link with pre-filled content
-    const companyName = selectedCompany 
-      ? companies.find(c => c.id === selectedCompany)?.shortName || selectedCompany 
-      : 'Chung';
+    // 1. Lưu phản hồi vào Hộp Thư Quản Trị Viên (localStorage)
+    const item = saveFeedbackToInbox({
+      companyId: selectedCompany,
+      companyName,
+      category,
+      categoryLabel,
+      content,
+      sourceUrl,
+      senderContact
+    });
+    setSavedItem(item);
 
-    const categoryLabels = {
-      trading_fee: 'Biểu phí giao dịch',
-      margin: 'Lãi suất Margin',
-      promo: 'Ưu đãi mở tài khoản mới',
-      other: 'Góp ý khác'
-    };
+    if (onFeedbackSubmitted) {
+      onFeedbackSubmitted(item);
+    }
 
-    const subject = encodeURIComponent(`[Đóng Góp Dữ Liệu] Phản hồi CTCK ${companyName} - ${categoryLabels[category] || category}`);
-    
-    let bodyText = `Xin chào ban quản trị,\n\nTôi muốn đóng góp / phản hồi thông tin sau:\n\n`;
-    bodyText += `- CTCK: ${companyName}\n`;
-    bodyText += `- Mục: ${categoryLabels[category] || category}\n`;
-    bodyText += `- Chi tiết nội dung: ${content}\n`;
-    if (sourceUrl) bodyText += `- Link dẫn chứng: ${sourceUrl}\n`;
-    if (senderContact) bodyText += `- Người gửi: ${senderContact}\n`;
-    bodyText += `\nTrân trọng.`;
-
-    const mailtoUrl = `mailto:${contactEmail}?subject=${subject}&body=${encodeURIComponent(bodyText)}`;
-
-    // Open user's email client
-    window.location.href = mailtoUrl;
-
-    // Show success state
+    // 2. Chuyển sang trạng thái đã gửi
     setIsSubmitted(true);
+
+    // 3. Tự động kích hoạt mailto mở trình gửi thư của người dùng
+    try {
+      window.location.href = mailtoUrl;
+    } catch {
+      // Fallback nếu trình duyệt chặn
+    }
+  };
+
+  const handleCopyEmail = () => {
+    const bodyText = formatFeedbackEmailBody({
+      companyName,
+      categoryLabel,
+      content,
+      sourceUrl,
+      senderContact
+    });
+    const fullText = `Tới: ${ADMIN_FEEDBACK_EMAIL}\nTiêu đề: [Đóng Góp Dữ Liệu] Phản hồi CTCK ${companyName} - ${categoryLabel}\n\n${bodyText}`;
+    navigator.clipboard.writeText(fullText).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    });
   };
 
   const handleReset = () => {
@@ -76,6 +122,7 @@ export default function FeedbackModal({ isOpen, onClose, companies = SECURITIES_
     setContent('');
     setSourceUrl('');
     setSenderContact('');
+    setSavedItem(null);
     onClose();
   };
 
@@ -100,7 +147,7 @@ export default function FeedbackModal({ isOpen, onClose, companies = SECURITIES_
                 Đóng Góp Dữ Liệu & Phản Hồi
               </h3>
               <p className="text-xs text-slate-500 dark:text-slate-400">
-                Cùng xây dựng cơ sở dữ liệu phí chứng khoán chính xác nhất
+                Gửi ý kiến vào Hộp Thư Quản Trị Viên & Email ban quản trị
               </p>
             </div>
           </div>
@@ -117,30 +164,69 @@ export default function FeedbackModal({ isOpen, onClose, companies = SECURITIES_
         {/* Verification Info Banner */}
         <div className="mt-4 rounded-2xl border border-blue-100 bg-blue-50/60 p-3.5 dark:border-blue-900/40 dark:bg-blue-950/30 flex items-start gap-2.5">
           <ShieldCheck className="h-4 w-4 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
-          <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
-            Ý kiến đóng góp và đề xuất cập nhật biểu phí của bạn sẽ được gửi trực tiếp đến Ban Quản Trị để đối chiếu xác thực với biểu phí niêm yết chính thức.
-          </p>
+          <div className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
+            Ý kiến của bạn sẽ được <strong>lưu trực tiếp vào Hộp Thư Quản Trị Viên</strong> trên hệ thống và chuyển tiếp tới email quản trị viên: <strong className="text-blue-600 dark:text-blue-400">{ADMIN_FEEDBACK_EMAIL}</strong>.
+          </div>
         </div>
 
         {isSubmitted ? (
-          /* Success State */
-          <div className="mt-6 py-6 text-center space-y-3">
+          /* Success State with Direct Email Options */
+          <div className="mt-5 py-2 text-center space-y-3.5">
             <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400">
               <CheckCircle2 className="h-7 w-7" />
             </div>
-            <h4 className="text-base font-extrabold text-slate-900 dark:text-white">
-              Cảm Ơn Bạn Đã Đóng Góp!
-            </h4>
-            <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm mx-auto leading-relaxed">
-              Trình gửi thư của bạn đã được kích hoạt. Chúng tôi sẽ kiểm tra và cập nhật biểu phí mới nhất lên hệ thống trong thời gian sớm nhất.
-            </p>
+            <div>
+              <h4 className="text-base font-extrabold text-slate-900 dark:text-white">
+                Đã Lưu Vào Hộp Thư Quản Trị Viên!
+              </h4>
+              <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 max-w-md mx-auto leading-relaxed">
+                Ý kiến đóng góp của bạn đã được ghi nhận vào hệ thống. Bạn cũng có thể bấm nút dưới đây để gửi trực tiếp bản sao qua Email tới Ban Quản Trị.
+              </p>
+            </div>
+
+            {/* Email Actions Panel */}
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/50 p-3.5 text-left space-y-2.5">
+              <div className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                Gửi bản sao qua Email tới {ADMIN_FEEDBACK_EMAIL}
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <a
+                  href={mailtoUrl}
+                  className="flex items-center justify-center gap-1.5 rounded-xl bg-blue-600 px-3 py-2 text-xs font-bold text-white shadow-xs hover:bg-blue-700 transition-colors"
+                >
+                  <Mail className="h-4 w-4" />
+                  <span>Mở Ứng Dụng Email</span>
+                </a>
+
+                <a
+                  href={gmailUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-1.5 rounded-xl border border-slate-300 bg-white dark:border-slate-700 dark:bg-slate-800 px-3 py-2 text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
+                >
+                  <ExternalLink className="h-4 w-4" />
+                  <span>Gửi Qua Gmail Web</span>
+                </a>
+              </div>
+
+              <button
+                type="button"
+                onClick={handleCopyEmail}
+                className="w-full flex items-center justify-center gap-1.5 rounded-xl border border-dashed border-slate-300 dark:border-slate-700 bg-white/60 dark:bg-slate-900/60 py-2 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              >
+                {copied ? <Check className="h-3.5 w-3.5 text-emerald-500" /> : <Copy className="h-3.5 w-3.5" />}
+                <span>{copied ? 'Đã sao chép nội dung email!' : 'Sao chép nội dung & Tiêu đề email'}</span>
+              </button>
+            </div>
+
             <div className="pt-2">
               <button
                 type="button"
                 onClick={handleReset}
-                className="rounded-xl bg-slate-900 px-5 py-2 text-xs font-bold text-white hover:bg-slate-800 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-white transition-all shadow-sm"
+                className="w-full sm:w-auto rounded-xl bg-slate-900 px-6 py-2.5 text-xs font-bold text-white hover:bg-slate-800 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-white transition-all shadow-sm"
               >
-                Đóng Cửa Sổ
+                Đã Xong & Đóng Cửa Sổ
               </button>
             </div>
           </div>
@@ -237,8 +323,23 @@ export default function FeedbackModal({ isOpen, onClose, companies = SECURITIES_
               />
             </div>
 
+            {/* Helper notice & direct email link */}
+            <div className="rounded-xl bg-slate-50 dark:bg-slate-800/60 p-2.5 text-[11px] text-slate-500 dark:text-slate-400 flex items-center justify-between gap-2 border border-slate-100 dark:border-slate-800">
+              <span className="flex items-center gap-1.5">
+                <Mail className="h-3.5 w-3.5 text-blue-500 shrink-0" />
+                <span>Hoặc gửi trực tiếp tới: <strong className="text-slate-700 dark:text-slate-200">{ADMIN_FEEDBACK_EMAIL}</strong></span>
+              </span>
+              <a
+                href={mailtoUrl}
+                className="font-bold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-0.5 shrink-0"
+              >
+                <span>Gửi qua Email</span>
+                <ExternalLink className="h-3 w-3" />
+              </a>
+            </div>
+
             {/* Submit buttons */}
-            <div className="pt-2 flex items-center justify-end gap-2">
+            <div className="pt-1 flex items-center justify-end gap-2">
               <button
                 type="button"
                 onClick={onClose}
@@ -252,7 +353,7 @@ export default function FeedbackModal({ isOpen, onClose, companies = SECURITIES_
                 className="inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 py-2 px-5 text-xs font-extrabold text-white shadow-md hover:from-blue-700 hover:to-indigo-700 transition-all"
               >
                 <Send className="h-3.5 w-3.5" />
-                <span>Gửi Phản Hồi Ngay</span>
+                <span>Gửi Vào Hộp Thư Admin</span>
               </button>
             </div>
           </form>
